@@ -1,0 +1,150 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('Attach multimedia'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="alert alert-warning fade in" style="text-align: justify; margin-right: 25px;" >
+                            <p>
+                                <?php echo $this->language()->translate('Този метод Ви предоставя възможност бързо и лесно да добавите виртуален тур към Вашата обява.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('В полето „Линк на панорамата“, поставете директният линк на Вашата панорама.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('За да може да прикачите Видео и Снимки е нужно да сте поставили линк водещ към панорамен тур. В противен случай системата няма да ви допусне да продължите по-натам.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('В полето „Видео“, поставете линка на Вашето видео от YouTube.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('В полето „Снимки“, добавете снимките, които искате да прикачите към обявата си.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('Натиснте бутона “Browse” и изберете една или повече снимки от Вашия компютър (максумум 20бр.)'); ?>
+                            </p>
+                            <p>
+                               <i> <?php echo $this->language()->translate('/маркирането на повече от един файл става чрез натискане и задържане на бутона Control и последващо отбелязване на снимките, които желаете да качите./'); ?></i>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('След потвърждаване ще започне последователно добавяне на избраните снимки към обявата.'); ?>
+                            </p>
+                            <p>
+                                <?php echo $this->language()->translate('Добавянето се извършва винаги след последната снимка, като след приключване на процеса можете да подредите снимките в желаната от Вас последователност с помоща на стрелките под тях.'); ?>
+                            </p>
+                            <p>
+                                <strong><?php echo $this->language()->translate('Снимките могат да бъдат с големина до 10Mb и не по-малки от 1600px по ширина.'); ?></strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <?php
+                        $mediaForm = $this->mediaForm;
+                        $mediaForm->prepare();
+                        ?>
+
+                        <?php echo $this->form()->openTag($mediaForm); ?>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->mediaForm->get('panorama_file')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group col-md-9 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('panorama_file')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('panorama_file'));
+                                echo $this->formElement($this->mediaForm->get('panorama_file')->setAttributes(array('class' => 'form-control text-input', 'id' => 'panorama_file')));
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('panorama_file'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('panorama_file')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->mediaForm->get('youtube_code_1')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group col-md-9 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('youtube_code_1')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('youtube_code_1'));
+                                echo $this->formElement($this->mediaForm->get('youtube_code_1')->setAttributes(array('class' => 'form-control text-input','id' => 'youtube_code_1' , 'disabled' => 'disabled')));
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('youtube_code_1'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('youtube_code_1')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->mediaForm->get('image')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group col-md-9 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('image')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('image'));
+                                echo $this->formElement($this->mediaForm->get('image')->setAttributes(array('class' => 'form-control text-input', 'id' => 'image', 'style' => 'resize: none', 'disabled' => 'disabled')));
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('image'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('image')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" name="has_watermark" id="has_watermark" value="1" ?> <?php echo $this->language()->translate('Брандирай снимката с твоето лого'); ?>
+                            <img style="width: 50px;" src="/media/agents/<?php echo $this->userId; ?>/<?php echo $this->logo;?>" style="padding:1px; border:#ccc solid 1px;">
+                        </div>
+
+                        <br>
+
+                        <div class="input-group col-md-9 col-xs-12">
+                            <?php echo $this->render('layout/flash-messages.phtml'); ?>
+                        </div>
+
+                        <div class="formRow">
+                            <input type="submit" class="btn btn-success hidemenow" value="<?php echo $this->language()->translate('Post'); ?>"/>
+                            <button id="offerBack" class="btn btn-success"><?php echo $this->language()->translate('Заяви имота за заснемане'); ?></button>
+                        </div>
+
+                        <a class="loading"></a>
+                        <?php echo $this->form()->closeTag(); ?>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateImageEnableDisable() {
+        if ($('#panorama_file').val()) {
+            $('#image').removeAttr('disabled');
+            $('#youtube_code_1').removeAttr('disabled');
+        } else {
+            $('#image').attr('disabled', true);
+            $('#youtube_code_1').attr('disabled', true);
+        }
+    };
+
+    updateImageEnableDisable();
+    $('#panorama_file').on("change keyup", updateImageEnableDisable);
+
+    document.getElementById("offerBack").onclick = function (event) {
+        event.preventDefault();
+        location.href = '<?php echo $this->url('languageRoute/myOffersEdit', array('offerId' => $this->offerId, 'fillAddress' => '1')) ?>';
+    };
+
+</script>

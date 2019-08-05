@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `verification_code` VARCHAR(16) NULL AFTER `price_id`;

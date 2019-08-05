@@ -1,0 +1,1 @@
+ALTER TABLE `gallery` ADD `image_order` int(2) NOT NULL;

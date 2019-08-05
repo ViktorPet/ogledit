@@ -1,0 +1,1 @@
+ALTER TABLE `offers` ADD yard_shot tinyint(1) NULL;

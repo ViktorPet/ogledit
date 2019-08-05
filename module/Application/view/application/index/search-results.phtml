@@ -1,0 +1,128 @@
+<!-- Site Showcase -->
+<section class="module parallax parallax-3" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Results'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-heading">
+                        <h4><span class="heading-icon"><i
+                                        class="fa fa-th-large"></i></span><?php echo $this->language()->translate('Our offers'); ?>
+                            (<?php echo $this->count; ?>)</h4>
+                    </div>
+                    <div class="property-grid">
+                        <?php if ($this->count > 0) { ?>
+                            <div style="width: 100%; float: left;">
+                                <ul class="paginationX desktop-show">
+                                    <?php include('pagination.phtml') ?>
+                                    <li><a class="btn btn-default page-btn" style="margin-left: 10%;"
+                                           href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>">
+                                            &nbsp; <?php echo $this->language()->translate('Search correction'); ?>
+                                            &nbsp;</a></li>
+                                </ul>
+
+                            </div>
+                            <div>
+                                <ul class="paginationX mobile-show">
+                                    <?php include('pagination.phtml') ?>
+                                    <li><a class="btn btn-default page-btn" style="margin-left: 10%;"
+                                           href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>">
+                                            &nbsp; <?php echo $this->language()->translate('Search correction'); ?>
+                                            &nbsp;</a></li>
+                                </ul>
+
+
+                            </div>
+                            <br>&nbsp;
+                            <br>&nbsp;
+                            <ul id="property_grid_holder" class="grid-holder col-4 isotope">
+                                <?php foreach ($this->offers as $offer) { ?>
+                                    <li id="59" class="grid-item type-rent isotope-item"
+                                        style="position:relative;border: 1px solid #eee;">
+                                        <div class="property-block">
+                                            <?php if ($offer['topOffer'] == 1) { ?>
+                                                <div style="top: auto;left: auto;"
+                                                     class="property-block-pin top"><?php echo $this->language()->translate('Top'); ?></div>
+                                            <?php } elseif ($offer['vipOffer'] == 1) { ?>
+                                                <div style="top: auto;left: auto;"
+                                                     class="property-block-pin vip"><?php echo $this->language()->translate('Vip'); ?></div>
+                                            <?php }; ?>
+                                            <!--<div style="position: absolute; top:2px; left:10px; z-index: 9; background: rgba(0,0,0,.5); color:#fff; padding:3px;">TOP VIP</div>-->
+                                            <?php $offerUrl = $this->pages()->generateOfferUrl($offer['id'], $offer['offerTypeName'], $offer['propertyTypeName'], $offer['cityName']); ?>
+                                            <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>"
+                                               target="_blank" class="property-featured-image">
+                                                <img src="https://ogledi.bg/media/offers/<?php echo $offer['id']; ?>/front-<?php echo $offer['image']; ?>"
+                                                     width="100%" class="search">
+                                                <?php if ($offer['userOfferStatusId'] == 2) { ?>
+                                                    <span class="user-status"> <?php echo ($offer['offerTypeId'] == 1) ? $this->language()->translate('Sold') : $this->language()->translate('Given up'); ?></span>
+                                                <?php } ?>
+                                                <span class="images-count"><i
+                                                            class="fa fa-eye"></i> <?php echo $offer['counter']; ?></span>
+                                                <!--span class="badges badge-sale">Наем</span-->
+                                            </a>
+                                            <div class="property_grid_holder_info">
+                                                <div class="property-info">
+                                                    <h5><a target="_blank"
+                                                           href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>"><?php echo $offer['offerTypeName']; ?> <?php echo $offer['propertyTypeName']; ?></a>
+                                                    </h5>
+                                                    <a class="accent-color" data-toggle="tooltip"
+                                                       href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>">
+                                                        <span class="location"><?php echo $offer['cityName']; ?>
+                                                            , <?php echo $offer['neighbourhoodName']; ?></span>
+                                                    </a>
+                                                    <br>
+                                                    <div class="price"><span
+                                                                class=""><?php echo number_format($offer['price'], 0, '.', ','); ?></span><strong><?php echo $offer['currencyShortName']; ?></strong>
+                                                    </div>
+                                                </div>
+                                                <div class="property-amenities clearfix">
+                                                    <?php if ($offer['propertyTypeId'] != 20) { ?>
+                                                        <span class="area"><strong><?php echo $offer['area']; ?></strong><?php echo $this->language()->translate('Square meters'); ?></span>
+                                                        <span class="baths"><strong><?php echo number_format($offer['totalRooms'], 0); ?></strong><?php echo $this->language()->translate('Rooms'); ?></span>
+                                                        <span class="beds"><strong><?php echo number_format($offer['bathrooms'], 0); ?></strong><?php echo $this->language()->translate('Bathrooms'); ?></span>
+                                                        <span class="parking"><strong><?php echo $this->language()->translate('Yes'); ?></strong><?php echo $this->language()->translate('Parking'); ?></span>
+                                                    <?php } else { ?>
+                                                        <span class="area"><strong><?php echo $offer['area']; ?></strong><?php echo $this->language()->translate('Square meters'); ?></span>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                            <div>
+                                <ul class="paginationX desktop-show">
+                                    <?php include('pagination.phtml') ?>
+                                    <li><a class="btn btn-default page-btn" style="margin-left: 10%;"
+                                           href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>">
+                                            &nbsp; <?php echo $this->language()->translate('Search correction'); ?>
+                                            &nbsp;</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul class="paginationX mobile-show">
+                                    <?php include('pagination.phtml') ?>
+                                    <li><a class="btn btn-default page-btn" style="margin-left: 10%;"
+                                           href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>">
+                                            &nbsp; <?php echo $this->language()->translate('Search correction'); ?>
+                                            &nbsp;</a></li>
+                                </ul>
+                            </div>
+                        <?php } else { ?>
+                            <?php echo $this->language()->translate('No results found'); ?>
+                            <a class="btn btn-default" style="margin-left: 10%;"
+                               href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>">
+                                &nbsp; <?php echo $this->language()->translate('Search correction'); ?> &nbsp;</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

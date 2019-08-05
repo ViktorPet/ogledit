@@ -1,0 +1,182 @@
+<?php
+$transactionsForm->prepare();
+?>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">        
+                    <h2>Агенция: <?php echo $agency->getNames(); ?></h2>
+                    </br>
+                    <?php echo $this->form()->openTag($transactionsForm); ?>                            
+                    <div>
+                        <div style="width: 35px;height: 20px;float: left;padding: 10px"><?php echo 'От'; ?></div>
+                        <div class="agency-date-div">                                                       
+                            <?php echo $this->formRow($transactionsForm->get('date_from')->setAttribute('class', 'agency-date-buttons'), null, false); ?>     
+                        </div>
+                        <div style="width: 35px;height: 20px;float: left;padding: 10px"><?php echo 'До'; ?></div>    
+                        <div class="agency-date-div">                                            
+                            <?php echo $this->formRow($transactionsForm->get('date_to')->setAttribute('class', 'agency-date-buttons'), null, false); ?>
+                        </div>
+                        <input type="submit" name="report_submit" class="btn btn-success" value="Търси"/>
+                        <input type="button" class="btn btn-info agency-date-clear" value="Изчисти"/>                        
+                    </div>   
+                    </br>
+                    <?php echo $this->form()->closeTag(); ?>                                       
+                    <?php if (isset($transactions)): ?>
+                        <?php if ($transactions->count() == 0) : ?>
+                            <?php echo 'Няма транзакции' ?>                                        
+                        <?php else: ?>
+                            <table class="table table-bordered">                        
+                                <thead>
+                                    <tr>
+                                        <th>Транзакция</th>
+                                        <th>Оферта</th>
+                                        <th>Тип</th>
+                                        <th>Вид имот</th>
+                                        <th>Площ</th>                                        
+                                        <th>Vip</th>
+                                        <th>Vip цена</th>
+                                        <th>Top</th>
+                                        <th>Top цена</th>
+                                        <th>Чат</th>
+                                        <th>Чат цена</th>
+                                        <th>Схема</th>
+                                        <th>Схема цена</th>
+                                        <th>Заснемане</th>
+                                        <th>Седмици</th>
+                                        <th>Общо</th>
+                                    </tr>
+                                </thead>
+                                <tbody>         
+                                    <?php $areaCounter = []; ?>
+                                    <?php $vipCounter = []; ?>
+                                    <?php foreach ($transactions as $transaction): ?>
+                                        <?php
+                                        if (!array_key_exists($transaction->getOfferId(), $areaCounter)) {
+                                            $areaCounter[$transaction->getOfferId()] = $transaction->getArea();
+                                        }                                                       
+                                        $totalVipPrice += $transaction->getVipPrice();
+                                        $totalTopPrice += $transaction->getTopPrice();
+                                        $totalChatPrice += $transaction->getChatPrice();
+                                        $totalSchemaPrice += $transaction->getSchemaPrice();
+                                        $totalPhotoshootPerSqPrice += $transaction->getPhotoshootPerSqPrice();
+                                        $totalWeeklyPrice += $transaction->getWeeklyPrice();
+                                        $totalTotalPrice += $transaction->getTotalPrice();
+                                        ?>                                       
+                                        <tr>
+                                            <td><?php echo $transaction->getId(); ?></td>
+                                            <td><a href="/bg/ogl-adm/offers-edit/<?php echo $transaction->getOfferId();?>"><?php echo $transaction->getOfferId(); ?></a></td>
+                                            <td><?php echo $transaction->getOfferTypeName(); ?></td>
+                                            <td><?php echo $transaction->getPropertyTypeName(); ?></td>
+                                            <td><?php echo $transaction->getArea() . ' кв.м.'; ?></td>
+                                            <td>
+                                                <?php if ($transaction->getIsVip() == 1): ?>
+                                                    <?php $countVip++;?>
+                                                    <input class="transactions-checkbox" type="checkbox" checked>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?php echo $transaction->getVipPrice() . ' лв.'; ?></td>
+                                            <td>
+                                                <?php if ($transaction->getIsTop() == 1): ?>
+                                                    <?php $countTop++;?>
+                                                    <input class="transactions-checkbox" type="checkbox" checked>
+                                                <?php endif; ?>                                            
+                                            </td>
+                                            <td><?php echo $transaction->getTopPrice() . ' лв.'; ?></td>
+                                            <td>
+                                                <?php if ($transaction->getIsChat() == 1): ?>
+                                                    <?php $countChat++; ?>
+                                                    <input class="transactions-checkbox" type="checkbox" checked>
+                                                <?php endif; ?>                                                
+                                            </td>
+                                            <td><?php echo $transaction->getChatPrice() . ' лв.'; ?></td>
+                                            <td>
+                                                <?php if ($transaction->getIsSchema() == 1): ?>
+                                                    <?php $countSchema++; ?>
+                                                    <input class="transactions-checkbox" type="checkbox" checked>
+                                                <?php endif; ?>                                                      
+                                            </td>
+                                            <td><?php echo $transaction->getSchemaPrice() . ' лв.'; ?></td>
+                                            <td><?php echo $transaction->getPhotoshootPerSqPrice() . ' лв.'; ?></td>
+                                            <td><?php echo $transaction->getWeeklyPrice() . ' лв.'; ?></td>
+                                            <td><?php echo $transaction->getTotalPrice() . ' лв.'; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <!--TOTAL-->                            
+                                    <tr style="font-weight: bold">
+                                        <td>Общо</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <?php
+                                            $totalArea = 0;
+                                            foreach ($areaCounter as $offerId => $offerArea) {
+                                                $totalArea += $offerArea;
+                                            }
+                                            echo $totalArea;
+                                            ?>
+                                        </td>
+                                        <td><?php echo $countVip; ?></td>
+                                        <td><?php echo $totalVipPrice . ' лв.'; ?></td>
+                                        <td><?php echo $countTop; ?></td>
+                                        <td><?php echo $totalTopPrice . ' лв.'; ?></td>
+                                        <td><?php echo $countChat; ?></td>
+                                        <td><?php echo $totalChatPrice . ' лв.'; ?></td>
+                                        <td><?php echo $countSchema; ?></td>
+                                        <td><?php echo $totalSchemaPrice . ' лв.'; ?></td>
+                                        <td><?php echo $totalPhotoshootPerSqPrice . ' лв.'; ?></td>
+                                        <td><?php echo $totalWeeklyPrice . ' лв.'; ?></td>
+                                        <td><?php echo $totalTotalPrice . ' лв.'; ?></td>
+                                    </tr>  
+                                </tbody>
+                            </table>    
+                        <?php endif; ?>
+                    <?php endif; ?>                                           
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var dateFromFilter = '<?php echo $filters['date_from']; ?>';
+        if (dateFromFilter !== '') {
+            $('#date_from').val(dateFromFilter);
+        }
+
+        var dateToFilter = '<?php echo $filters['date_to']; ?>';
+        if (dateToFilter !== '') {
+            $('#date_to').val(dateToFilter);
+        }
+    });
+
+    $(".transactions-checkbox").on("click", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    $('#date_from').click(function () {
+        var dateFromFilter = '<?php echo $filters['date_from']; ?>';
+        if (dateFromFilter !== '') {
+            TransactionsDateTimePicker('#date_from', dateFromFilter);
+        } else {
+            TransactionsDateTimePicker('#date_from');
+        }
+    });
+
+    $('#date_to').click(function () {
+        var dateToFilter = '<?php echo $filters['date_to']; ?>';
+        if (dateToFilter !== '') {
+            TransactionsDateTimePicker('#date_to', dateToFilter);
+        } else {
+            TransactionsDateTimePicker('#date_to');
+        }
+    });
+
+    $('.agency-date-clear').click(function () {
+        window.location.href = location.href;
+    });
+</script>

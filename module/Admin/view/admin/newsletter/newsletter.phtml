@@ -1,0 +1,32 @@
+<h1>Бюлетин</h1>
+<div id="ajax-result"></div>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {   
+        
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminNewsletterData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'email', type: 'string'},
+            {name: 'dateCreated', type: 'date'} 
+            
+        ];
+        
+        var columns = [
+//            {text: 'ID', datafield: 'id'},
+            {text: 'Е-майл', datafield: 'email'},
+            {text: 'Дата', datafield: 'dateCreated', cellsformat: 'd-MM-yyyy HH:mm'}
+                   
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);   
+        
+    
+    });
+    
+</script>

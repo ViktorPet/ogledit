@@ -1,0 +1,54 @@
+<div id="ajax-result"></div>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '<?php echo $this->url('languageRoute/adminDashboardFilter'); ?>',
+            type: 'GET',
+            success: function (data) {
+                $('#ajax-result').html(data);
+            }
+        });
+
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminDashboardData'); ?>';
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'name', type: 'string'},
+            {name: 'numCount', type: 'number'},
+            {name: 'numActive', type: 'number'},
+            {name: 'numVipOffer', type: 'number'},
+            {name: 'numTopOffer', type: 'number'},
+            {name: 'numChatOffer', type: 'number'},
+            {name: 'numSchemaOffer', type: 'number'}
+        ];
+
+        var columns = [
+            {text: 'Тип', datafield: 'name',filterable: false, sortable: false},
+            {text: 'Общ брой', datafield: 'numCount',filterable: false, sortable: false},
+            {text: 'Активни', datafield: 'numActive',filterable: false, sortable: false},
+            {text: 'VIP', datafield: 'numVipOffer',filterable: false, sortable: false},
+            {text: 'Top', datafield: 'numTopOffer',filterable: false, sortable: false},
+            {text: 'Чат', datafield: 'numChatOffer',filterable: false, sortable: false},
+            {text: 'Схема', datafield: 'numSchemaOffer',filterable: false, sortable: false}
+        ];
+
+        dataGrid(id, url, datafields, columns, undefined, undefined, undefined, undefined, undefined, undefined, function (data) {
+            return $.extend(data, $('#dashboardFilterForm').serializeObject());
+        });
+
+    });
+    
+     $('#jqxgrid').on('cellclick', function (event) {
+            var datafield = event.args.datafield;
+            var typeId = $('#jqxgrid').jqxGrid('getrowdata', event.args.rowindex).id;    
+            location.href = "/bg/ogl-adm/offers/" + typeId + '/'+ datafield;
+        });
+
+</script>
+

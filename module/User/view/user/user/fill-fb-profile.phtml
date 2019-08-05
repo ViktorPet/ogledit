@@ -1,0 +1,23 @@
+<?php
+$regForm = $this->regForm;
+$regForm->prepare();
+?>
+<div class="main" role="main">
+  <div id="content" class="content full">
+    <div class="container">     
+        <div class="column-news col-md-4">
+                <?php echo $this->form()->openTag($regForm) ?>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                    <?php echo $this->formElement($regForm->get('phone')->setAttributes(array('class' => 'form-control selectpicker', 'placeholder' => $this->language()->translate('Phone +359')))); ?>
+                </div>
+                <?php if ($this->formElementErrors($regForm->get('phone'))) { ?>
+                    <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('phone')); ?></div>
+                <?php } ?>
+                <br>                
+                <input class="submit_button btn btn-primary button2" type="submit" value="<?php echo $this->language()->translate('Phone +359');?>" name="submit">
+                <?php echo $this->form()->closeTag() ?>           
+        </div>                                   
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+
+<!-- Site Showcase -->
+<section class="module parallax parallax-9" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Services'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+  <div id="content" class="content full">
+    <div class="container">     
+        <?php $left = $middle = $right = [];?>
+        <?php for($i = 0; $i < $this->count; $i++):?>
+            <?php if($i%3 == 0): ?>
+            <?php $left[] = $i?>
+            <?php elseif($i%3 == 1): ?>
+            <?php $middle[] = $i?>
+            <?php elseif($i%3 == 2): ?>
+            <?php $right[] = $i?>
+            <?php endif; ?>
+        <?php endfor; ?>
+        <div class="column-news col-md-4">
+            <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+            <?php foreach ($this->services as $key => $service): ?>                
+                <?php foreach ($left as $leftelements):?>                
+                    <?php if($key == $leftelements): ?>                                        
+                        <li class="grid-item post format-link isotope-item" >
+                            <div class="isotopeNews-item" style="float: left;">
+                              <h4 class="articles-category-name"><a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'], 'id' => $service['id'])); ?>"><?php echo $this->language()->translate($service['name']);?></a></h4>
+                              <a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'], 'id' => $service['id'])); ?>" class="media-box"> 
+                                  <img src="/img/service-img/<?php echo $service['image_link'];?>"
+                                     alt="Ogledi.bg"                                                     
+                                     >
+                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                              </a>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach;?>                                
+            <?php endforeach;?>
+            </ul>            
+        </div>
+        <div class="column-news col-md-4">
+            <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+            <?php foreach ($this->services as $key => $service):?>                
+                <?php foreach ($middle as $middleelements):?>                
+                    <?php if($key == $middleelements): ?>                        
+                        <li class="grid-item post format-link isotope-item" >
+                            <div class="isotopeNews-item" style="float: left;">
+                              <h4 class="articles-category-name"><a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'], 'id' => $service['id'])); ?>"><?php echo $this->language()->translate($service['name']);?></a></h4>  
+                              <a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'],'id' => $service['id'])); ?>" class="media-box">
+                                     <img src="/img/service-img/<?php echo $service['image_link'];?>"
+                                     alt="Ogledi.bg"                              
+                                     >
+                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                              </a>
+ 
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach;?>                                
+            <?php endforeach;?>
+            </ul>            
+        </div>
+        <div class="column-news col-md-4">
+            <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+            <?php foreach ($this->services as $key => $service):?>                
+                <?php foreach ($right as $rightelements):?>                
+                    <?php if($key == $rightelements): ?>                        
+                        <li class="grid-item post format-link isotope-item" >
+                            <div class="isotopeNews-item" style="float: left;">
+                              <h4 class="articles-category-name"><a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'], 'id' => $service['id'])); ?>"><?php echo $this->language()->translate($service['name']);?></a></h4>
+                              <a href="<?php echo $this->url('languageRoute/service-category', array('lang' => $_SESSION['lang'], 'id' => $service['id'])); ?>" class="media-box" > 
+                                     <img src="/img/service-img/<?php echo $service['image_link'];?>"
+                                     alt="Ogledi.bg"                                                           
+                                     >
+                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                              </a>                            
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach;?>                                
+            <?php endforeach;?>
+            </ul>            
+        </div>       
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+ALTER TABLE `offers` CHANGE `google_360` `google_360` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

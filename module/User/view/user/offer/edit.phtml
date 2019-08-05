@@ -1,0 +1,670 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('Changing the Offer'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="content" class="content full">
+    <div class="container">
+        <div class="page">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-12">   
+                    <div id="user-left-menu">
+                        <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                        <?php if(!is_null($this->logo)):?>
+                            <img src="https://ogledi.bg/media/agents/<?php echo $userId; ?>/<?php echo $this->logo;?>" style="padding:1px; border:#ccc solid 1px;">                             
+                        <?php endif;?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>       
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='a5ec97f8' name='a5ec97f8' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=20&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a38f9b3e&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=20&amp;cb=(new Date().getTime())&amp;n=a38f9b3e' border='0' alt='' /></a></iframe>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <h3 class=""><?php echo $this->language()->translate('How we work'); ?></h3>
+                        <div class="alert alert-warning fade in" style="text-align: justify;">
+                            <p><?php echo $this->language()->translate('How we work and offer info'); ?> <a href="#"><?php echo $this->language()->translate('Here'); ?></a>.</p>
+                        </div>
+                        <h3 class=""><?php echo $this->language()->translate('Site information'); ?></h3>
+                    </div>
+                    <form method="post" action="" id="editOfferForm" name="editOfferForm" class="register-form submitthis" autocomplete="off">
+                        <script>
+                            var weeklyPrice = <?php echo $this->weeklyPrice; ?>;
+                            var vipPrice = <?php echo $this->vipPrice; ?>;
+                            var topPrice = <?php echo $this->topPrice; ?>;
+                            var chatPrice = <?php echo $this->chat; ?>;
+                            var schemaPrice = <?php echo $this->priceSchema; ?>;
+                            var areaPrice = <?php echo $this->areaPrice; ?>;
+                            var areaMinPrice = <?php echo $this->areaMinPrice; ?>;
+
+                            /**
+                             * Calculates current and total amounts.
+                             */
+                            var recalculateTotals = function () {
+
+                                var currentAmount = ($('#weeks').val() * weeklyPrice);
+                                var isVip = <?php echo $this->editFormData['vip_offer']; ?>;
+                                var isTop = <?php echo $this->editFormData['top_offer']; ?>;
+//                                var isChat = <?php //echo $this->editFormData['chat_offer']; ?>//;
+                                var isSchema = <?php echo $this->editFormData['schema_offer']; ?>;
+                                var extra_weeks = $('#extra_weeks').val();
+
+                                //if hasTofillAddress calculate area
+                                <?php if($this->hasToFillAddress == '1') { ?>
+                                var area = parseFloat($('#area').val());
+                                var yardArea = parseFloat($('#yard').val());
+                                if ($('#yard_shot').is(':checked') && !isNaN(yardArea)) {
+                                    area += yardArea;
+                                }
+                                var hasExternalPanorama = $('#external_panorama').is(':checked');
+                                if (!hasExternalPanorama) {
+                                    if (!isNaN(area) && area > 0) {
+                                        if (area * areaPrice > areaMinPrice) {
+                                            currentAmount += area * areaPrice;
+                                        } else {
+                                            currentAmount += areaMinPrice;
+                                        }
+                                    } else {
+                                        currentAmount += areaMinPrice;
+                                    }
+                                }
+                                <?php } ?>
+
+                                if ($('#vip_offer').is(':checked') && isVip !== 1) {
+                                    var allVipPrice = vipPrice * extra_weeks;
+                                    currentAmount += allVipPrice;
+                                }
+                                if ($('#top_offer').is(':checked') && isTop !== 1) {
+                                    var allTopPrice = topPrice * extra_weeks;
+                                    currentAmount += allTopPrice;
+                                }
+//                                if ($('#chat_offer').is(':checked') && isChat !== 1) {
+                                    var allChatPrice = chatPrice * extra_weeks;
+//                                    currentAmount += allChatPrice;
+//                                }
+                                if ($('#schema_offer').is(':checked') && isSchema !== 1) {
+                                    currentAmount += schemaPrice;
+                                }
+
+                                $('#currentAmount').text((Math.round(currentAmount * 100) / 100).toFixed(2));
+                            }
+                        </script>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group form-elements">
+                                <label><?php echo $this->language()->translate('Agency'); ?>:</label>
+                                <input type="text" readonly value="<?php echo str_replace('"', '&quot;', $this->agencyCreator->names) ?>"  class="form-control" />
+                            </div>
+                        </div>                        
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <?php if (is_null($this->user->getParentUserId())) { ?>
+                                <label><?php echo $this->language()->translate('Broker'); ?>:</label>
+                                <br>
+                                <?php echo $this->formElement($this->editForm->get('user_id')->setAttributes(array('class' => 'form-control'))); ?>
+                                <?php if ($this->formElementErrors($this->editForm->get('user_id'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('user_id')); ?></div>
+                                <?php } ?>
+                        <?php } ?>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Status'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->editForm->get('user_offer_status_id')->setAttributes(array('class' => 'form-control', 'id' => 'user_offer_status_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('user_offer_status_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('user_offer_status_id')); ?></div>
+                            <?php } ?>
+                        </div>                        
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Kind'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->editForm->get('offer_type_id')->setAttributes(array('class' => 'form-control', 'id' => 'offer_type_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('offer_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('offer_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Town'); ?>:</label>
+                            <br>
+                            <?php if( $_SESSION['lang'] == 'en'){
+                                echo $this->pages()->translateFormField($this->formElement($this->editForm->get('city_id')->setAttributes(array('class' => 'form-control', 'id' => 'city_id'))));
+                            } else {
+                                echo $this->formElement($this->editForm->get('city_id')->setAttributes(array('class' => 'form-control', 'id' => 'city_id')));
+                            }?>
+
+                            <?php if ($this->formElementErrors($this->editForm->get('city_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('city_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#city_id').on('change', function () {
+                                var cityId = $('#city_id').val();
+                                        $.get('<? echo $this->url('languageRoute/neighbourhoodsData'); ?>' + '?cityId=' + cityId + '&t=' + (new Date()).getTime())
+                                        .success(function (data) {
+                                        $('#neighbourhood_id').find('option').remove();
+                                        $.each(data, function (key, value) {
+                                            $('#neighbourhood_id').append('<option value=' + value.key + '>' + value.value + '</option>');
+                                        });
+                                        initMap();
+                                    })
+                            });
+                        </script>                        
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Region/Neighborhood'); ?>:</label>
+                            <br>
+                            <?php
+                            if ($_SESSION['lang'] == 'en') {
+                                echo $this->pages()->translateFormField($this->formElement($this->editForm->get('neighbourhood_id')->setAttributes(array('class' => 'form-control', 'id' => 'neighbourhood_id'))));
+                            } else {
+                                echo $this->formElement($this->editForm->get('neighbourhood_id')->setAttributes(array('class' => 'form-control', 'id' => 'neighbourhood_id')));
+                            }
+                            ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('neighbourhood_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('neighbourhood_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#neighbourhood_id').on('change', initMap);
+                        </script>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Address'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->editForm->get('street')->setAttributes(array('class' => 'form-control', 'id' => 'street', 'placeholder' => $this->language()->translate('Address')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('street'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('street')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#street').on('change', initMap);
+                        </script>
+                        <br>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <input value="<?php echo $this->offerObj->getLat(); ?>" name="lat" id="lat" class="form-control" type="hidden">
+                            <input value="<?php echo $this->offerObj->getLng(); ?>" name="lng" id="lng" class="form-control" type="hidden">
+                            <label><?php echo $this->language()->translate('Choose coordinates map'); ?></label>
+                             <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                               data-toggle="tooltip"
+                                               data-original-title="<?php echo $this->language()->translate('Create-offer-map-tooltip'); ?>"
+                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                            <br>
+                            <div id="map" style="height: 200px;"></div>
+                            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMELOAUfSIOsxgVCrEK2tYO6qnNC3RskM&callback=initMapCoordinates">
+                            </script>
+                        </div>
+                        
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Type'); ?>:</label>
+                            <?php echo $this->formElement($this->editForm->get('property_type_id')->setAttributes(array('class' => 'form-control', 'id' => 'property_type_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('property_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('property_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="building_type_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Type construction'); ?>:</label>
+                            <?php echo $this->formElement($this->editForm->get('building_type_id')->setAttributes(array('class' => 'form-control', 'id' => 'building_type_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('building_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('building_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="is_regulated_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Regulation'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('is_regulated')->setAttributes(array('class' => 'form-control', 'id' => 'is_regulated'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('is_regulated'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('is_regulated')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="heating_system_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Heating'); ?>:</label>
+                            <?php echo $this->formElement($this->editForm->get('heating_system_id')->setAttributes(array('class' => 'form-control', 'id' => 'heating_system_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('building_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('heating_system_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="parcel_type_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>;">
+                            <label><?php echo $this->language()->translate('Kind'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->editForm->get('parcel_type_id')->setAttributes(array('class' => 'form-control', 'id' => 'parcel_type_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('parcel_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('parcel_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="construction_year_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Year of construction'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('construction_year')->setAttributes(array('class' => 'form-control', 'id' => 'construction_year'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('construction_year'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('construction_year')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#property_type_id').on('change', function () {
+                                var ptId = $('#property_type_id').val();
+
+                                // Parcel
+                                if (ptId == 20) {
+                                    $('#property_type_id').parent().closest('div').removeClass( "col-md-3" ).addClass( "col-md-4" ); 
+                                    $('#is_regulated').parent().closest('div').removeClass( "col-md-3" ).addClass( "col-md-4" ); 
+                                    $('#parcel_type_id').parent().closest('div').removeClass( "col-md-3" ).addClass( "col-md-4" ); 
+                                    
+                                    $('#building_type_id').attr('disabled', true);
+                                    $('#building_type_id_wrapper').css('display', 'none');
+                                    $('#heating_system_id').attr('disabled', true);
+                                    $('#heating_system_id_wrapper').css('display', 'none');
+                                    $('#construction_year').attr('disabled', true);
+                                    $('#construction_year_wrapper').css('display', 'none');
+                                    $('#floor').attr('disabled', true);
+                                    $('#floor_wrapper').css('display', 'none');
+                                    $('#total_rooms').attr('disabled', true);
+                                    $('#total_rooms_wrapper').css('display', 'none');
+                                    $('#bathrooms').attr('disabled', true);
+                                    $('#bathrooms_wrapper').css('display', 'none');
+                                    $('#parking_slots').attr('disabled', true);
+                                    $('#parking_slots_wrapper').css('display', 'none');
+                                    $('#yard').attr('disabled', true);
+                                    $('#yard_wrapper').css('display', 'none');
+                                    $('#property_feature_wrapper').css('display', 'none');
+
+                                    $('#is_regulated').attr('disabled', false);
+                                    $('#is_regulated_wrapper').css('display', 'inherit');
+                                    $('#parcel_type_id').attr('disabled', false);
+                                    $('#parcel_type_id_wrapper').css('display', 'inherit');
+                                    $('#parcel_feature_wrapper').css('display', 'inherit');
+
+                                } else {
+                                    $('#property_type_id').parent().closest('div').removeClass( "col-md-4" ).addClass( "col-md-3" ); 
+                                    $('#is_regulated').parent().closest('div').removeClass( "col-md-4" ).addClass( "col-md-3" ); 
+                                    $('#parcel_type_id').parent().closest('div').removeClass( "col-md-4" ).addClass( "col-md-3" ); 
+                                    
+                                    $('#building_type_id').attr('disabled', false);
+                                    $('#building_type_id_wrapper').css('display', 'inherit');
+                                    $('#heating_system_id').attr('disabled', false);
+                                    $('#heating_system_id_wrapper').css('display', 'inherit');
+                                    $('#construction_year').attr('disabled', false);
+                                    $('#construction_year_wrapper').css('display', 'inherit');
+                                    $('#floor').attr('disabled', false);
+                                    $('#floor_wrapper').css('display', 'inherit');
+                                    $('#total_rooms').attr('disabled', false);
+                                    $('#total_rooms_wrapper').css('display', 'inherit');
+                                    $('#bathrooms').attr('disabled', false);
+                                    $('#bathrooms_wrapper').css('display', 'inherit');
+                                    $('#parking_slots').attr('disabled', false);
+                                    $('#parking_slots_wrapper').css('display', 'inherit');
+                                    $('#property_feature_wrapper').css('display', 'inherit');
+
+                                    $('#is_regulated').attr('disabled', true);
+                                    $('#is_regulated_wrapper').css('display', 'none');
+                                    $('#parcel_type_id').attr('disabled', true);
+                                    $('#parcel_type_id_wrapper').css('display', 'none');
+                                    $('#parcel_feature_wrapper').css('display', 'none');
+                                }
+                                // House
+                                if (ptId == 11) {
+                                    $('#yard').attr('disabled', false);
+                                    $('#yard_wrapper').css('display', 'inherit');
+                                    $('#yard_shot_wrapper').css('display', 'inherit');
+                                } else {
+                                    $('#yard').attr('disabled', true);
+                                    $('#yard_wrapper').css('display', 'none');
+                                    $('#yard_shot_wrapper').css('display', 'none');
+                                }
+                            });
+
+                            var hideAddress2 = function () {
+                                if($('#external_panorama').is(':checked')) {
+                                    $("#photographer_address_wrapper").css('display', 'none');
+                                    $("#photographer_address").val('');
+                                    $("#photographer_appointment_wrapper").css('display', 'none');
+                                }
+                                else {
+                                    $("#photographer_address_wrapper").css('display', 'inherit');
+                                    $("#photographer_appointment_wrapper").css('display', 'inherit');
+                                }
+                            }
+
+                        </script>                                                                                                                                                                      
+                                                
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Currency'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('currency_id')->setAttributes(array('class' => 'form-control', 'id' => 'currency_id'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('currency_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('currency_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label><?php echo $this->language()->translate('Price'); ?></label>
+                            <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                               data-toggle="tooltip"
+                                               data-original-title="<?php echo $this->language()->translate('Create-offer-price-tooltip'); ?>"
+                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                            <?php echo $this->formElement($this->editForm->get('price')->setAttributes(array('class' => 'form-control', 'id' => 'price', 'placeholder' => $this->language()->translate('Site price')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('price'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('price')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Quadrature'); ?></label>
+                            <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                               data-toggle="tooltip"
+                                               data-original-title="<?php echo $this->language()->translate('Create-offer-quadrature-tooltip'); ?>"
+                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                            <?php echo $this->formElement($this->editForm->get('area')->setAttributes(array('class' => 'form-control', 'id' => 'area', 'placeholder' => $this->language()->translate('Quadrature'), 'disabled' => $this->hasToFillAddress != '1' ?'disabled' : ''))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('area'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('area')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-warning fade in" style="text-align: justify;">
+                                <p>
+                                    <?php echo $this->language()->translate('Quadrature IMPORTANT'); ?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="floor_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Floor'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('floor')->setAttributes(array('class' => 'form-control', 'id' => 'floor', 'placeholder' => $this->language()->translate('Floor')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('floor'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('floor')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="total_rooms_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Number of rooms'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('total_rooms')->setAttributes(array('class' => 'form-control', 'id' => 'total_rooms', 'placeholder' => $this->language()->translate('Number of rooms')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('total_rooms'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('total_rooms')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="bathrooms_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Bathrooms'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('bathrooms')->setAttributes(array('class' => 'form-control', 'id' => 'bathrooms', 'placeholder' => $this->language()->translate('Bathrooms')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('bathrooms'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('bathrooms')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12" id="parking_slots_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Parking spaces'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('parking_slots')->setAttributes(array('class' => 'form-control', 'id' => 'parking_slots', 'placeholder' => $this->language()->translate('Parking spaces')))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('parking_slots'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('parking_slots')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12" id="yard_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 11) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Yard size'); ?></label>
+                            <?php echo $this->formElement($this->editForm->get('yard')->setAttributes(array('class' => 'form-control', 'id' => 'yard', 'placeholder' => $this->language()->translate('Yard'), 'disabled' => $this->hasToFillAddress != '1' ? 'disabled' : ''))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('yard'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('yard')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12" id="yard_shot_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 11) ? 'none' : 'inherit'; ?>">
+                            <label for="yard_shot" style="cursor:pointer; margin-top: 30px;"><input id="yard_shot" name="yard_shot" value="1" type="checkbox" disabled ='disabled'>&nbsp; <?php echo $this->language()->translate('Yard filming'); ?></label>
+                        </div>                        
+                        <div class="col-md-12 col-sm-12 col-xs-12" id="property_feature_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label><?php echo $this->language()->translate('Features'); ?></label>
+                            <br>
+                            <?php
+                            foreach ($this->propertyFeatures as $key => $value) {
+                                ?>
+                                <div class="col-md-4 col-sm-6 col-xs-6">
+                                    <label for="property_feature_<?php echo $key; ?>" style="cursor:pointer;"><input id="property_feature_<?php echo $key; ?>" name="property_features[]" value="<?php echo $key; ?>" <?php echo (isset($this->editFormData['property_features']) && (in_array($key, $this->editFormData['property_features']))) ? 'checked' : '' ?> type="checkbox">&nbsp;<?php echo $this->language()->translate($value); ?></label>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12" id="parcel_feature_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>;">
+                            <label><?php echo $this->language()->translate('Features'); ?></label>
+                            <br>
+                            <?php
+                            foreach ($this->parcelFeatures as $key => $value) {
+                                ?>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <label for="parcel_feature_<?php echo $key; ?>" style="cursor:pointer;"><input id="parcel_feature_<?php echo $key; ?>" name="parcel_features[]" value="<?php echo $key; ?>" <?php echo (isset($this->editFormData['parcel_features']) && (in_array($key, $this->editFormData['parcel_features']))) ? 'checked' : '' ?> type="checkbox">&nbsp;<?php echo $this->language()->translate($value); ?></label>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <br>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            </br>
+                            <label><?php echo $this->language()->translate('Information'); ?></label>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <?php echo $this->formElement($this->editForm->get('information')->setAttributes(array('class' => 'form-control', 'id' => 'information', 'style' => 'resize: none'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('information'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('information')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <br>
+                        <?php if ($this->offerObj->getOfferStatusId() > 1 || $this->hasToFillAddress == '1') { ?>
+                        <?php if($this->hasToFillAddress == '1') { ?>
+                            <div>
+                                <input type="hidden" name="has_address_fields"  value="1" ?>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <label>
+                                    <input id="external_panorama" name="external_panorama" value="1" type="checkbox" <?php echo ($this->editFormData['external_panorama'] == '1') ? 'checked' : '' ?>>&nbsp; <?php echo $this->language()->translate('External panorama'); ?>
+                                </label>
+                                <?php if ($this->formElementErrors($this->editForm->get('external_panorama'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('external_panorama')); ?></div>
+                                <?php } ?>
+                            </div>
+
+                            <div id="photographer_address_wrapper" >
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label><?php echo $this->language()->translate('Address, which you will expect our photographer (not visible on the site)'); ?>
+                                        <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                           data-toggle="tooltip"
+                                           data-original-title="<?php echo $this->language()->translate('Create-offer-address-tooltip'); ?>"
+                                           data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                    </label>
+                                    <?php echo $this->formElement($this->editForm->get('photographer_address')->setAttributes(array('class' => 'form-control', 'id' => 'photographer_address', 'placeholder' => $this->language()->translate('Full address')))); ?>
+                                    <?php if ($this->formElementErrors($this->editForm->get('photographer_address'))) { ?>
+                                        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('photographer_address')); ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        <br>
+                            <div id="photographer_appointment_wrapper" >
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label><?php echo $this->language()->translate('Date and time of shooting'); ?></label>
+                                    <br>
+                                    <?php echo $this->formElement($this->editForm->get('photographer_appointment')->setAttributes(array('class' => 'form-control', 'id' => 'photographer_appointment'))); ?>
+                                    <?php if ($this->formElementErrors($this->editForm->get('photographer_appointment'))) { ?>
+                                        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('photographer_appointment')); ?></div>
+                                    <?php } else if ($this->editFormData['photography_collision_err'] != '') { ?>
+                                        <div class="alert alert-danger"><?php echo $this->language()->translate('photography_collision_err'); ?></div>
+                                    <?php } ?>
+                                    <script>
+                                        initDatePicker('#photographer_appointment', 1);
+                                    </script>
+                                </div>
+                            </div>
+                        <br>
+                        <hr style="visibility: hidden">
+                            <?php } ?>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('I want to pay from'); ?></label>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <?php echo $this->formElement($this->editForm->get('weeks')->setAttributes(array('class' => 'form-control', 'id' => 'weeks'))); ?>
+                            <?php if ($this->formElementErrors($this->editForm->get('weeks'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('weeks')); ?></div>
+                            <?php } ?>
+                            <div class="alert alert-warning fade in" style="text-align: justify;">
+                                <p>
+                                    <?php echo $this->language()->translate('Offer published time'); ?>
+                                </p>
+                            </div>
+                        </div>
+                        <br>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <hr>
+                                <h4><?php echo $this->language()->translate('Additional options'); ?></h4>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label for="vip_offer" style="cursor:pointer;">
+                                    <input id="vip_offer" name="vip_offer" value="1" type="checkbox" <?php echo ($this->editFormData['vip_offer'] == 1) ? 'checked' : '' ?> onchange="$('#top_offer').attr('checked', !this.checked);
+                                            recalculateTotals()"> <?php echo $this->language()->translate('Vip Offer'); ?><br><?php echo number_format($this->vipPrice, 2); ?>лв.
+                                </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label for="top_offer" style="cursor:pointer;">
+                                    <input id="top_offer" name="top_offer" value="1" type="checkbox" <?php echo ($this->editFormData['top_offer'] == 1) ? 'checked' : '' ?> onchange="$('#vip_offer').attr('checked', !this.checked);
+                                            recalculateTotals()"> <?php echo $this->language()->translate('Top Offer'); ?><br><?php echo number_format($this->topPrice, 2); ?>лв.
+                                </label>
+                            </div>
+<!--                            <div class="col-md-3 col-sm-3 col-xs-3">-->
+<!--                                <label for="chat_offer" style="cursor:pointer;">-->
+<!--                                    <input id="chat_offer" name="chat_offer" value="1" type="checkbox" --><?php //echo ($this->editFormData['chat_offer'] == 1) ? 'checked' : '' ?><!-- onchange="recalculateTotals()">-->
+<!--                                    --><?php //echo $this->language()->translate('Chat'); ?><!--<br>--><?php //echo number_format($this->chat, 2); ?><!--лв.-->
+<!--                                </label>-->
+<!--                            </div>-->
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label for="schema_offer" style="cursor:pointer;">
+                                    <input id="schema_offer" name="schema_offer" value="1" type="checkbox" <?php echo ($this->editFormData['schema_offer'] == 1) ? 'checked' : '' ?> onchange="recalculateTotals()">
+                                    <?php echo $this->language()->translate('Scheme'); ?><br><?php echo number_format($this->priceSchema, 2); ?>лв.
+                                </label>
+                            </div>
+                            <br>
+                            <br>&nbsp;
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <label><?php echo $this->language()->translate('I want to pay extra from'); ?></label>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <?php echo $this->formElement($this->editForm->get('extra_weeks')->setAttributes(array('class' => 'form-control', 'id' => 'extra_weeks'))); ?>
+                                <?php if ($this->formElementErrors($this->editForm->get('extra_weeks'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('extra_weeks')); ?></div>
+                                <?php } ?>
+                            </div>
+
+                        <?php if ($this->hasToFillAddress == '1') { ?>
+                            <script>
+                                $('#weeks, #extra_weeks, #area, #old_offer_id, #yard, #yard_shot, #external_panorama').on('change', recalculateTotals);
+                                $('#external_panorama').on('change', hideAddress2);
+                                hideAddress2()
+                            </script>
+                        <?php } else { ?>
+                            <script>
+                                $('#weeks,  #extra_weeks').on('change', recalculateTotals);
+                            </script>
+                        <?php } ?>
+
+
+                            <br clear="all">
+                            <hr>
+                            <h3><?php echo $this->language()->translate('ОБЩА СУМА ЗА ПЛАЩАНЕ'); ?>: <span id="currentAmount">0.00</span> лв.</h3>
+                            <br>
+                        <?php } else { ?>
+                            <input type="hidden" name="weeks" id="weeks" value="0" />
+                        <?php } ?>
+                        <hr>
+                        <button type="button" id="submit_checkout" name="submit_checkout" value="submit_checkout" class="btn btn-success col-md-12 hidemenow"
+                                onclick="form.submit()"><?php echo $this->hasToFillAddress == '1' ? $this->language()->translate('Post') : $this->language()->translate('Save changes'); ?>
+                        </button>
+                        <script>
+                            recalculateTotals();
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var isVip = <?php echo $this->editFormData['vip_offer']; ?>;
+        var isTop = <?php echo $this->editFormData['top_offer']; ?>;
+//    var isChat = <?php //echo $this->editFormData['chat_offer']; ?>//;
+        var isSchema = <?php echo $this->editFormData['schema_offer']; ?>;
+
+        if (isVip === 1) {
+            $("#vip_offer").attr("disabled", true);
+            $("#top_offer").attr("disabled", true);
+        }
+
+        if (isTop === 1) {
+            $("#vip_offer").attr("disabled", true);
+            $("#top_offer").attr("disabled", true);
+        }
+
+//    if(isChat === 1) {
+//        $("#chat_offer").attr("disabled", true);
+//    }
+
+        if (isSchema === 1) {
+            $("#schema_offer").attr("disabled", true);
+        }
+    });
+</script>    
+<script type="text/javascript">    
+    
+    function changeStatus() {
+        var offerType = $("#offer_type_id");
+        var userStatus = $("#user_offer_status_id");
+
+        if (offerType.val() === '2') {
+            $("#user_offer_status_id option").each(function()
+            {
+                if($(this).html() == '<?php echo $this->language()->translate("Продадена");?>') {
+                    $(this).html('<?php echo $this->language()->translate("Отдадена");?>')
+                }
+            });
+        }
+    }
+
+    changeStatus();
+    $('#offer_type_id').on('change', changeStatus);
+    
+</script>
+<script>
+     $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+
+     $('#external_panorama').on("change", function () {
+         if ($('#external_panorama').is(':checked')) {
+             $("#submit_checkout").html('<?php echo $this->language()->translate('Continue'); ?>');
+         } else {
+             $('#submit_checkout').html('<?php echo $this->language()->translate('Post'); ?>');
+         }
+     });
+
+</script>

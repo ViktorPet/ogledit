@@ -1,0 +1,736 @@
+<div id="content" class="content full">
+    <div class="container">
+        <div class="page">
+            <div class="row">
+                <div class="col-md-6 col-sm-4">
+                    <h3 class="">Редактиране на оферта</h3>
+                    <form method="post" action="" id="editOfferForm" name="editOfferForm" class="register-form submitthis" enctype="multipart/form-data">                    
+                        <div class="form-group form-elements">
+                            <label>Агенция:</label>
+                            <input type="text" readonly value="<?php echo str_replace('"', '&quot;', $this->agency->names) ?>"  class="form-control" />
+                        </div>
+
+                        <?php if (in_array(\Admin\Model\Permission::PHOTOGRAPH_INFO_PERMISSION, $_SESSION["admin_permissions"]['permissions'])) { ?>
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('photographer_appointment')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('photographer_appointment')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('photographer_appointment'));
+                                    echo $this->formElement($this->editForm->get('photographer_appointment')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <script>
+                                    photographerDateTimePicker('#photographer_appointment', '<?php echo $this->editForm->get('photographer_appointment')->getValue()?>');
+                                </script>
+                                <?php if ($this->formElementErrors($this->editForm->get('photographer_appointment'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('photographer_appointment')); ?></div>
+                                <?php } ?>
+                            </div>
+
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('photographer_address')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('photographer_address')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('photographer_address'));
+                                    echo $this->formElement($this->editForm->get('photographer_address')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('photographer_address'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('photographer_address')); ?></div>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('user_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('user_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('user_id'));
+                                echo $this->formElement($this->editForm->get('user_id')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('user_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('user_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('user_offer_status_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('user_offer_status_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('user_offer_status_id'));
+                                echo $this->formElement($this->editForm->get('user_offer_status_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'user_offer_status_id')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('user_offer_status_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('user_offer_status_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('offer_status_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('offer_status_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('offer_status_id'));
+                                echo $this->formElement($this->editForm->get('offer_status_id')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('offer_status_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('offer_status_id')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('offer_type_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('offer_type_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('offer_type_id'));
+                                echo $this->formElement($this->editForm->get('offer_type_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'offer_type_id')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('offer_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('offer_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('city_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('city_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('city_id'));
+                                echo $this->formElement($this->editForm->get('city_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'city_id')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('city_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('city_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#city_id').on('change', function () {
+                                var d = new Date();
+                                var n = d.getTime();
+                                var cityId = $('#city_id').val();
+                                var url = '<?php echo $this->url("languageRoute/neighbourhoodsData"); ?>' + '?cityId=' + cityId + '&t=' + n;
+
+                                $.ajax({
+                                    url: url,
+                                    type: 'GET',
+                                    success: function (data) {
+                                        $.ajax({
+                                            url: url,
+                                            type: 'GET',
+                                            success: function (data) {
+                                                $('#neighbourhood_id').find('option').remove();
+                                                $.each(data, function (key, value) {
+                                                    $('#neighbourhood_id').append('<option value=' + value.key + '>' + value.value + '</option>');
+                                                });
+                                                initMap();
+                                            }
+                                        });
+
+                                    }
+                                });
+                            });
+                        </script>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('neighbourhood_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('neighbourhood_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('neighbourhood_id'));
+                                echo $this->formElement($this->editForm->get('neighbourhood_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'neighbourhood_id')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('neighbourhood_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('neighbourhood_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#neighbourhood_id').on('change', initMap);
+                        </script>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('street')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('street')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('street'));
+                                echo $this->formElement($this->editForm->get('street')->setAttributes(array('class' => 'form-control text-input', 'id' => 'street')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('street'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('street')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#street').on('change', initMap);
+                        </script>
+                        <br>
+                        <div class="input-group col-md-12 col-sm-4">
+                            <input value="<?php echo $this->offerObj->getLat(); ?>" name="lat" id="lat" class="form-control" type="hidden">
+                            <input value="<?php echo $this->offerObj->getLng(); ?>" name="lng" id="lng" class="form-control" type="hidden">
+                            <label>Избери координати от картата:</label>
+                            <br>
+                            <div id="map" style="height: 200px;"></div>
+                            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMELOAUfSIOsxgVCrEK2tYO6qnNC3RskM&callback=initMapCoordinates">
+                            </script>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('property_type_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('property_type_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('property_type_id'));
+                                echo $this->formElement($this->editForm->get('property_type_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'property_type_id')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('property_type_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('property_type_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <script>
+                            $('#property_type_id').on('change', function () {
+                                var ptId = $('#property_type_id').val();
+
+                                // Parcel
+                                if (ptId == 20) {
+                                    $('#building_type_id').attr('disabled', true);
+                                    $('#building_type_id_wrapper').css('display', 'none');
+                                    $('#heating_system_id').attr('disabled', true);
+                                    $('#heating_system_id_wrapper').css('display', 'none');
+                                    $('#construction_year').attr('disabled', true);
+                                    $('#construction_year_wrapper').css('display', 'none');
+                                    $('#floor').attr('disabled', true);
+                                    $('#floor_wrapper').css('display', 'none');
+                                    $('#total_rooms').attr('disabled', true);
+                                    $('#total_rooms_wrapper').css('display', 'none');
+                                    $('#bathrooms').attr('disabled', true);
+                                    $('#bathrooms_wrapper').css('display', 'none');
+                                    $('#parking_slots').attr('disabled', true);
+                                    $('#parking_slots_wrapper').css('display', 'none');
+                                    $('#yard').attr('disabled', true);
+                                    $('#yard_wrapper').css('display', 'none');
+                                    $('#property_feature_wrapper').css('display', 'none');
+
+                                    $('#is_regulated').attr('disabled', false);
+                                    $('#is_regulated_wrapper').css('display', 'inherit');
+                                    $('#parcel_type_id').attr('disabled', false);
+                                    $('#parcel_type_id_wrapper').css('display', 'inherit');
+                                    $('#parcel_feature_wrapper').css('display', 'inherit');
+
+                                } else {
+                                    $('#building_type_id').attr('disabled', false);
+                                    $('#building_type_id_wrapper').css('display', 'inherit');
+                                    $('#heating_system_id').attr('disabled', false);
+                                    $('#heating_system_id_wrapper').css('display', 'inherit');
+                                    $('#construction_year').attr('disabled', false);
+                                    $('#construction_year_wrapper').css('display', 'inherit');
+                                    $('#floor').attr('disabled', false);
+                                    $('#floor_wrapper').css('display', 'inherit');
+                                    $('#total_rooms').attr('disabled', false);
+                                    $('#total_rooms_wrapper').css('display', 'inherit');
+                                    $('#bathrooms').attr('disabled', false);
+                                    $('#bathrooms_wrapper').css('display', 'inherit');
+                                    $('#parking_slots').attr('disabled', false);
+                                    $('#parking_slots_wrapper').css('display', 'inherit');
+                                    $('#property_feature_wrapper').css('display', 'inherit');
+
+                                    $('#is_regulated').attr('disabled', true);
+                                    $('#is_regulated_wrapper').css('display', 'none');
+                                    $('#parcel_type_id').attr('disabled', true);
+                                    $('#parcel_type_id_wrapper').css('display', 'none');
+                                    $('#parcel_feature_wrapper').css('display', 'none');
+
+                                    // House
+                                    if (ptId == 11) {
+                                        $('#yard').attr('disabled', false);
+                                        $('#yard_wrapper').css('display', 'inherit');
+                                        $('#yard_shot_wrapper').css('display', 'inherit');
+                                    } else {
+                                        $('#yard').attr('disabled', true);
+                                        $('#yard_wrapper').css('display', 'none');
+                                        $('#yard_shot_wrapper').css('display', 'none');
+                                    }
+                                }
+                            });
+                        </script>
+                        <div class="input-group col-md-12 col-sm-4" id="building_type_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('building_type_id')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('building_type_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('building_type_id'));
+                                    echo $this->formElement($this->editForm->get('building_type_id')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('building_type_id'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('building_type_id')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-12 col-sm-4" id="is_regulated_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('is_regulated')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('is_regulated')->setLabelAttributes(array('class' => 'control-label label-text', 'id' => 'property_type_id'));
+                                    echo $this->formLabel($this->editForm->get('is_regulated'));
+                                    echo $this->formElement($this->editForm->get('is_regulated')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('is_regulated'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('is_regulated')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-12 col-sm-4" id="heating_system_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('heating_system_id')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('heating_system_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('heating_system_id'));
+                                    echo $this->formElement($this->editForm->get('heating_system_id')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('heating_system_id'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('heating_system_id')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-12 col-sm-4" id="parcel_type_id_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>;"> 
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('parcel_type_id')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('parcel_type_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('parcel_type_id'));
+                                    echo $this->formElement($this->editForm->get('parcel_type_id')->setAttributes(array('class' => 'form-control text-input', 'id' => 'parcel_type_id')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('parcel_type_id'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('parcel_type_id')); ?></div>
+                                <?php } ?>
+                            </div>                            
+                        </div>
+                        <div class="input-group col-md-12 col-sm-4" id="construction_year_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('construction_year')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('construction_year')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('construction_year'));
+                                    echo $this->formElement($this->editForm->get('construction_year')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('construction_year'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('construction_year')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <!--<div class="input-group col-md-12 col-sm-1">-->
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('currency_id')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('currency_id')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('currency_id'));
+                                echo $this->formElement($this->editForm->get('currency_id')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('currency_id'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('currency_id')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('price')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('price')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('price'));
+                                echo $this->formElement($this->editForm->get('price')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('price'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('price')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('area')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('area')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('area'));
+                                echo $this->formElement($this->editForm->get('area')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('area'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('area')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div class="input-group col-md-12 col-sm-1">
+                            <div class="alert alert-warning fade in" style="text-align: justify;"><p>ВАЖНО: Квадратурата не може да бъде променяна след създаване на обявата!</p></div>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1" id="floor_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('floor')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('floor')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('floor'));
+                                    echo $this->formElement($this->editForm->get('floor')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('floor'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('floor')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1" id="total_rooms_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('total_rooms')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('total_rooms')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('total_rooms'));
+                                    echo $this->formElement($this->editForm->get('total_rooms')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('total_rooms'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('total_rooms')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1" id="bathrooms_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('bathrooms')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('bathrooms')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('bathrooms'));
+                                    echo $this->formElement($this->editForm->get('bathrooms')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('bathrooms'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('bathrooms')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1" id="parking_slots_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('parking_slots')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('parking_slots')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('parking_slots'));
+                                    echo $this->formElement($this->editForm->get('parking_slots')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('parking_slots'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('parking_slots')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-6 col-sm-1" id="yard_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 11) ? 'none' : 'inherit'; ?>">
+                            <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('yard')) != '') ? 'has-error' : ''; ?>">
+                                <div class="input-group">
+                                    <?php
+                                    $this->editForm->get('yard')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                    echo $this->formLabel($this->editForm->get('yard'));
+                                    echo $this->formElement($this->editForm->get('yard')->setAttributes(array('class' => 'form-control text-input')));
+                                    ?>
+                                </div>
+                                <?php if ($this->formElementErrors($this->editForm->get('yard'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('yard')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+                        <!--</div>-->
+                        <br>
+                        <div class="input-group col-md-12 col-sm-4" id="property_feature_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() == 20) ? 'none' : 'inherit'; ?>">
+                            <label>Oсобености</label>
+                            <br>
+                            <?php
+                            foreach ($this->propertyFeatures as $key => $value) {
+                                ?>
+                                <div class="col-md-6 col-sm-1">
+                                    <label for="property_feature_<?php echo $key; ?>" style="cursor:pointer;"><input id="property_feature_<?php echo $key; ?>" name="property_features[]" value="<?php echo $key; ?>" <?php  echo (isset($this->editFormData['property_features']) && (in_array($key, $this->editFormData['property_features']))) ? 'checked' : '' ?> type="checkbox">&nbsp;<?php echo $value; ?></label>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>                      
+                        <div class="input-group col-md-12 col-sm-4" id="parcel_feature_wrapper" style="display: <?php echo ($this->editForm->get('property_type_id')->getValue() != 20) ? 'none' : 'inherit'; ?>;">
+                            <label>Oсобености</label>
+                            <br>
+                            <?php
+                            foreach ($this->parcelFeatures as $key => $value) {
+                                ?>
+                                <div class="col-md-6 col-sm-1">
+                                    <label for="parcel_feature_<?php echo $key; ?>" style="cursor:pointer;"><input id="parcel_feature_<?php echo $key; ?>" name="parcel_features[]" value="<?php echo $key; ?>" <?php echo (isset($this->editFormData['parcel_features']) && (in_array($key, $this->editFormData['parcel_features']))) ? 'checked' : '' ?> type="checkbox">&nbsp;<?php echo $value; ?></label>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <br/>
+                        <div class="form-group form-elements informationEdit <?php echo ($this->formElementErrors($this->editForm->get('information')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group ">
+                                <?php
+                                $this->editForm->get('information')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('information'));
+                                echo $this->formElement($this->editForm->get('information')->setAttributes(array('class' => 'form-control text-input', 'id' => 'information')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('information'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('information')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('facebook_img')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('facebook_img')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('facebook_img'));
+                                echo $this->formElement($this->editForm->get('facebook_img')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('facebook_img'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('facebook_img')); ?></div>
+                            <?php } ?>
+                            <?php if ($this->offerObj->getFacebookImage()) { ?>
+                                <br/>
+                                <img src="/media/offers/<?php echo $this->offerObj->getId(); ?>/<?php echo $this->offerObj->getFacebookImage(); ?>" width="350" />
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('main_image')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('main_image')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('main_image'));
+                                echo $this->formElement($this->editForm->get('main_image')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('main_image'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('main_image')); ?></div>
+                            <?php } ?>
+                            <?php if ($this->offerObj->getImage()) { ?>
+                                <br/>
+                                <img src="/media/offers/<?php echo $this->offerObj->getId(); ?>/front-<?php echo $this->offerObj->getImage(); ?>" width="350" />
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('panorama_file')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('panorama_file')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('panorama_file'));
+                                echo $this->formElement($this->editForm->get('panorama_file')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('panorama_file'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('panorama_file')); ?></div>
+                            <?php } ?>
+                            <?php if ($this->offerObj->getPanoramaFile() == 'y') { ?>
+                                <br/>
+                                <?php if (is_null($this->offerObj->getUserPanoramaFile())) { ?>
+                                    <?php if ((is_null($this->offerObj->getAlternativeIdFile())) || ($this->offerObj->getOfferStatusId() == 4)) { ?>
+                                        <iframe src="<?php echo SITE_URL;?>media/pano/<?php echo $this->offerObj->getId(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <?php } else { ?>
+                                        <iframe src="<?php echo SITE_URL;?>media/pano/<?php echo $this->offerObj->getAlternativeIdFile(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <?php } ?>
+                                    <br/>
+                                    <span id="deleteButtonNode" class="btn btn-primary" onclick="window.location.href = '<?php echo $this->url('languageRoute/adminOffersDeletePanorama'); ?>/<?php echo $this->offerObj->getId(); ?>'">Изтрий Панорамата</span>
+                                    <br/><br/>
+                                <?php } else { ?>
+                                    <iframe src="<?php echo $this->offerObj->getUserPanoramaFile(); ?>" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <br>
+                                    <?php echo $this->offerObj->getUserPanoramaFile(); ?>
+                                    <br>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('google_360')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('google_360')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('google_360'));
+                                echo $this->formElement($this->editForm->get('google_360')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('google_360'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('google_360')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('youtube_code_1')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('youtube_code_1')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('youtube_code_1'));
+                                echo $this->formElement($this->editForm->get('youtube_code_1')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('youtube_code_1'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('youtube_code_1')); ?></div>
+                            <?php } ?>
+                            <?php if ($this->offerObj->getYoutubeCode1()) { ?>
+                                <br/>
+                                <iframe width="350" src="https://www.youtube.com/embed/<?php echo $this->offerObj->getYoutubeCode1(); ?>?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('youtube_code_2')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('youtube_code_2')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('youtube_code_2'));
+                                echo $this->formElement($this->editForm->get('youtube_code_2')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('youtube_code_2'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('youtube_code_2')); ?></div>
+                            <?php } ?>
+                            <?php if ('y' == $this->offerObj->getYoutubeCode2()) { ?>
+                                <br/>
+                                <!--<iframe width="350" src="https://www.youtube.com/embed/<?php //echo $this->offerObj->getYoutubeCode2();   ?>?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>-->
+                                <iframe src="https://ogledi.bg/media/video/<?php echo $this->offerObj->getId(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('meta_title')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('meta_title')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('meta_title'));
+                                echo $this->formElement($this->editForm->get('meta_title')->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_title')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('meta_title'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('meta_title')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('meta_description')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('meta_description')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('meta_description'));
+                                echo $this->formElement($this->editForm->get('meta_description')->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_description')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('meta_description'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('meta_description')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('meta_keywords')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('meta_keywords')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('meta_keywords'));
+                                echo $this->formElement($this->editForm->get('meta_keywords')->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_keywords')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('meta_keywords'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('meta_keywords')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <br>
+                        <h4>Изберете допълнителни опции</h4>
+                        <hr>
+                        <div class="col-md-3 col-sm-1">
+                            <label for="vip_offer" style="cursor:pointer;">
+                                <input id="vip_offer" name="vip_offer" value="1" type="checkbox" <?php echo ($this->editFormData['vipOffer'] == 1) ? 'checked' : '' ?> > ВИП Оферта
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-sm-1">
+                            <label for="top_offer" style="cursor:pointer;">
+                                <input id="top_offer" name="top_offer" value="1" type="checkbox" <?php echo ($this->editFormData['topOffer'] == 1) ? 'checked' : '' ?> > ТОП Оферта
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-sm-1">
+                            <label for="chat_offer" style="cursor:pointer;">
+                                <input id="chat_offer" name="chat_offer" value="1" type="checkbox" <?php echo ($this->editFormData['chatOffer'] == 1) ? 'checked' : '' ?> > Чат
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-sm-1">
+                            <label for="schema_offer" style="cursor:pointer;">
+                                <input id="schema_offer" name="schema_offer" value="1" type="checkbox" <?php echo ($this->editFormData['schemaOffer'] == 1) ? 'checked' : '' ?> > Схема
+                            </label>
+                        </div>
+                        <br><br>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('extra_weeks')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('extra_weeks')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('extra_weeks'));
+                                echo $this->formElement($this->editForm->get('extra_weeks')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('extra_weeks'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('extra_weeks')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <hr>
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('weeks')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group">
+                                <?php
+                                $this->editForm->get('weeks')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->editForm->get('weeks'));
+                                echo $this->formElement($this->editForm->get('weeks')->setAttributes(array('class' => 'form-control text-input')));
+                                ?>
+                            </div>
+                            <?php if ($this->formElementErrors($this->editForm->get('weeks'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('weeks')); ?></div>
+                            <?php } ?>
+                        </div>
+
+<!--                        <br clear="all">-->
+                        <hr clear="all">
+                        <?php if ($this->offerObj->getOfferStatusId() == 4): ?>
+                            <div class="form-group form-elements">
+                                <div class="input-group">                                   
+                                    <input readonly="readonly" type="text" class="form-control text-input" value="https://ogledi.bg/bg/offer/<?php echo $this->offerObj->getId(); ?>">
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <button type="button" id="submit_checkout" name="submit_checkout" value="submit_checkout" class="btn btn-success hidemenow"
+                                onclick="form.submit()">Запази промените
+                        </button>
+                        <button id="offersBack" class="btn btn-success">Назад</button>
+                        <a href="/bg/ogl-adm/offers-gallery/<?php echo $this->offerObj->getId(); ?>">Прикачи снимки</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    document.getElementById("offersBack").onclick = function (event) {
+        event.preventDefault();
+        location.href = '<?php echo $this->url('languageRoute/adminOffers'); ?>';
+    };
+
+</script>
+<script type="text/javascript">    
+
+    function changeStatus(){                      
+        var offerType = $("#offer_type_id");
+        var userStatus = $("#user_offer_status_id").val();
+        if(offerType.val() === '2') {
+            var newOptions = {
+                "Актуална": "",
+                "Архивирана": "1",
+                "Отдадена": "2",
+                "Депозирана": "3"
+            };
+        } else {
+            var newOptions = {
+                "Актуална": "",
+                "Архивирана": "1",
+                "Продадена": "2",
+                "Депозирана": "3"
+            };
+        }
+
+        var statuses = $("#user_offer_status_id");
+        statuses.empty(); // remove old options        
+        $.each(newOptions, function(key,value) {                
+            var option = $("<option></option>").attr("value", value).text(key)
+                if(value === userStatus){
+                    option.attr("selected", "selected");
+                }
+            statuses.append(option);        
+        });
+             
+    }
+    
+    changeStatus();
+    $('#offer_type_id').on('change', changeStatus);
+    
+</script>

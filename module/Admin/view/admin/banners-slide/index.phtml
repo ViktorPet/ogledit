@@ -1,0 +1,128 @@
+
+<h1>Банери</h1>
+<button id="createBannersSlide" name="submit" class="btn btn-success" onclick="adminBannersSlideCreate()">Въвеждане на банер</button>
+
+<div id="ajax-result"></div>
+</br>
+
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminBannersSlideData');?>'
+
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'name', type: 'string'},
+            {name: 'link', type: 'string'},
+            {name: 'desktop_img', type: 'string'},
+            {name: 'mobile_img', type: 'string'},
+            {name: 'link_en', type: 'string'},
+            {name: 'desktop_img_en', type: 'string'},
+            {name: 'mobile_img_en', type: 'string'}
+        ];
+
+        var columns = [
+            {
+                text: '',
+                datafield: '',
+                width: 85,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminBannersSlideDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button btn-styles" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil btn-styles-fa" aria-hidden="true"></i></button>' +
+                        '<button class="btn confirm-delete btn-styles" value="' + deleteURL + '"><i class="fa fa-trash btn-styles-fa" aria-hidden="true"></i></button>';
+
+                }
+            },
+            {text: '№', datafield: 'id', width: 35},
+            {text: 'Наименование', datafield: 'name', width: 100},
+            {text: 'Адрес', datafield: 'link', width: 100},
+            {text: 'Адрес EN', datafield: 'link_en', width: 100},
+            {
+                text: 'Десктоп', datafield: 'desktop_img', filterable: false, sortable: false, width: 480,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    if(value) {
+                        return '<img border="0" height="100" src="/img/banners-slide/desktop/' + value + '" />';
+                    }
+                }
+            },
+            {
+                text: 'Телефон', datafield: 'mobile_img', filterable: false, sortable: false, width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    if(value) {
+                        return '<img border="0" height="100" src="/img/banners-slide/mobile/' + value + '" />';
+                    }
+                }
+            },
+            {
+                text: 'Десктоп EN', datafield: 'desktop_img_en', filterable: false, sortable: false, width: 480,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    if(value) {
+                        return '<img border="0" height="100" src="/img/banners-slide/desktop/' + value + '" />';
+                    }
+                }
+            },
+            {
+                text: 'Телефон EN', datafield: 'mobile_img_en', filterable: false, sortable: false, width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    if(value) {
+                        return '<img border="0" height="100" src="/img/banners-slide/mobile/' + value + '" />';
+                    }
+                }
+            }
+        ];
+
+        dataGrid(id, url, datafields, columns);
+
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+
+    });
+
+
+    function openDialog(slideId) {
+        location.href = '<?php echo $this->url('languageRoute/adminBannersSlideEdit'); ?>/' + slideId;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function adminBannersSlideEdit(bannerText) {
+        location.href = '<?php echo $this->url('languageRoute/adminBannersSlideEdit'); ?>/' + bannerText;
+    }
+    function adminBannersSlideCreate() {
+        location.href = '<?php echo $this->url('languageRoute/adminBannersSlideCreate'); ?>';
+    }
+</script>

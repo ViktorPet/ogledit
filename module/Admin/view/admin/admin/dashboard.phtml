@@ -1,0 +1,139 @@
+<style>
+    select {
+        font-size: 14px;
+        padding: 2px 10px;
+        width: 250px;
+        *width: 350px;
+        *background: #58B14C;
+    }
+
+    span{
+        margin-right: 5px;
+        font-size: 18px;
+    }
+
+    .hoverTable{
+        width:100%; 
+        border-collapse: separate
+    }
+    
+    thead{
+        background: #F3F3F3;
+        /*background: #2196f3;*/
+    }
+    
+    /* Define the hover highlight color for the table row */
+    .hoverTable tr:hover {
+        background-color: #F3F3F3;
+    }
+
+</style>
+
+<div >
+    <div style="float: left; padding: 5px; margin-right: 50px;"><h3>Филтри:</h3></div>
+    <div>
+        <div style="float: left; padding: 5px; margin-right: 50px; margin-top: 20px;" >
+            <span>Град</span>
+            <select>
+                <option value="all">Всички</option>
+                <option value="sofia">София</option>
+                <option value="sofia_oblast">Област София</option>
+                <option value="plovdiv">Пловдив</option>
+                <option value="plovdiv_oblast">Област Пловдив</option>
+                <option value="varna">Варна</option>
+                <option value="varna_oblast">Област Варна</option>
+                <option value="burgas">Бургас</option>
+                <option value="burgas_oblast">Област Бургас</option>     
+            </select>
+        </div>
+
+        <div style="float: left; padding: 5px; margin-right: 10px; margin-top: 20px;">
+            <span>Период</span>
+            <select>
+                <option value="all">Всички</option>
+                <option value="this_month">Този месец</option>
+                <option value="last_month">Миналия месец</option>
+            </select>
+        </div>
+        <div>
+            <button type="button" class="btn" style="margin-top: 20px;" onclick="showDiv()"> Покажи </span></button>
+        </div>
+    </div>
+</div>
+<hr>
+</br>
+
+
+<script type="text/javascript">
+    $( document ).ready( function () {
+
+        // prepare the data
+        var data = new Array();
+
+        var nums = [ 1, 2];
+        var type = [ 'Продажба', 'Наем' ];
+        var count = [ '125', '112'];
+        var active = [ '78', '98'];
+        var VIP = [ '15', '21'];
+        var Top = [ '9', '3'];
+        var chat = [ '0', '1'];
+        var schema = [ '0', '2'];
+
+        for ( var i = 0; i < 2; i++ ) {
+            var row = {};
+            row[ "num" ] = i + 1;           
+            row[ "type" ] = type[ Math.floor( Math.random() * type.length ) ];
+            row[ "count" ] = count[ Math.floor( Math.random() * count.length ) ];
+            row[ "active" ] = active[ Math.floor( Math.random() * active.length ) ];
+            row[ "VIP" ] = VIP[ Math.floor( Math.random() * VIP.length ) ];
+            row[ "Top" ] = Top[ Math.floor( Math.random() * Top.length ) ];
+            row[ "chat" ] = chat[ Math.floor( Math.random() * chat.length ) ];
+            row[ "schema" ] = schema[ Math.floor( Math.random() * schema.length ) ];
+            data[ i ] = row;
+        }
+
+        var source = {
+            localdata: data,
+            datatype: "array",
+            pagesize: 2,
+            datafields: [
+                { name: 'num', type: 'number' },
+                { name: 'type', type: 'string' },
+                { name: 'count', type: 'number' },
+                { name: 'active', type: 'number' },
+                { name: 'VIP', type: 'number' },
+                { name: 'Top', type: 'number' },
+                { name: 'chat', type: 'number' },
+                { name: 'schema', type: 'number' }
+            ]
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter( source );
+
+        $( "#jqxgrid" ).jqxGrid(
+            {
+                theme: 'light',
+                width: '100%',
+                autoheight: true,
+                autorowheight: true,
+                pageable: true,
+                sortable: true,
+                filterable: true,
+                source: dataAdapter,
+                columnsresize: true,
+                columns: [        
+//                    { text: '№', datafield: 'num', width: 50 },
+                    { text: 'Тип', datafield: 'type', width: 225 },
+                    { text: 'Общ брой', datafield: 'count', width: 225 },
+                    { text: 'Активни', datafield: 'active', width: 225 },
+                    { text: 'VIP', datafield: 'VIP', width: 110, cellsalign: 'right'},
+                    { text: 'Top', datafield: 'Top', width: 225, cellsalign: 'right' },
+                    { text: 'Чат', datafield: 'chat', width: 225 },
+                    { text: 'Схема', datafield: 'schema' }
+                ]
+            } );
+
+    } );
+</script>
+<div id="jqxgrid">
+</div>

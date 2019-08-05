@@ -1,0 +1,1 @@
+UPDATE `offers` SET `extra_until_date` = `active_until_date`;

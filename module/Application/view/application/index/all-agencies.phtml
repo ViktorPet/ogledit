@@ -1,0 +1,44 @@
+<!-- Site Showcase -->
+<section class="module parallax parallax-6" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Agencies'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+  <div id="content" class="content full">
+    <div class="container">     
+        <div class="column-news col-md-12">                     
+            <?php foreach ($this->agencies as $key => $agency): ?>    
+                <?php if($_SESSION['lang'] == 'bg'):?>
+                <?php $agencyName = $agency->getNames();?>
+                <?php else: ?>
+                <?php $agencyName = $agency->getNamesEn();?>
+                <?php endif; ?>    
+                <div class="col-md-4 col-sm-6 agents-box">
+                    <form id="searchForm" name="searchForm" method="post" action="<?php echo $this->url('languageRoute/searchResults'); ?>">                    
+                        <input type="hidden" name="agency_id" id="agency_id" value="<?php echo $agency->getId(); ?>">                                       
+                        <a 
+                            title="<?php echo $agencyName;?>" 
+                            style="overflow: hidden" 
+                            name="search" 
+                            rel="tooltip" 
+                            data-toggle="tooltip" 
+                            data-original-title="<?php echo $agencyName;?>" 
+                            data-placement="top"
+                        >
+                            <?php if ($agency->getLogo() == '' || is_null($agency->getLogo())): ?>
+                            <p class="agencyNoImage"><?php echo $agencyName;?></p>
+                            <?php else: ?>
+                            <input style="height: 80px;max-width: 100%" type="image" name="submit" src="https://ogledi.bg/media/agents/<?php echo $agency->getId() . '/' . $agency->getLogo();?>" border="0" alt=" cle  
+                                   git " />                                    
+                            <?php endif; ?>    
+                        </a>
+                    </form>
+                </div>
+            <?php endforeach; ?>                                
+        </div>            
+    </div>
+  </div>
+</div>

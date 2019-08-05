@@ -1,0 +1,116 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo strtoupper($this->companyName); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">                       
+                        <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                        <?php if(!is_null($this->logo)):?>
+                            <img src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/media/agents/<?php echo $userId; ?>/<?php echo $this->logo; ?>" style="padding:1px; border:#ccc solid 1px;">
+                        <?php endif;?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>       
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='aa066c68' name='aa066c68' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=23&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a450eb4a&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=23&amp;cb=(new Date().getTime())&amp;n=a450eb4a' border='0' alt='' /></a></iframe>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 table-responsive">
+                                <h3>
+                                    <?php echo $this->language()->translate('Brokers'); ?>
+                                    <span style="float:right; font-size: 14px;">
+                                     <a href='<?php echo $this->url('languageRoute/myAgentsCreate', array('lang' => $_SESSION['lang'])); ?>'>
+                                      <i class="fa fa-plus"></i> <?php echo $this->language()->translate('add brokers'); ?></a>
+                                    </span>
+                                </h3>
+                                <hr>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th width='1'><?php echo $this->language()->translate('Picture'); ?></th>
+                                        <th><?php echo $this->language()->translate('Name'); ?></th>
+                                        <th><?php echo $this->language()->translate('Phone'); ?></th>
+                                        <th>E-mail</th>
+                                        <th><?php echo $this->language()->translate('Offers'); ?></th>
+                                        <th width='1'></th>
+                                    </tr>
+                                    </thead>
+                                    
+                                    
+                                    <tbody>
+                                    <script>
+                                        function confirmDelete(agentId) {
+                                            var res = confirm("Сигурни ли сте, че искате да изтриете този брокер?");
+                                            if (res == true) {
+                                                window.location.href = '/bg/my/agents/delete/' + agentId;
+                                            }
+                                        }
+                                    </script>
+
+                                        <?php foreach ($this->agents as $agent) {?>
+                                    <tr>
+                                        <?php if ($agent['logo'] != '') { ?>
+                                        <td><img src="https://ogledi.bg/media/agents/<?php echo $agent['id']; ?>/<?php echo $agent['logo'];?>" border="0" height="100" width="100"/></td>
+                                        <?php } else { ?>
+                                            <td><?php echo $this->language()->translate('Missing'); ?></td>
+                                        <?php } ?>
+                                        <td><?php echo $agent['names']; ?></td>
+                                        <td><?php echo $agent['phone']; ?></td>
+                                        <td><?php echo $agent['email']; ?></td>                                    
+                                        <td><?php echo $agent['agent_offers_count']; ?></td>                                                                               
+                                                                                                                
+                                        <td nowrap="nowrap">
+                                            <a rel="tooltip" title="Редакция" alt="Редакция" data-placement="top" href="<?php echo $this->url('languageRoute/myAgentsEdit', array('agentId' => $agent['id'])); ?>"><i class="fa fa-pencil"></i></a>
+                                            <a rel="tooltip" title="Изтриване" alt="Изтриване" data-placement="top" href="javascript: confirmDelete(<?php echo $agent['id']; ?>)"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

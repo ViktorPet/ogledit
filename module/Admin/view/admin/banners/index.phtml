@@ -1,0 +1,26 @@
+<h1>Хедъри</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Позиция</th>
+        <th>Снимка</th>
+        <th>Промяна</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->parallax as $key => $row) :?>
+        <tr>
+            <td><?php echo $row['text']; ?></td>
+            <td><img src="/img/parallax/<?php echo $row['name']; ?>"  style="height: 100px; max-width: 1000px;"></td>
+            <td><button class="btn table-button" style="margin: 3px;" onclick="adminBannersEdit(<?php echo $key; ?>)"><i class="fa fa-pencil" aria-hidden="true"></i></button></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+
+<script>
+    function adminBannersEdit(parallaxId) {
+        location.href = '<?php echo $this->url('languageRoute/adminBannersEdit'); ?>/' + parallaxId;
+    }
+</script>

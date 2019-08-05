@@ -1,0 +1,107 @@
+<h1>Фактури</h1>
+<div id="ajax-result"></div>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+    <input style='margin-top: 10px;' type="button" value="CSV" id='CSV' class="btn btn-primary"
+    onclick="openDialog('jqxgrid')"
+    />
+</div>
+<script type="text/javascript">
+    
+    $( document ).ready( function () {
+               
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminInvoicesData'); ?>';
+        var datafields = [
+            { name: 'id', type: 'int' },
+            { name: 'is_paid', type: 'int' },
+            { name: 'user_id', type: 'int' },
+            { name: 'invoice_date_updated', type: 'date' },
+            { name: 'total_amount', type: 'number' },
+            { name: 'payment_type_name', type: 'string' },
+            { name: 'user_phone', type: 'string' },
+            { name: 'user_names', type: 'string' },
+            { name: 'agency_name', type: 'string' }
+        ];
+
+        var columns = [
+            { text: 'Номер', datafield: 'id', width: 100 },
+            { text: 'Дата', datafield: 'invoice_date_updated', cellsformat: 'dd/MM/yyyy hh:mm' },
+            { text: 'Стойност', datafield: 'total_amount', width: 100 },
+            { text: 'Начин за плащане', datafield: 'payment_type_name', width: 150 },
+            {
+                text: 'Платена?',
+                datafield: 'is_paid',
+                width: 100,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                    var dataRecord = $( "#jqxgrid" ).jqxGrid( 'getrowdata', row );
+                    if (dataRecord.is_paid == 1) {
+                        return '<div style="margin: 10px">Да</div>';
+                    } else {
+                        return '<div style="margin: 10px">Не</div>'
+                    }
+                }
+            },
+            {text: 'Телефон', datafield: 'user_phone', width: 100 },
+            {text: 'Агент/Агенция', datafield: 'user_names', width: 200,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    
+                    return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 10px;"><a href="/bg/ogl-adm/agencies-edit/' + dataRecord.user_id + '">' + value + '</a></div>';
+
+                }},
+            {
+                text: 'Фактура',
+                datafield: '',
+                width: 85,
+                filterable: false,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {//                    
+                    var dataRecord = $( "#jqxgrid" ).jqxGrid( 'getrowdata', row );
+                    return '<button onclick="document.location.href=\'invoices/transaction/' + dataRecord.id + '\'" style = "margin-bottom: 5px; margin-top: 3px; margin-left: 3px;"class="btn btn-success" >Фактура</button>';                 
+
+                },
+                sortable: false
+            },
+            {
+                text: '',
+                datafield: 'Add',
+                width: 160,
+                filterable: false,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                    var dataRecord = $( "#jqxgrid" ).jqxGrid( 'getrowdata', row );
+                    if (dataRecord.is_paid == 0) {
+                        return '<button style = "margin-bottom: 5px; margin-top: 3px; margin-left: 3px;"class="btn btn-success" onclick="document.location.href=\'invoices/mark-paid/' + dataRecord.id + '\'" class="table-button">Маркирай Платено</button>'
+                    } else {
+                        return '';
+                    }
+
+                },
+                sortable: false
+            }
+        ];
+
+        dataGrid( id, url, datafields, columns );
+
+        $("#jqxgrid").jqxGrid({selectionmode: 'multiplerows'});
+
+    } );
+
+    // generate CSV
+    function openDialog(grid) {
+        // get all selected records.
+        var rows = $("#jqxgrid").jqxGrid('selectedrowindexes');
+        var selectedRecordsString = '';
+        for (var m = 0; m < rows.length; m++) {
+            var row = $("#jqxgrid").jqxGrid('getrowdata', rows[m]);
+            selectedRecordsString = selectedRecordsString + row.id + ','
+
+        }
+        if(selectedRecordsString !== '') {
+            selectedRecordsString = selectedRecordsString.substring(0, selectedRecordsString.length - 1);
+
+            location.href = '<?php echo $this->url('languageRoute/invoicesExportCsv'); ?>/' + selectedRecordsString;
+        }
+    }
+</script>
+

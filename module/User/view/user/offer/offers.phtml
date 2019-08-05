@@ -1,0 +1,343 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('My offers'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <h3 class=""><?php echo $this->language()->translate('My menu');?></h3>
+                        <?php if (!is_null($this->logo)): ?>
+                            <img src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/media/agents/<?php echo $userId; ?>/<?php echo $this->logo; ?>" style="padding:1px; border:#ccc solid 1px;">
+                        <?php endif; ?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='a5ec97f8' name='a5ec97f8' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=20&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a38f9b3e&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=20&amp;cb=(new Date().getTime())&amp;n=a38f9b3e' border='0' alt='' /></a></iframe>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 table-responsive">
+                                <h3>
+                                    <span>
+                                        <button type="button" id="sales" class="btn my-offers-btn <?php echo ($this->filterType == '') ? 'btn-success' : ''; ?> col-md-12" onclick="window.location.href = '<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>'"><?php echo $this->language()->translate('Sales'); ?></button>
+                                        <button type="button" id="sales" class="btn my-offers-btn <?php echo ($this->filterType == 'rent') ? 'btn-success' : ''; ?> col-md-12" onclick="window.location.href = '<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'], 'filterType' => 'rent')); ?>'"><?php echo $this->language()->translate('Rents'); ?></button>
+                                        <button type="button" id="sales" class="btn my-offers-btn <?php echo ($this->filterType == 'nights') ? 'btn-success' : ''; ?> col-md-12" onclick="window.location.href = '<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'], 'filterType' => 'nights')); ?>'"><?php echo $this->language()->translate('Nights'); ?></button>
+                                        <button type="button" id="sales" class="btn my-offers-btn <?php echo ($this->filterType == 'expired') ? 'btn-success' : ''; ?> col-md-6" onclick="window.location.href = '<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'], 'filterType' => 'expired')); ?>'"><?php echo $this->language()->translate('For payment'); ?></button>
+                                        <button type="button" id="sales" class="btn my-offers-btn <?php echo ($this->filterType == 'archive') ? 'btn-success' : ''; ?> col-md-6" onclick="window.location.href = '<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'], 'filterType' => 'archive')); ?>'"><?php echo $this->language()->translate('Archive'); ?></button>
+                                    </span>
+                                    <span style="float:right; font-size: 14px;">
+                                        <a href='<?php echo $this->url('languageRoute/myOffersCreate', array('lang' => $_SESSION['lang'])); ?>'>
+                                            <i class="fa fa-plus"></i> <?php echo $this->language()->translate('Add offer'); ?></a>
+                                    </span>
+                                </h3>
+                                <hr>
+                                <?php
+                                if ($this->offers->count() == 0) {
+                                    ?>
+                                    <?php echo $this->language()->translate('No Offers'); ?>
+                                <?php } else { ?>
+                                    <table class="table table-bordered">
+                                        <form name="addToCart" id="addToCart" action="<?php echo $this->url('languageRoute/myCartAddExpired', array('lang' => $_SESSION['lang'])); ?>" method="post" >
+                                            <thead>
+                                                <tr class="back-lightgray">
+                                                    <?php if ($this->filterType == 'expired') { ?>
+                                                        <th><input type="checkbox" name="selectAll" value="1" onchange="$('.offers_to_pay').prop('checked', this.checked)"></th>
+                                                    <?php } ?>
+                                                    <th>№</th>
+                                                    <th width='1'><?php echo $this->language()->translate('Picture'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Kind'); ?>&nbsp;<?php echo $this->language()->translate('Property'); ?></th>
+                                                    <th class="seen-by-client"><i class="fa fa-eye" aria-hidden="true"></i></th>
+                                                    <th><?php echo $this->language()->translate('Neighborhood'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Price'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Area'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Introduced'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Photoshot'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Expire'); ?></th>
+                                                    <th><?php echo $this->language()->translate('Status'); ?></th>
+                                                    <?php if ($this->filterType == 'archive') { ?>
+                                                        <th>&nbsp;</th>
+                                                    <?php } ?>
+                                                    <th>&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <script>
+                                                var confirmDelete = function (offerId) {
+                                                    var res = confirm("Сигурни ли сте, че искате да изтриете или спрете обявата?");
+                                                    var filterType = '<?php echo $this->filterType; ?>';
+                                                    if (res == true) {
+                                                        if(filterType == '') {
+                                                            window.location.href = '<?php echo $this->url('languageRoute/myOffersDelete', array('lang' => $_SESSION['lang'] )); ?>' + offerId;
+                                                        } else {
+                                                            window.location.href = '<?php echo $this->url('languageRoute/myOffersDelete', array('lang' => $_SESSION['lang'] )); ?>' + offerId + '/' + '<?php echo $this->filterType; ?>';
+                                                        }
+                                                    }
+                                                }
+                                            </script>
+
+                                            <?php
+                                            foreach ($this->offers as $offer) {
+                                                if ($this->filterType == 'expired') {
+                                                    $offerTransaction = $offersLastTransaction[$offer->getId()];
+                                                }
+                                                ?>
+                                                <tr>
+                                                    <?php if ($this->filterType == 'expired') { ?>
+                                                        <td><input type="checkbox" name="offers_to_pay[]" value="<?php echo $offer->getId(); ?>" class="offers_to_pay"></td>
+                                                    <?php } ?>
+                                                    <td>
+                                                        <?php if ($offer->getOfferStatusId() == 4): ?>
+                                                            <?php $offerUrl = $this->pages()->generateOfferUrl($offer->getId(), $offer->getOfferTypeName(), $offer->getPropertyTypeName(), $offer->getCityName()); ?>
+                                                            <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>" target="_blank"><?php echo $offer->getId(); ?></a>
+                                                        <?php else: ?>
+                                                            <?php echo $offer->getId(); ?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <?php if ($offer->getImage() != '') { ?>
+                                                        <td><img src="https://ogledi.bg/media/offers/<?php echo $offer->getId(); ?>/front-<?php echo $offer->getImage(); ?>" border="0" width="100"/></td>
+                                                    <?php } else { ?>
+                                                        <td><?php echo $this->language()->translate('Missing'); ?></td>
+                                                    <?php } ?>
+                                                    <td><?php echo $offer->getPropertyTypeName(); ?></td>
+                                                    <td ><?php echo $offer->getCounter() ?></td>
+                                                    <td><?php echo $offer->getNeighbourhoodName(); ?></td>
+                                                    <td align="right"><?php echo number_format($offer->getPrice(), 0, '.', ',') . '&nbsp;' . $offer->getCurrencyShortName(); ?></td>
+                                                    <td align="right"><?php echo $offer->getArea(); ?></td>
+
+                                                    <?php $date = date_create($offer->getDateCreated()); ?>
+                                                    <td><?php echo date_format($date, 'd/m/y H:i:s'); ?></td>
+                                                    <?php $date = date_create($offer->getPhotographerAppointment()); ?>
+                                                    <td><?php echo date_format($date, 'd/m/y H:i:s'); ?></td>
+                                                    <?php $date = date_create($offer->getActiveUntilDate()); ?>
+                                                    <td><?php echo date_format($date, 'd/m/y H:i:s'); ?></td>
+                                                    <?php
+                                                    if ($offer->getOfferStatusId() == 2) {
+                                                        $statusColor = '#f3ce8d';
+                                                    } else if ($offer->getOfferStatusId() == 3) {
+                                                        $statusColor = '#f4f877';
+                                                    } else if ($offer->getOfferStatusId() == 4) {
+                                                        $statusColor = '#96e876';
+                                                    } else if ($offer->getOfferStatusId() == 5) {
+                                                        $statusColor = '#e87976';
+                                                    } else if ($offer->getUserOfferStatusId() == 1) {
+                                                        $statusColor = '#b1dce6';
+                                                    } else {
+                                                        $statusColor = '#dddddd';
+                                                    }
+                                                    ?>
+                                                    <?php
+                                                    $status =  $offer->getUserOfferStatusName() ? $offer->getUserOfferStatusName() : $offer->getOfferStatusName();
+                                                    if ($this->filterType == 'rent' && $status == 'Продадена') {
+                                                        $status = 'Отдадена';
+                                                    }
+                                                    ?>
+                                                    <td style="text-align: center; background-color: <?php echo $statusColor; ?>" nowrap="nowrdap">
+                                                        <?php if($status == 'Изтекла') {
+                                                            $status = 'За актуализация';
+                                                        } ?>
+                                                        <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                                           data-toggle="tooltip"
+                                                           data-original-title="<?php echo $this->language()->translate($status); ?>"
+                                                           data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a></td>
+                                                    <td nowrap="nowrap">
+
+                                                        <a rel="tooltip" title="Медия" alt="Медия" data-placement="top" href="<?php echo $this->url('languageRoute/myOffersMedia', array('lang' => $_SESSION['lang'], 'offerId' => $offer->getId())); ?>"><i class="fa fa-camera"></i></a>
+
+                                                        <a rel="tooltip" title="Редакция" alt="Редакция" data-placement="top" href="<?php echo $this->url('languageRoute/myOffersEdit', array('lang' => $_SESSION['lang'], 'offerId' => $offer->getId())); ?>"><i class="fa fa-pencil"></i></a>
+                                                        <a rel="tooltip" title="Изтриване / Спиране" alt="Изтриване / Спиране" data-placement="top" href="javascript: confirmDelete(<?php echo $offer->getId(); ?>)"><i class="fa fa-trash"></i></a>
+                                                        <br>
+                                                        <?php if (!empty($this->brokers)): ?>
+                                                            <select onchange="changeBrokerForOffer(this)" style="width: 50px">
+                                                                <option value="<?php echo $userId . '.' . $offer->getId(); ?>"><?php echo $this->language()->translate('Choose broker'); ?></option>
+                                                                <?php foreach ($this->brokers as $brokerId => $name): ?>
+                                                                    <option <?php if ($offer->getUserId() == $brokerId) {
+                                                                        echo 'selected';
+                                                                    } ?> value="<?php echo $brokerId . '.' . $offer->getId(); ?>"><?php echo $name; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php if ($this->filterType == 'archive') { ?>
+                                                    <td nowrap="nowrap">
+                                                        <a rel="tooltip" title="<?php echo $this->language()->translate('Activate'); ?>" alt="<?php echo $this->language()->translate('Activate'); ?>" data-placement="top" href="<?php echo $this->url('languageRoute/myOffersActivate', array('lang' => $_SESSION['lang'], 'offerId' => $offer->getId())); ?>"><i class="fa fa-hand-o-up"></i></a>
+                                                    </td>
+                                                <?php } ?>
+                                                </tr>
+                                                <?php if ($this->filterType == 'expired') { ?>
+                                                    <tr>
+                                                        <td colspan="13" align="right">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="option-for-pay">
+                                                                        <?php echo $this->language()->translate('Top'); ?>
+                                                                        <input type="checkbox" class="top_offer" id="top_offer_<?php echo $offer->getId() ?>" data-offer-id="<?php echo $offer->getId() ?>" name="offer[<?php echo $offer->getId() ?>][top]" value="1" type="checkbox" <?php echo (!is_null($offerTransaction) && $offerTransaction->getIsTop() == 1) ? 'checked' : '' ?>>
+                                                                    </td>
+                                                                    <td class="option-for-pay">
+                                                                        <?php echo $this->language()->translate('Vip'); ?>
+                                                                        <input type="checkbox"  class="vip_offer"  id="vip_offer_<?php echo $offer->getId() ?>" data-offer-id="<?php echo $offer->getId() ?>" name="offer[<?php echo $offer->getId() ?>][vip]" value="1" type="checkbox" <?php echo (!is_null($offerTransaction) && $offerTransaction->getIsVip() == 1) ? 'checked' : '' ?>>
+                                                                    </td>
+<!--                                                                    <td class="option-for-pay">-->
+<!--                                                                        --><?php //echo $this->language()->translate('Chat'); ?>
+<!--                                                                        <input type="checkbox"  data-offer-id="<?php echo $offer->getId() ?>" id="chat_offer_--><?php //echo $offer->getId() ?><!--" name="offer[--><?php //echo $offer->getId() ?><!--][chat]" value="1" type="checkbox" --><?php //echo (!is_null($offerTransaction) && $offerTransaction->getIsChat() == 1) ? 'checked' : '' ?><!-->
+<!--                                                                    </td>-->
+                                                                    <td class="option-for-pay">
+                                                                        <?php echo $this->language()->translate('Scheme'); ?>
+                                                                        <input type="checkbox" id="schema_offer_<?php echo $offer->getId() ?>" name="offer[<?php echo $offer->getId() ?>][schema]" value="1" type="checkbox" <?php echo (!is_null($offerTransaction) && $offerTransaction->getIsSchema() == 1) ? 'checked' : '' ?>>
+                                                                    </td>
+                                                                    <td class="option-for-pay">
+                                                                        <select name="offer[<?php echo $offer->getId() ?>][extra_weeks]" id="extra_weeks_<?php echo $offer->getId() ?>">
+                                                                            <option value="">Без промяна</option>
+                                                                            <?php
+                                                                            foreach (range(1, 10) as $number) {
+                                                                                $extraWeeks = null;
+                                                                                if (!is_null($offerTransaction)) {
+                                                                                    $extraWeeks = $offerTransaction->getExtraWeeks();
+                                                                                }
+
+                                                                                if ($_SESSION['lang'] == 'bg') {
+                                                                                    $weeksLabel = $number === 1 ? ' седмица' : ' седмици';
+                                                                                } else {
+                                                                                    $weeksLabel = $number === 1 ? ' week' : ' weeks';
+                                                                                }
+
+                                                                                if ($extraWeeks == $number) {
+                                                                                    echo "<option value=\"$number\" selected>$number $weeksLabel</option>";
+                                                                                } else {
+                                                                                    echo "<option value=\"$number\">$number $weeksLabel</option>";
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+
+                                                                        <?php echo '|';?><span><?php echo $this->language()->translate('I want to pay from'); ?></span>
+
+                                                                        <select name="offer[<?php echo $offer->getId() ?>][weeks]">
+                                                                            <!--<option value="">Без промяна</option>-->
+                                                                            <?php
+                                                                            foreach (range(1, 10) as $number) {
+                                                                                $weeks = null;
+                                                                                if (!is_null($offerTransaction)) {
+                                                                                    $weeks = $offerTransaction->getWeeks();
+                                                                                }
+
+                                                                                if ($_SESSION['lang'] == 'bg') {
+                                                                                    $weeksLabel = $number === 1 ? ' седмица' : ' седмици';
+                                                                                } else {
+                                                                                    $weeksLabel = $number === 1 ? ' week' : ' weeks';
+                                                                                }
+
+                                                                                if ($weeks == $number) {
+                                                                                    echo "<option value=\"$number\" selected>$number $weeksLabel</option>";
+                                                                                } else {
+                                                                                    echo "<option value=\"$number\">$number $weeksLabel</option>";
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <?php if(in_array($offer->getId(), $this->errors)) { ?>
+                                                        <tr>
+                                                            <td colspan="13">
+                                                                <?php echo $this->render('layout/flash-messages.phtml'); ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            </tbody>
+                                        </form>
+                                    </table>
+                                    <?php if ($this->filterType == 'expired') { ?>
+                                        <div class="col-md-6 col-sm-6">
+                                            <button type="button" id="submitCart" onclick="$('#addToCart').submit()" class="btn btn-success col-md-11 hidemenow"><?php echo $this->language()->translate('Renew selected'); ?></button>
+                                        </div>
+                                    <?php } ?>
+                                    <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changeBrokerForOffer(element) {
+        var ids = element.value.split(".");
+        //BrokerId ids[0]
+        //OfferId ids[1]
+
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url('languageRoute/editOfferBroker'); ?>/' + ids[0] + '/' + ids[1],
+            success: function (data) {
+            }
+        });
+    }
+</script>
+<script>
+    $('.vip_offer').on('click', function () {
+        var id = $(this).attr('id').replace('vip_offer_', '');
+        $('#top_offer_' + id).attr('checked', !$(this).is(":checked"));
+    });
+
+    $('.top_offer').on('click', function () {
+        var id = $(this).attr('id').replace('top_offer_', '');
+        $('#vip_offer_' + id).attr('checked', !$(this).is(":checked"));
+    });
+
+</script>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<script>
+
+    $('.vip_offer, .top_offer, .chat_offer').on('change', function () {
+        $("#extra_weeks_" + $(this).data('offer-id')).val("1");
+    });
+
+</script>

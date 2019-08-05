@@ -1,0 +1,55 @@
+<br>
+<button id="invoiceBack" class="btn btn-success">Назад</button>
+<br>
+<br>
+<?php
+if ($this->cartItems->count() > 0) {
+    ?>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="back-lightgray">
+            <th>Тип</th>
+            <th>Вид имот</th>
+            <th>Площ</th>
+            <th>VIP</th>
+            <th>Top</th>
+            <th>Чат</th>
+            <th>Схема</th>
+            <th>Заснемане</th>
+            <th>Седмици</th>
+            <th>ОБЩО</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($this->cartItems as $item) {            
+            $totalDue += $item->getTotalPrice();
+            ?>
+            <tr>
+                <td><?php echo $item->getOfferTypeName(); ?></td>
+                <td><?php echo $item->getPropertyTypeName(); ?></td>
+                <td><?php echo $item->getArea(); ?> кв.м.</td>
+                <td><?php echo number_format($item->getVipPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getTopPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getChatPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getSchemaPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getPhotoshootPerSqPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getWeeklyPrice(), 2, '.', ','); ?> лв.</td>
+                <td><?php echo number_format($item->getTotalPrice(), 2, '.', ','); ?> лв.</td>                
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+<?php
+}
+?>
+<hr>
+<div class="col-md-12 col-sm-4"><h4>ОБЩО ДЪЛЖИМА СУМА: <strong><?php echo number_format($totalDue, 2, '.', ','); ?> лв.</strong></h4></div>
+<script type="text/javascript">    
+    
+    document.getElementById("invoiceBack").onclick = function (event) {
+        event.preventDefault(); 
+        location.href = '<?php echo $this->url('languageRoute/adminInvoices'); ?>';
+    };
+    
+</script>

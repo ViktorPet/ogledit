@@ -1,0 +1,1 @@
+ALTER TABLE `offers` ADD user_panorama_file VARCHAR(255) NULL;

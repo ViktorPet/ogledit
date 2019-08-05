@@ -1,0 +1,66 @@
+<h1>Брокери</h1>
+<div id="ajax-result"></div>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {  
+
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminAgentData') . '/' . $this->agencyID; ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'date_created', type: 'date'},
+            {name: 'logo', type: 'string'},
+            {name: 'names', type: 'string'},
+            {name: 'user_type', type: 'string'},
+            {name: 'phone', type: 'string'},
+            {name: 'email', type: 'string'},
+        ];
+              
+        
+        var columns = [
+//            {text: 'ID', datafield: 'id'},
+            {text: 'Дата', datafield: 'date_created', cellsformat: 'd-MM-yyyy HH:mm', width:130},
+            {text: 'Лого', datafield: 'logo', width: 120, filterable: false, sortable: false,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    return '<img border="0" height="75" src="/media/agents/' + dataRecord.id + '/' + value + '" />';
+                }    
+        
+        },
+            {text: 'Име', datafield: 'names', width:250},
+            {text: 'Статус', datafield: 'user_type', width:150},
+            {text: 'Телефон', datafield: 'phone', width:100},
+            {text: 'Е-майл', datafield: 'email'},            
+             {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminAgentDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' + 
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>' ;
+                    
+                }
+            },        
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);   
+        
+         //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    
+    });
+    
+    function openDialog(agentId) {      
+        location.href = '<?php echo $this->url('languageRoute/adminAgentEdit'); ?>/' + agentId;        
+    }
+     
+</script>
+

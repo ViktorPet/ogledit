@@ -1,0 +1,86 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo strtoupper($this->companyName); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                        <?php if(!is_null($this->logo)):?>
+                            <img src="https://ogledi.bg/media/agents/<?php echo $userId; ?>/<?php echo $this->logo;?>" style="padding:1px; border:#ccc solid 1px;">                             
+                        <?php endif;?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>       
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='a8e48176' name='a8e48176' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=19&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=aed53494&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=19&amp;cb=(new Date().getTime())&amp;n=aed53494' border='0' alt='' /></a></iframe>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-4">
+                                <h3>
+                                    <?php echo $this->language()->translate('Brokers'); ?>                                    
+                                    <span style="float:right; font-size: 14px;">
+                                     <a href='#'>
+                                      <i class="fa fa-plus"></i> <?php echo $this->language()->translate('add brokers'); ?> </a>
+                                    </span>
+                                </h3>
+                                <hr>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th width='1'><?php echo $this->language()->translate('Picture'); ?></th>
+                                        <th><?php echo $this->language()->translate('Name'); ?></th>
+                                        <th><?php echo $this->language()->translate('Phone'); ?></th>
+                                        <th>е-майл</th>
+                                        <th><?php echo $this->language()->translate('Offers'); ?></th>
+                                        <th width='1'></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<h1>Агенции</h1>
+<div id="ajax-result"></div>
+<button id="createAgency" type="submit" name="submit" class="btn btn-success">Въвеждане на агенция</button>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {  
+        
+        document.getElementById("createAgency").onclick = function () {
+            location.href = '<?php echo $this->url('languageRoute/adminAgenciesCreate'); ?>';
+        };
+        
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminAgenciesData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'date_created', type: 'date'},
+            {name: 'logo', type: 'string'},
+            {name: 'names', type: 'string'},
+            {name: 'user_type', type: 'string'},
+            {name: 'phone', type: 'string'},
+            {name: 'email', type: 'string'},
+            {name: 'offers_count', type: 'string'},
+            {name: 'active_count', type: 'string'},
+            {name: 'vat_number', type: 'string'}
+        ];
+              
+        
+        var columns = [
+//            {text: 'ID', datafield: 'id'},
+            {text: 'Дата', datafield: 'date_created', cellsformat: 'd-MM-yyyy HH:mm', width:130},
+            {text: 'Лого', datafield: 'logo', width: 120, filterable: false, sortable: false,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    return '<img border="0" height="100" src="/media/agents/' + dataRecord.id + '/' + value + '" />';
+                }    
+        
+        },
+            {text: 'Име', datafield: 'names', width:150},
+            {text: 'Статус', datafield: 'user_type', width:100},
+            {text: 'Булстат', datafield: 'vat_number', width:100},
+            {text: 'Телефон', datafield: 'phone', width:100},
+            {text: 'Е-майл', datafield: 'email', width:150},
+            {text: 'Общо обяви', datafield: 'offers_count', filterable: false},
+            {text: 'Активни обяви', datafield: 'active_count', filterable: false},
+            {
+                text: '',
+                datafield: 'Add',
+                width: 130,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    return '<button style = "margin-bottom: 3px; margin-top: 3px; margin-left: 3px;"class="btn btn-success" onclick="openDialog2(\'' + dataRecord.id + '\')" class="table-button">Добави брокер</button>' + 
+                     '<button style = "margin-bottom: 3px;margin-left: 3px;"class="btn btn-success" onclick="openDialog3(\'' + dataRecord.id + '\')" class="table-button">Виж брокери</button>' + 
+                     '<button style = "margin-left: 3px;"class="btn btn-success" onclick="openDialog4(\'' + dataRecord.id + '\')" class="table-button">Виж транзакции</button>';
+                }
+            },        
+             {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminAgenciesDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' + 
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                    
+                }
+            },        
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);   
+        
+         //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    
+    });
+    
+    function openDialog(agencyId) {      
+        location.href = '<?php echo $this->url('languageRoute/adminAgenciesEdit'); ?>/' + agencyId;        
+    }
+    
+    function openDialog2(agencyId) {      
+        location.href = '<?php echo $this->url('languageRoute/adminAgentCreate'); ?>/' + agencyId;        
+    }
+    
+    function openDialog3(agencyId) {      
+        location.href = '<?php echo $this->url('languageRoute/adminAgent'); ?>/' + agencyId;        
+    }
+    
+    function openDialog4(agencyId) {      
+        location.href = '<?php echo $this->url('languageRoute/adminAgenciesTransactions'); ?>/' + agencyId;        
+    }
+</script>
+

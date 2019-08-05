@@ -1,0 +1,110 @@
+<h1>Достъп</h1>
+
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {             
+                
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url('languageRoute/adminPermissionsTestData'); ?>',
+            success: function (data) {
+
+                // Show Team          
+                var id = 'admin_id';
+                var url = '<?php echo $this->url('languageRoute/adminPermissionsData'); ?>';          
+
+                var pages = new Array();
+                var columnsAdded = new Array();
+
+                var sortable = [];
+                for (var key in data['permissions']) {
+                    sortable.push([key, data['permissions'][key]]);
+                    sortable.sort(
+                        function(a, b) {
+                            var x=a[1].toLowerCase(),
+                                y=b[1].toLowerCase();
+                            return x<y ? -1 : x>y ? 1 : 0;
+                        }
+                    );
+                }
+
+                for (var key in sortable) {                                                   
+                    var obj = sortable[key][1];
+                    var page = {name: sortable[key][1], type:"string"};
+                    var column = 
+                    {
+                        text: obj, 
+                        datafield: obj, 
+                        columntype: 'text',                        
+                        width: 150,
+                        type: 'bool',
+                        sortable: false,
+                        filterable: false,
+                        cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {                                                     
+                            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);                                   
+                            if(value == 1) {                                
+                                return '<input type="checkbox" checked onclick="openDialog(\'' + dataRecord.admin_id + '\', \'' +columnfield + '\', \'' +value + '\' )" style="margin:15px" >';
+                            }
+                            else {
+                                return '<input type="checkbox" onclick="openDialog(\'' + dataRecord.admin_id + '\', \'' +columnfield + '\', \'' +value + '\' )" style="margin:15px">';
+                            }
+                        }
+                    };
+                    
+                    pages.push(page);
+                    columnsAdded.push(column);
+                    
+                }
+
+                var datafields = [
+                    {name: 'admin_id', type: 'string'},            
+                    {name: 'first_name', type: 'string'},            
+                    {name: 'last_name', type: 'string'},                                
+
+                ];
+
+                datafields = datafields.concat(pages);
+
+                
+                
+                var columns = [
+//                    {text: 'ID', datafield: 'admin_id', width: 50, sortable: false, filterable: false},
+                    {text: '№', datafield: '', width: 50, sortable: false, filterable: false, pinned:true,
+                       cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {                                                     
+                            var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);                                                                                              
+                            return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 12px;">' + (row+1) + '</div>'
+                        } 
+                    },
+                    {text: 'Име', datafield: 'first_name', width: 150, sortable: false, filterable: false, pinned:true},     
+                    {text: 'Фамилия', datafield: 'last_name', width: 150, sortable: false, filterable: false, pinned:true}                                                         
+                ];                
+                
+                columns = columns.concat(columnsAdded);
+
+                dataGrid(id, url, datafields, columns, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, false)   
+
+
+            }
+        });        
+    });
+
+// Edit Commision Settings
+    function openDialog(id, columnfield, value) {                           
+        if(value == 0) {
+            value = 1;
+        }
+        else {
+            value = 0;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url('languageRoute/adminPermissionsEdit'); ?>/' + id + '/' + columnfield + '/' + value,         
+            success: function (data) {                
+//                $("#dialog-form").html(data);
+            }
+        });
+    }     
+</script>

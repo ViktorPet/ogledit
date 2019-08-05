@@ -1,0 +1,83 @@
+<div id="ajax-result"></div>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+    <input style='margin-top: 10px;' type="button" value="Export to PDF" id='excelExport' class="btn btn-primary" />
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminTransactionData') . '/' . $this->invoiceId; ?>';
+        var exportUrl = '<?php echo $this->url('languageRoute/adminInvoiceExport'). '/' . $this->invoiceId; ?>';
+        var datafields = [
+            {name: 'offerId', type: 'string'},
+            {name: 'offerTypeName', type: 'string'},
+            {name: 'propertyTypeName', type: 'string'},
+            {name: 'area', type: 'string'},
+            {name: 'vipPrice', type: 'string'},
+            {name: 'topPrice', type: 'string'},
+            {name: 'chatPrice', type: 'string'},
+            {name: 'schemaPrice', type: 'string'},
+            {name: 'photoshootPerSqPrice', type: 'string'},
+            {name: 'weeklyPrice', type: 'string'},
+            {name: 'totalPrice', type: 'string'},
+        ];
+
+        var columns = [
+            {text: '№ на оферта', datafield: 'offerId',
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 10px;"><a href="/bg/ogl-adm/offers-edit/' + value + '">' + value + '</a></div>';
+                }},
+            {text: 'Тип', datafield: 'offerTypeName', width: 110},
+            {text: 'Вид имот', datafield: 'propertyTypeName', width: 250},
+            {text: 'Площ', datafield: 'area', width: 150,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> кв.м.</span></div>';
+                }},
+            {text: 'Vip', datafield: 'vipPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Top', datafield: 'topPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Чат', datafield: 'chatPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Схема', datafield: 'schemaPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Заснемане', datafield: 'photoshootPerSqPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Седмици', datafield: 'weeklyPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }},
+            {text: 'Общо', datafield: 'totalPrice', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="margin-right: 2px; margin-left: 4px; margin-top: 10px;">' + value + '<span> лв.</span></div>';
+                }}
+
+        ];
+
+        dataGrid(id, url, datafields, columns, exportUrl);
+
+    });
+
+</script>
+<br>
+<button id="invoiceBack" class="btn btn-success">Назад</button>
+<br>
+<script>
+   document.getElementById("invoiceBack").onclick = function (event) {
+        event.preventDefault();
+        location.href = '<?php echo $this->url('languageRoute/adminInvoices'); ?>';
+    };
+</script>
+

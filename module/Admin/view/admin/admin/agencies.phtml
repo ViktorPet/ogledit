@@ -1,0 +1,38 @@
+<h1>Блог</h1>
+<div id="ajax-result"></div>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {    
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminAgenciesData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'user_id', type: 'int'},
+            {name: 'agency_type_id', type: 'int'},
+            {name: 'name_bg', type: 'string'},
+            {name: 'name_en', type: 'string'},
+            {name: 'description_bg', type: 'string'},
+            {name: 'description_en', type: 'string'},
+            {name: 'date_created', type: 'date'},
+            {name: 'date_updated', type: 'date'}
+        ];
+        
+        var columns = [
+            {text: 'id', datafield: 'id'},
+            {text: 'user_id', datafield: 'user_id'},
+            {text: 'agency_type_id', datafield: 'agency_type_id'},          
+            {text: 'name_bg', datafield: 'name_bg'},
+            {text: 'name_en', datafield: 'name_en'},
+            {text: 'description_bg', datafield: 'description_bg'},
+            {text: 'description_en', datafield: 'description_en'},
+            {text: 'date_created', datafield: 'date_created', cellsformat: 'yyyy-MM-d HH:mm'},
+            {text: 'date_updated', datafield: 'date_updated', cellsformat: 'yyyy-MM-d HH:mm'}
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);                
+    
+    });
+</script>

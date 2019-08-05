@@ -1,0 +1,301 @@
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        <?php echo $this->offer->getOfferTypeName() . ' ' . $this->offer->getPropertyTypeName() . ' ' . $this->offer->getCityName() ?>
+                        <?php if ($this->offer->getUserOfferStatusId() == 2) { ?>
+                        <span><?php echo '(' . ($this->offer->getOfferTypeId() == 1) ? '(' . mb_strtoupper($this->language()->translate('Sold')) . ')' : '(' . mb_strtoupper($this->language()->translate('Given up')) . ')'; ?></span>
+                            <?php } elseif ($this->offer->getUserOfferStatusId() == 3) { ?>
+                            <span><?php echo '(' . mb_strtoupper($this->language()->translate('Deposit')) . ')'; ?></span>
+                                <?php } ?>
+                    </h1>
+                    <?php if ($this->offer->getPanoramaFile() == 'y') { ?>
+                        <?php if (is_null($this->offer->getUserPanoramaFile())) { ?>
+                            <?php if (is_null($this->offer->getAlternativeIdFile()) || ($this->offer->getOfferStatusId() == 4)) { ?>
+                                <iframe src="https://ogledi.bg/media/pano/<?php echo $this->offer->getId(); ?>/index.html" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                <div style="text-align: center;">
+                                    <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                       data-toggle="tooltip"
+                                       data-original-title="<?php echo $this->language()->translate('Preview-offer-panorama-tooltip');?>"
+                                       data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                </div>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <iframe src="<?php echo $this->offer->getUserPanoramaFile(); ?>" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            <div style="text-align: center;">
+                                <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                   data-toggle="tooltip"
+                                   data-original-title="<?php echo $this->language()->translate('Preview-offer-panorama-tooltip');?>"
+                                   data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                            </div>
+                        <?php } ?>
+                    <?php } ?>
+                    <hr>
+                </div>
+                <div class="col-md-6">
+                    <div class="single-property">
+                        <span class="property_zoom_level" id="4"></span>
+                        <h2 class="page-title"> <?php echo number_format($this->offer->getPrice(), 0, '.', ',') . ' ' . $this->offer->getCurrencyShortName(); ?></h2>
+                        <div class="tabs">
+                            <div id="address">
+                                <strong><?php echo $this->language()->translate('Location'); ?>:</strong> <?php echo $this->offer->getCityName() . ', ' . $this->offer->getNeighbourhoodName() . (($this->offer->getStreet() ? ', ' . $this->offer->getStreet() : '')); ?><br>
+                                <?php if ($this->offer->getPropertyTypeId() != 20) { ?>
+                                    <strong><?php echo $this->language()->translate('Construction'); ?>:</strong> <?php echo $this->offer->getBuildingTypeName(); ?><br>
+                                    <strong><?php echo $this->language()->translate('Area'); ?>:</strong> <?php echo $this->offer->getArea(); ?> <?php echo $this->language()->translate('Square meters'); ?> <br>
+                                    <strong><?php echo $this->language()->translate('Heating sistems'); ?>:</strong> <?php echo $this->offer->getHeatingSystemName(); ?><br>
+                                    <strong><?php echo $this->language()->translate('Construction year'); ?>:</strong> <?php echo $this->offer->getConstructionYear(); ?><br>
+                                    <strong><?php echo $this->language()->translate('Floor'); ?>:</strong> <?php echo number_format($this->offer->getFloor(), 0); ?><br>
+                                    <strong><?php echo $this->language()->translate('Rooms'); ?>:</strong> <?php echo number_format($this->offer->getTotalRooms(), 0); ?><br>
+                                    <strong><?php echo $this->language()->translate('Bathrooms'); ?>:</strong> <?php echo number_format($this->offer->getBathrooms(), 0); ?><br>
+                                    <strong><?php echo $this->language()->translate('Parking slots'); ?>:</strong> <?php echo number_format($this->offer->getParkingSlots(), 0); ?><br>
+                                <?php } else { ?>
+                                    <strong><?php echo $this->language()->translate('Area'); ?>:</strong> <?php echo $this->offer->getArea(); ?> <?php echo $this->language()->translate('Square meters'); ?> <br>
+                                <?php } ?>
+                            </div>
+                            <br>
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <i class="fa fa-caret-down"></i> <a data-toggle="tab" href="#description"><?php echo $this->language()->translate('Information'); ?> </a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-caret-down"></i> <a data-toggle="tab" href="#amenities"><?php echo $this->language()->translate('Extras'); ?> </a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-caret-down"></i> <a data-toggle="tab" href="#offer-map" onclick="setTimeout('initPreviewMapCoordinates()', 750)"><?php echo $this->language()->translate('Map'); ?> </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="description" class="tab-pane active"><?php echo $this->offer->getInformation(); ?></div>
+                                <div id="amenities" class="tab-pane">
+                                    <div class="additional-amenities">
+                                        <?php if ($this->offer->getPropertyTypeId() != 20) { ?>
+                                            <?php if ($this->propertyOfferFeatures->count() > 0) { ?>
+                                                <?php foreach ($this->propertyOfferFeatures as $propType) { ?>
+                                                    <div class="col-md-6">
+                                                        <i class="fa fa-check-square"></i> <?php echo $this->language()->translate($propType->getName()); ?>
+                                                    </div>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <?php if ($this->parcelOfferFeatures->count() > 0) { ?>
+                                                <?php foreach ($this->parcelOfferFeatures as $propType) { ?>
+                                                    <div class="col-md-6">
+                                                        <i class="fa fa-check-square"></i> <?php echo $propType->getName(); ?>
+                                                    </div>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        <?php } ?>
+                                        <br clear="all">
+                                    </div>
+                                </div>
+                                <div id="offer-map" class="tab-pane">
+                                    <input value="<?php echo $this->offer->getLat(); ?>" name="lat" id="lat" class="form-control" type="hidden">
+                                    <input value="<?php echo $this->offer->getLng(); ?>" name="lng" id="lng" class="form-control" type="hidden">
+                                    <div id="map" style="height: 200px;"></div>
+                                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMELOAUfSIOsxgVCrEK2tYO6qnNC3RskM&callback=initPreviewMapCoordinates">
+                                    </script>
+                                </div>
+                                <hr>
+                                <div>
+
+                                <h3><?php echo $this->language()->translate('Share'); ?> <span><i class="fa fa-share-alt" aria-hidden="true"></i></span></h3>
+                                    <div style="float: left;">
+                                <span class='st_facebook_large' displayText='Facebook'><a href="https://www.facebook.com/sharer/sharer.php?u=https://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>&amp;t=<?php echo $this->offer->getTitle(); ?>" target="_blank" title="Сподели във Facebook"></a></span>
+                                <span class='st_twitter_large' displayText='Tweet'><a href="https://twitter.com/intent/tweet?source=<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>&amp;text=<?php echo $this->offer->getTitle(); ?> ?>" target="_blank" title="Tweet"></a></span>
+                                <span class='st_pinterest_large' displayText='Pinterest'></span>
+                                <span class='st_instagram_large' displayText='Instagram Badge' st_username='ogledibg'></span>
+                                <span class='st_email_large' displayText='Email'></span>
+                                <span class='st_googleplus_large' displaytext="Google +1" style="margin-right: 50px;"><a href="https://plus.google.com/share?url=https://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"></a></span>
+                                    </div>
+                                <div class="mobile-add-to-list">
+                                    <?php if (count($this->offerList) == 0) { ?>
+                                        <span id="addToMyList" class="btn btn-primary" style="width: 200px; margin-top: -25px;"><?php echo $this->language()->translate('Add to my list'); ?>  <?php if (!$this->identity()) { ?>
+                                        <a style="text-decoration: none; color: white;" href="javascript:;" rel="tooltip"
+                                               data-toggle="tooltip"
+                                               data-original-title="<?php echo $this->language()->translate('Preview-offer-add-to-list-tooltip'); ?>"
+                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                               <?php } ?></span>
+
+                                    <?php } else { ?>
+                                        <span id="addedToMyList" class="btn btn-primary" style="width: 200px; margin-top: -25px;"><?php echo $this->language()->translate('Added to my list'); ?></span>
+                                    <?php } ?>
+                                </div>
+                                    <?php if ($this->identity()) { ?>
+                                    <script type="text/javascript">
+                                        $('#addToMyList').click(function () {
+                                            $('#addToMyList').html('<?php echo $this->language()->translate('Added to my list'); ?>');
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: '<?php echo $this->url('languageRoute/myListCreate') . $this->offer->getId(); ?>',
+                                                success: function (data) {
+                                                }
+                                            });
+                                        })
+                                    </script>
+                                <?php } ?>
+                                </div>
+                                <hr>
+                                <small style="font-size: 10px;"><?php echo $this->language()->translate('Seen'); ?>: <?php echo $this->offer->getCounter(); ?></small>
+                                <br>
+                                <small style="font-size: 10px;"><?php echo $this->language()->translate('Published'); ?>: <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $this->offer->getDateCreated())->format('d/m/Y H:i:s'); ?>
+                                    <br>
+                                    <?php if ($this->offer->getUserOfferStatusId() == 2) { ?>
+                                        <small style="font-size: 10px;"><?php echo ($this->offer->getOfferTypeId() == 1) ? $this->language()->translate('Sold') : $this->language()->translate('Given up'); ?>: <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $this->offer->getDateUpdated())->format('d/m/Y H:i:s'); ?>
+                                        <?php } elseif ($this->offer->getUserOfferStatusId() == 3) { ?>
+                                            <small style="font-size: 10px;"><?php echo $this->language()->translate('Deposit'); ?>: <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $this->offer->getDateUpdated())->format('d/m/Y H:i:s'); ?>
+                                            <?php } ?>
+                                            </div>
+                                            </div>
+                                            <hr>
+                                            <h3><?php echo $this->language()->translate('Request a viewing'); ?></h3>
+                                            <div class="agent">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <img src="https://ogledi.bg/media/agents/<?php echo $this->agency->getId(); ?>/<?php echo $this->agency->getLogo(); ?>">
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <form id="searchForm" name="searchForm" method="post" action="<?php echo $this->url('languageRoute/searchResults'); ?>">
+                                                            <input type="hidden" name="agency_id" id="agency_id" value="<?php echo $this->agency->getId(); ?>">
+                                                        </form>
+                                                        <h4><a href="javascript: $('#searchForm').submit()"><?php echo $this->agency->getNames(); ?></a></h4>
+                                                        <p>
+                                                            <?php echo $this->language()->translate('Phone'); ?>: <a style="text-decoration: none;" href="tel:<?php echo $this->broker->getPhone(); ?>"><?php echo $this->broker->getPhone(); ?></a>
+                                                            <br>
+                                                            <?php echo $this->language()->translate('E-mail'); ?>: <a href="mailto:<?php echo $this->broker->getEmail(); ?>"><?php echo $this->broker->getEmail(); ?></a>
+                                                        </p>
+                                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <div class="fb-comments"
+                                                             data-href="https://ogledi.bg/offer/<?php echo $this->offer->getId(); ?>"
+                                                             data-width="100%" data-numposts="5"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <script type='text/javascript'><!--//<![CDATA[
+                                                    var m3_u = (location.protocol == 'https:' ? 'https://ads.ogledi.bg/www/delivery/ajs.php' : 'http://ads.ogledi.bg/www/delivery/ajs.php');
+                                                    var m3_r = Math.floor(Math.random() * 99999999999);
+                                                    if (!document.MAX_used)
+                                                        document.MAX_used = ',';
+                                                    document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
+                                                    document.write("?zoneid=3");
+                                                    document.write('&amp;cb=' + m3_r);
+                                                    if (document.MAX_used != ',')
+                                                        document.write("&amp;exclude=" + document.MAX_used);
+                                                    document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
+                                                    document.write("&amp;loc=" + escape(window.location));
+                                                    if (document.referrer)
+                                                        document.write("&amp;referer=" + escape(document.referrer));
+                                                    if (document.context)
+                                                        document.write("&context=" + escape(document.context));
+                                                    if (document.mmm_fo)
+                                                        document.write("&amp;mmm_fo=1");
+                                                    document.write("'><\/scr" + "ipt>");
+                                                    //]]>--></script><noscript><a href='http://ads.ogledi.bg/www/delivery/ck.php?n=aa7e44d5&amp;cb=(new Date().getTime())' target='_blank'><img src='http://ads.ogledi.bg/www/delivery/avw.php?zoneid=3&amp;cb=(new Date().getTime())&amp;n=aa7e44d5' border='0' alt='' /></a></noscript>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            <?php if ($this->offer->getYoutubeCode1()) { ?>
+                                                <div class="sidebar right-sidebar col-md-6">
+                                                    <div id="popular_agent-2" class="widget sidebar-widget widget_popular_agent youtube-iframe-container">
+                                                        <a href="http://www.youtube.com/watch?v=<?php echo $this->offer->getYoutubeCode1(); ?>">Play Video</a>
+                                                        <iframe class="iframe" width="560" height="315"
+                                                                src="https://www.youtube.com/embed/<?php echo $this->offer->getYoutubeCode1(); ?>?rel=0&amp;showinfo=0" frameborder="0"
+                                                                allowfullscreen></iframe>
+                                                        <div class="mobile-tooltip">
+                                                            <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                                               data-toggle="tooltip"
+                                                               data-original-title="<?php echo $this->language()->translate('Preview-offer-video-mobile-tooltip');?>"
+                                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            <?php } ?>
+                                            <?php if ($this->offer->getGoogle360()) { ?>
+                                                <div class="sidebar right-sidebar col-md-6">
+                                                    <div id="" class="widget sidebar-widget widget_popular_agent google-iframe-container">
+                                                        <span>Google 360</span>
+                                                        <?php echo $this->offer->getGoogle360();?>
+                                                        <hr>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            <?php } ?>
+                                            <div class="sidebar right-sidebar col-md-6">
+                                                <?php if ($this->offer->getYoutubeCode2()) { ?>
+                                                    <div id="popular_agent-2" class="widget sidebar-widget widget_popular_agent">
+                                                        <iframe src="https://ogledi.bg/media/video/<?php echo $this->offer->getId(); ?>/index.html" width="100%" height="315" frameborder="0" style="border:0"
+                                                                allowfullscreen></iframe>
+                                                        <div class="mobile-tooltip">
+                                                            <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                                               data-toggle="tooltip"
+                                                               data-original-title="<?php echo $this->language()->translate('Preview-offer-video-mobile-tooltip');?>"
+                                                               data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                <?php } ?>
+                                                <?php if ($this->images->count() > 0) { ?>
+                                                    <?php foreach ($this->images as $image) { ?>
+                                                        <div class="col-sm-4" style="margin-bottom: 5px;">
+                                                            <a href="https://ogledi.bg/media/offers/<?php echo $this->offer->getId(); ?>/<?php echo $image->getImage(); ?>"
+                                                               class="fancybox" data-fancybox-group="gallery">
+                                                                <img src="https://ogledi.bg/media/offers/<?php echo $this->offer->getId(); ?>/front-<?php echo $image->getImage(); ?>">
+                                                            </a>
+                                                        </div>
+                                                    <?php } ?>
+                                                    <script type='text/javascript'><!--//<![CDATA[
+                                                    var m3_u = (location.protocol == 'https:' ? 'https://ads.ogledi.bg/www/delivery/ajs.php' : 'http://ads.ogledi.bg/www/delivery/ajs.php');
+                                                        var m3_r = Math.floor(Math.random() * 99999999999);
+                                                        if (!document.MAX_used)
+                                                            document.MAX_used = ',';
+                                                        document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
+                                                        document.write("?zoneid=8");
+                                                        document.write('&amp;cb=' + m3_r);
+                                                        if (document.MAX_used != ',')
+                                                            document.write("&amp;exclude=" + document.MAX_used);
+                                                        document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
+                                                        document.write("&amp;loc=" + escape(window.location));
+                                                        if (document.referrer)
+                                                            document.write("&amp;referer=" + escape(document.referrer));
+                                                        if (document.context)
+                                                            document.write("&context=" + escape(document.context));
+                                                        if (document.mmm_fo)
+                                                            document.write("&amp;mmm_fo=1");
+                                                        document.write("'><\/scr" + "ipt>");
+                                                        //]]>--></script><noscript><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a91e925a&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=8&amp;cb=(new Date().getTime())&amp;n=a91e925a' border='0' alt='' /></a></noscript>
+
+                                                    <script>
+                                                        jQuery(document).ready(function ($) {
+                                                            $('.fancybox').fancybox();
+                                                        });
+                                                    </script>
+                                                <?php } ?>
+                                                <br>
+                                                <br>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+<?php if ($this->auth()->getService()->hasIdentity()) { ?>
+    <?php if ($this->offer->getId() == '111xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') { ?>
+        <?php if (($this->auth()->getService()->getIdentity() == 'hristian.kostov@gmail.com')
+            || ($this->auth()->getService()->getIdentity() == 'simonamir@abv.bg')
+            || ($this->auth()->getService()->getIdentity() == 'gmkeremidchiev@gmail.com')) { ?>
+            <script type="text/javascript">
+                initGo4Chat('<?php echo \Application\Controller\ChatProcessor::getToken(18) ?>', '18');
+            </script>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+
+<script>
+     $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>

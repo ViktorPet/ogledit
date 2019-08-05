@@ -1,0 +1,129 @@
+<?php
+$totalDue = 0;
+?>
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('My list'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">                       
+                        <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                        <?php if (!is_null($this->logo)): ?>
+                            <img src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/media/agents/<?php echo $userId; ?>/<?php echo $this->logo; ?>" style="padding:1px; border:#ccc solid 1px;">                             
+                        <?php endif; ?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>       
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='ad27ab68' name='ad27ab68' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=21&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a1deb272&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=21&amp;cb=(new Date().getTime())&amp;n=a1deb272' border='0' alt='' /></a></iframe>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 table-responsive">
+                                <h3>
+                                    <?php echo $this->language()->translate('List'); ?>                                   
+                                </h3>
+                                <hr>
+                                <?php
+                                if (count($this->offersForList) == 0) {
+                                    ?>
+                                    <?php echo $this->language()->translate('No List'); ?>
+                                <?php } else { ?>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="back-lightgray">
+                                                <th>№</th>
+                                                <th width='1'><?php echo $this->language()->translate('Picture'); ?></th>
+                                                <th><?php echo $this->language()->translate('Type'); ?></th>
+                                                <th><?php echo $this->language()->translate('Kind'); ?>&nbsp;<?php echo $this->language()->translate('Property'); ?></th>
+                                                <th><?php echo $this->language()->translate('Town'); ?></th>
+                                                <th><?php echo $this->language()->translate('Neighborhood'); ?></th>
+                                                <th><?php echo $this->language()->translate('Price'); ?></th>
+                                                <th><?php echo $this->language()->translate('Area'); ?></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <script>
+                                            var confirmDelete = function (offerId) {
+                                                var res = confirm("Сигурни ли сте, че искате да изтриете обявата?");
+                                                if (res == true) {
+                                                    window.location.href = '<?php echo $this->url('languageRoute/myListDelete', array('lang' => $_SESSION['lang'], 'offerId' => '')); ?>' + offerId;
+                                                }
+                                            }
+                                        </script>
+                                        <?php
+                                        foreach ($this->offersForList as $offer) {
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <?php $offerUrl = $this->pages()->generateOfferUrl($offer->getId(), $offer->getOfferTypeName(), $offer->getPropertyTypeName(), $offer->getCityName()); ?>
+                                                    <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>" target="_blank"><?php echo $offer->getId(); ?></a>
+
+                                                </td>
+                                                <?php if ($offer->getImage() != '') { ?>
+                                                    <td><img src="https://ogledi.bg/media/offers/<?php echo $offer->getId(); ?>/front-<?php echo $offer->getImage(); ?>" border="0" width="100"/></td>
+                                                <?php } else { ?>
+                                                    <td><?php echo $this->language()->translate('Missing'); ?></td>
+                                                <?php } ?>
+                                                <td><?php echo $offer->getOfferTypeName(); ?></td>
+                                                <td><?php echo $offer->getPropertyTypeName(); ?></td>
+                                                <td><?php echo $offer->getCityName(); ?></td>
+                                                <td><?php echo $offer->getNeighbourhoodName(); ?></td>
+                                                <td align="right"><?php echo number_format($offer->getPrice(), 0, '.', ',') . '&nbsp;' . $offer->getCurrencyShortName(); ?></td>
+                                                <td align="right"><?php echo $offer->getArea(); ?>&nbsp;кв.м.</td>
+                                                <td nowrap="nowrap">                                           
+                                                    <a rel="tooltip" title="Изтриване / Спиране" alt="Изтриване / Спиране" data-placement="top" href="javascript: confirmDelete(<?php echo $offer->getId(); ?>)"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

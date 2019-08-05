@@ -1,0 +1,130 @@
+<?= $this->doctype() ?>
+<?php
+$_SESSION['lang'] = 'bg';
+$_SESSION['language_id'] = 1;
+?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('Огледи БГ - Административен Панел')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+            ->prependStylesheet($this->basePath('css/font-awesome.min.css'))
+            ->prependStylesheet($this->basePath('css/jquery.datetimepicker.min.css'))
+            ->prependStylesheet($this->basePath('css/sweetalert.css'))
+            ->prependStylesheet($this->basePath('css/style.css'))
+            ->prependStylesheet($this->basePath('css/jqx.light.css'))
+            ->prependStylesheet($this->basePath('css/jqx.base.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+        ?>        
+                
+        <!-- Scripts -->
+        <?= $this->headScript()
+            ->prependFile($this->basePath('js/main.js'))
+            ->prependFile($this->basePath('js/jquery.datetimepicker.full.min.js'))
+            ->prependFile($this->basePath('js/sweetalert.min.js'))
+            ->prependFile($this->basePath('js/tinymce/tinymce.min.js'))
+            ->prependFile($this->basePath('js/script.js'))
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jqx-all.js'))
+            ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+                        
+        ?>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?= $this->url('languageRoute/adminDashboard') ?>">
+                        <img src="<?= $this->basePath('img/logo_ogledi.png') ?>" height="28" />
+                    </a>
+                </div>                               
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <?php $permisions = $this->permissions()->name();?>
+                        <!--<li class=""><a href="<?= $this->url('languageRoute/adminDashboard') ?>">Начало</a></li>-->
+                        <?php if(in_array('Банери', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminBannersSlide') ?>">Банери</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Хедъри', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminBanners') ?>">Хедъри</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Оферти', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminOffers') ?>">Оферти</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Фактури', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminInvoices') ?>">Фактури</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Блог', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminBlog') ?>">Блог</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Агенции', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminAgencies') ?>">Агенции</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Страници', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminPages') ?>">Страници</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Екип', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminTeam') ?>">Екип</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Права', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminPermissions') ?>">Права</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Цени', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminPrices') ?>">Цени</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Бюлетин', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminNewsletter') ?>">Бюлетин</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Услуги', $permisions)):?>
+                                <li class=""><a href="<?= $this->url('languageRoute/adminService') ?>">Услуги</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('График', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminCalendar') ?>">График</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('За заснемане', $permisions)):?>  
+                            <li class=""><a href="<?= $this->url('languageRoute/adminForPanoramas') ?>">За заснемане (<?php echo $this->statistics()->getForPanoramasCount(); ?>)</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Без панорами', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminNoPanoramas') ?>">Без панорами (<?php echo $this->statistics()->getNoPanoramasCount(); ?>)</a></li>
+                        <?php endif;?>
+                        <?php if(in_array('Без видео', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminNoVideo') ?>">Без видео (<?php echo $this->statistics()->getNoVideoCount(); ?>)</a></li>
+                        <?php endif;?>
+                        <!--
+                        <?php if(in_array('За спиране', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminForStopping') ?>">За спиране (<?php echo $this->statistics()->getForStoppingCount(); ?>)</a></li>
+                        <?php endif;?>
+                        -->
+                        <?php if(in_array('Профил', $permisions)):?>
+                            <li class=""><a href="<?= $this->url('languageRoute/adminProfile') ?>">Профил</a></li>
+                        <?php endif;?>                                                                                                                                                                                                                                                                                                                                                                                                             
+                        <li class=""><a href="<?= $this->url('languageRoute/adminLogout') ?>">Изход</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <?= $this->content ?>
+            <hr>
+            <footer>
+                <p>ОГЛЕДИ БГ &copy; <?= date('Y') ?></p>
+            </footer>
+        </div>
+        <?= $this->inlineScript() ?>
+    </body>
+</html>

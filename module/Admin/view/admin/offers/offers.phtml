@@ -1,0 +1,157 @@
+<h1>Оферти</h1>
+<div id="ajax-result"></div>
+
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+    <input style='margin-top: 10px;' type="button" value="Export to Excel" id='excelExport' class="btn btn-primary" />
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var id = 'id';
+        var exportUrl = '<?php echo $this->url('languageRoute/adminOffersExport'); ?>';
+
+<?php if (isset($this->typeId)) { ?>
+            var url = '<?php echo $this->url('languageRoute/adminOffersData', array('typeId' => $typeId, 'datafield' => $datafield)); ?>';
+<?php } else { ?>
+            var url = '<?php echo $this->url('languageRoute/adminOffersPlainData'); ?>';
+<?php } ?>
+
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'galleryImage', type: 'string'},
+//            {name: 'title', type: 'string'},
+//            {name: 'description', type: 'string'},
+//            {name: 'top_offer', type: 'string'},
+//            {name: 'vip_offer', type: 'string'},
+            {name: 'price', type: 'number'},
+//            {name: 'currency_id', type: 'string'},
+//            {name: 'construction_year', type: 'string'},
+            {name: 'area', type: 'number'},
+//            {name: 'floor', type: 'string'},
+//            {name: 'bathrooms', type: 'string'},
+//            {name: 'total_rooms', type: 'string'},
+//            {name: 'parking_slots', type: 'string'},
+//            {name: 'information', type: 'string'},
+//            {name: 'photographer_address', type: 'string'},
+            {name: 'photographerAppointment', type: 'date'},
+//            {name: 'youtube_code_1', type: 'string'},
+//            {name: 'youtube_code_2', type: 'string'},
+//            {name: 'google_360', type: 'string'},
+//            {name: 'panorama_file', type: 'string'},
+//            {name: 'garden', type: 'string'},
+//            {name: 'meta_title', type: 'string'},
+//            {name: 'meta_description', type: 'string'},
+//            {name: 'meta_keywords', type: 'string'},
+            {name: 'dateCreated', type: 'date'},
+//            {name: 'date_updated', type: 'date'},
+//            {name: 'language_id', type: 'string'},
+            {name: 'offerStatusName', type: 'string'},
+//            {name: 'userOfferStatusName', type: 'string'},
+//            {name: 'offerTypeId', type: 'string'},
+            {name: 'offerTypeName', type: 'string'},
+//            {name: 'buildingTypeName', type: 'string'},
+            {name: 'propertyTypeName', type: 'string'},
+//            {name: 'heating_system_id', type: 'string'},
+            {name: 'userId', type: 'string'},
+            {name: 'userPhone', type: 'string'},
+            {name: 'userNames', type: 'string'},
+            {name: 'neighbourhoodName', type: 'string'},
+            {name: 'cityName', type: 'string'},
+//            {name: 'street', type: 'string'},
+//            {name: 'lat', type: 'string'},
+//            {name: 'lng', type: 'string'},
+            {name: 'counter', type: 'string'},
+            {name: 'parentUser', type: 'string'}
+
+        ];
+
+        var columns = [
+            {text: '№', datafield: 'id', width: 50,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 10px;"><a href="/bg/ogl-adm/offers-edit/' + value + '">' + value + '</a></div>';
+                }},
+            {
+                text: 'Снимка', datafield: 'galleryImage', width: 100, filterable: false, sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    if (value == 0) {
+                        return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 12px;">ЛИПСВА</div>'
+                    } else {
+                        var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                        var offerId = dataRecord.id;
+//                        console.log(value);
+
+                        return '<img border="0" height="75" src="/media/offers/' + offerId + '/front-' + value + '" />';
+                    }
+                }
+            },
+            {text: 'Вид имот', datafield: 'propertyTypeName', width: 100},
+            {text: 'Град', datafield: 'cityName', width: 80},
+            {text: 'Квартал', datafield: 'neighbourhoodName', width: 130},
+            {text: 'Цена', datafield: 'price', width: 75},
+            {text: 'Площ (кв.м.)', datafield: 'area', width: 60},
+//            {text: 'Конструкция', datafield: 'buildingTypeName', width: 100},
+            {text: 'Дата на въвеждане', datafield: 'dateCreated', width: 110, cellsformat: 'd-MM-yyyy HH:mm'},
+            {text: 'Дата на заснемане', datafield: 'photographerAppointment', width: 110, cellsformat: 'd-MM-yyyy HH:mm'},
+            {text: 'Агент/Агенция', datafield: 'userNames', width: 100,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 10px;"><a href="/bg/ogl-adm/agencies-edit/' + dataRecord.userId + '">' + value + '</a></div>';
+                }},
+            {text: 'Телефон', datafield: 'userPhone', width: 100},
+            {text: 'Статус', datafield: 'offerStatusName',
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+
+                    if (value == 'За публикуване') {
+                        return '<button class="btn table-button" style=" background-color: #dddddd;">' + value + '</button>';
+                    } else if (value == 'Платена') {
+                        return '<button class="btn table-button" style=" background-color: #f3ce8d;">' + value + '</button>';
+                    } else if (value == 'За заснемане') {
+                        return '<button class="btn table-button" style=" background-color: #f4f877;">' + value + '</button>';
+                    } else if (value == 'Активна') {
+                        return '<button class="btn table-button" style=" background-color: #96e876;">' + value + '</button>';
+                    } else if (value == 'Изтекла') {
+                        return '<button class="btn table-button" style=" background-color: #e87976;">' + value + '</button>';
+                    } else if (value == 'Архивирана') {
+                        return '<button class="btn table-button" style=" background-color: #b1dce6;">' + value + '</button>';
+                    } else {
+                        return '<button class="btn table-button" style=" background-color: #b1dce6;">' + value + '</button>';
+                    }
+                }
+            },
+            {text: 'Прегл.', datafield: 'counter', width: 50},
+            {
+                text: '',
+                datafield: '',
+                width: 130,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminOffersDelete'); ?>/' + dataRecord.id + '/' + dataRecord.userId;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' +
+                            '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>' +
+                            '<button class="btn table-button" style="margin: 3px;" onclick="openDialogGallery(\'' + dataRecord.id + '\')"><i class="fa fa-camera" aria-hidden="true"></i></button>';
+
+                }
+            },
+        ];
+
+        dataGrid(id, url, datafields, columns, exportUrl);
+
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+
+    });
+
+    function openDialog(offerId) {
+        location.href = '<?php echo $this->url('languageRoute/adminOffersEdit'); ?>/' + offerId;
+    }
+
+    function openDialogGallery(offerId) {
+        location.href = '<?php echo $this->url('languageRoute/adminOffersGallery'); ?>/' + offerId;
+    }
+</script>

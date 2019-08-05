@@ -1,0 +1,93 @@
+<script type="text/javascript">
+    $( document ).ready( function () {
+
+        // prepare the data
+        var data = new Array();
+
+        var nums = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ];
+        var pictures = [
+            'https://ogledi.bg/media/offers/459/front-prodava-2staen-sofiq-459-2016100414590039.jpg',
+            'https://ogledi.bg/media/offers/458/front-prodava-kashta-oblast-sofiq-458-2016100415231935.jpg',
+            'https://ogledi.bg/media/offers/456/front-prodava-mezonet-sofiq-456-2016100211250311.jpg',
+            'https://ogledi.bg/media/offers/455/front-otdava-3staen-sofiq-455-2016100406493329.jpg'
+        ];
+        var types = [ '1-СТАЕН', '2-СТАЕН', '3-СТАЕН', '4-СТАЕН', 'МЕЗОНЕТ' ];
+        var cities = [ 'София', 'област София', 'Варна', 'Бургас' ];
+        var neighbourhoods = [ 'Княжево', 'Витоша', 'Лозенец', 'Център', 'в.з.Малинова долина' ];
+        var prices = [ 82747, 83749, 250000, 78293, 52745 ];
+        var sqms = [ 75, 80, 85, 90, 100, 120, 145 ];
+        var constructions = [ 'ТУХЛА', 'ЕПК', 'ПАНЕЛ' ];
+        var dates = [ '2016-10-05 07:00:22', '2016-10-04 14:20:17', '2016-10-04 08:29:48', '2016-09-29 13:24:47', '2016-09-28 08:13:29' ];
+        var statuses = [ 'За Заснемане' ];
+
+        for ( var i = 0; i < 23; i++ ) {
+            var row = {};
+            row[ "num" ] = i + 1;
+            row[ "picture" ] = pictures[ Math.floor( Math.random() * pictures.length ) ];
+            row[ "type" ] = types[ Math.floor( Math.random() * types.length ) ];
+            row[ "city" ] = cities[ Math.floor( Math.random() * cities.length ) ];
+            row[ "neighbourhood" ] = neighbourhoods[ Math.floor( Math.random() * neighbourhoods.length ) ];
+            row[ "price" ] = prices[ Math.floor( Math.random() * prices.length ) ];
+            row[ "sqm" ] = sqms[ Math.floor( Math.random() * sqms.length ) ];
+            row[ "construction" ] = constructions[ Math.floor( Math.random() * constructions.length ) ];
+            row[ "date" ] = dates[ Math.floor( Math.random() * dates.length ) ];
+            row[ "status" ] = statuses[ Math.floor( Math.random() * statuses.length ) ];
+            data[ i ] = row;
+        }
+
+        var source = {
+            localdata: data,
+            datatype: "array",
+            pagesize: 20,
+            datafields: [
+                { name: 'num', type: 'number' },
+                { name: 'picture', type: 'string' },
+                { name: 'type', type: 'string' },
+                { name: 'city', type: 'string' },
+                { name: 'neighbourhood', type: 'string' },
+                { name: 'price', type: 'number' },
+                { name: 'sqm', type: 'number' },
+                { name: 'construction', type: 'string' },
+                { name: 'date', type: 'string' },
+                { name: 'status', type: 'string' }
+            ]
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter( source );
+
+        $( "#jqxgrid" ).jqxGrid(
+            {
+                theme: 'light',
+                width: '100%',
+                autoheight: true,
+                autorowheight: true,
+                pageable: true,
+                sortable: true,
+                filterable: true,
+                source: dataAdapter,
+                columnsresize: true,
+                columns: [
+                    { text: '№', datafield: 'num', width: 50 },
+                    {
+                        text: 'Снимка', datafield: 'picture', width: 120,
+                        cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                            var picture = dataAdapter.records[ row ].picture;
+                            return '<img src="' + picture + '" border="0" height="75"/>';
+                        }
+                    },
+                    { text: 'Вид имот', datafield: 'type', width: 100 },
+                    { text: 'Град', datafield: 'city', width: 120 },
+                    { text: 'Квартал', datafield: 'neighbourhood', width: 225 },
+                    { text: 'Цена', datafield: 'price', width: 110, cellsalign: 'right', cellsformat: 'c2' },
+                    { text: 'Площ (кв.м)', datafield: 'sqm', width: 90, cellsalign: 'right' },
+                    { text: 'Конструкция', datafield: 'construction', width: 100 },
+                    { text: 'Дата на въвеждане', datafield: 'date', width: 175 },
+                    { text: 'Статус', datafield: 'status' }
+                ]
+            } );
+
+    } );
+</script>
+<h1>Оферти без видео</h1>
+<div id="jqxgrid">
+</div>

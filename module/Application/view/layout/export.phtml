@@ -1,0 +1,19 @@
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
+<table>     
+    <tr>
+        <?php foreach ($headers as $key): ?>
+            <td><?php echo $key; ?></td>
+        <?php endforeach; ?>
+    </tr>
+    
+<?php foreach ($data as $key => $row): ?>
+    <tr>
+        <?php foreach ($row as $item):
+            ?>
+            <td><?php echo htmlentities($item); ?></td>
+        <?php endforeach; ?>
+    </tr>
+<?php endforeach; ?>
+</table>

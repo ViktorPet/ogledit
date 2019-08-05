@@ -1,0 +1,62 @@
+<!-- Site Showcase -->
+<!--removed parallax/carousel/slider thing-->
+<section class="module parallax parallax-2" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Forgotten password'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <span class="property_zoom_level" id="4"></span>
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <h3><?php echo $this->language()->translate('New password'); ?></h3>
+                        <div class="row lgray-bg">
+                            <div style="font-size: 2em; line-height: 150%; padding: 10px;">
+                                <form method="post" action="" name="newPassform" id="newPassForm">
+                                    <div class="input-group" style="margin-bottom: 10px;">
+                                        <label style="font-size: 14px;"><?php echo $this->language()->translate('Enter email for new password'); ?></label>
+                                        <input type="email" id="email" name="email" class="col-md-12" placeholder="<?php echo $this->language()->translate('E-mail'); ?>">
+                                        <?php if ($this->error) { ?>
+                                            <div class="alert alert-danger"><?php echo $this->error; ?></div>
+                                        <?php } else if ($this->message) { ?>
+                                            <div class="alert alert-info"><?php echo $this->message; ?></div>
+                                        <?php } ?>
+                                    </div>
+                                    <input class="submit_button btn btn-primary button2" type="submit" value="<?php echo $this->language()->translate('Send me new password'); ?>">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div id="message"></div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h3><?php echo $this->language()->translate('Our office'); ?></h3>
+                        <div class="padding-as25 lgray-bg">
+                            <p>
+                                <?php echo $this->language()->translate('Our office Country and Town'); ?>                               
+                                <br> <?php echo $this->language()->translate('Our office Address'); ?>
+                            </p>
+                            <p>e-mail:
+                                <a href="mailto:<?php echo $this->language()->translate('Our office mail'); ?>">
+                                    <strong><?php echo $this->language()->translate('Our office mail'); ?></strong>
+                                </a>
+                                <?php echo $this->language()->translate('Or call'); ?>                                
+                                <strong><a href="tel:<?php echo $this->language()->translate('Our office number'); ?>"><br>
+                                        <?php echo $this->language()->translate('Our office number'); ?></a></strong>
+                            </p>
+                            <div id="contact51" class="property_container">
+                            </div>
+                        </div>
+                        <div class="share-bar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<?php if ($this->maxPages > 1) { ?>
+    <?php if ($this->page == 1) { ?>
+        <li class="btn btn-default page-btn"
+            style="background: #CCC;"><?php echo '<<'; ?></li>
+    <?php } else { ?>
+        <li><a class="btn btn-default page-btn" href="?page=1"><?php echo '<<'; ?></a>
+        </li>
+    <?php } ?>
+<?php } ?>
+
+<?php if ($this->maxPages > 1) { ?>
+    <?php if (array_key_exists("page", $_GET)) { ?>
+        <?php if ($_GET['page'] > 1) { ?>
+            <?php $previousPage = $_GET['page'] - 1; ?>
+            <li><a class="btn btn-default page-btn"
+                   href="?page=<?php echo $previousPage; ?>"><?php echo '<'; ?></a>
+            </li>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+
+<?php if ($this->maxPages <= 11) { ?>
+
+    <?php for ($i = 1; $i <= $this->maxPages; $i++) { ?>
+        <?php if ($this->page == $i) { ?>
+            <li class="btn btn-default page-btn" style="background:#ccc;">
+                <span>&nbsp;<?php echo $i; ?>&nbsp;</span></li>
+        <?php } else { ?>
+            <li><a href="?page=<?php echo $i; ?>" class="btn btn-default">
+                    &nbsp;<?php echo $i; ?>&nbsp;</a></li>
+        <?php } ?>
+    <?php } ?>
+
+<?php } else { ?>
+
+    <?php if (array_key_exists("page", $_GET)) { ?>
+        <?php $curentPage = $_GET['page']; ?>
+    <?php } else { ?>
+        <?php $curentPage = 1; ?>
+    <?php }
+
+    $count = 0;
+    $breakCount = 10;
+    $checkedPageLeft = false;
+    $checkedPageRight = false;
+    ?>
+    <?php for ($i = 1; $i <= $this->maxPages; $i++) { ?>
+
+        <?php if ($curentPage >= 6 && $curentPage <= $this->maxPages - 5) {
+            $breakCount = 11;
+        } ?>
+
+        <?php if ($count >= $breakCount) {
+            break;
+        } ?>
+
+        <?php if ($curentPage >= 5) {
+            if (!$checkedPageLeft) {
+                $checkedPageLeft = true;
+                $i = $curentPage - 5;
+                if ($i <= 0) {
+                    $i = 1;
+                }
+            }
+        } ?>
+
+        <?php if ($curentPage >= $this->maxPages - 4) {
+            if (!$checkedPageRight) {
+                $checkedPageRight = true;
+                $i = $this->maxPages - 9;
+            }
+        } ?>
+
+
+        <?php $count++; ?>
+        <?php if ($this->page == $i) { ?>
+            <li class="btn btn-default page-btn" style="background:#ccc;">
+                <span>&nbsp;<?php echo $i; ?>&nbsp;</span></li>
+        <?php } else { ?>
+            <li><a href="?page=<?php echo $i; ?>" class="btn btn-default page-btn">
+                    &nbsp;<?php echo $i; ?>&nbsp;</a></li>
+        <?php } ?>
+    <?php } ?>
+
+<?php } ?>
+
+<?php if ($this->maxPages > 1) { ?>
+    <?php if (array_key_exists("page", $_GET)) { ?>
+        <?php if ($_GET['page'] < $this->maxPages) { ?>
+            <?php $nextPage = $_GET['page'] + 1; ?>
+            <li><a class="btn btn-default page-btn"
+                   href="?page=<?php echo $nextPage; ?>"><?php echo '>'; ?></a></li>
+        <?php } ?>
+    <?php } else { ?>
+        <li><a class="btn btn-default page-btn"
+               href="?page=2"><?php echo '>'; ?></a></li>
+    <?php } ?>
+<?php } ?>
+
+
+<?php if ($this->maxPages > 1) { ?>
+    <?php if ($this->page == $this->maxPages) { ?>
+        <li class="btn btn-default page-btn" style="background: #CCC;">
+            <?php echo '>>'; ?></li>
+    <?php } else { ?>
+        <li><a class="btn btn-default page-btn"
+               href="?page=<?php echo $this->maxPages; ?>"><?php echo '>>'; ?></a>
+        </li>
+    <?php } ?>
+<?php } ?>

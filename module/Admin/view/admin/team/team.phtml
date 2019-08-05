@@ -1,0 +1,99 @@
+<h1>Екип</h1>
+<button id="createTeam" type="submit" name="submit" class="btn btn-success">Въвеждане на служител</button>
+
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        document.getElementById("createTeam").onclick = function () {
+            location.href = '<?php echo $this->url('languageRoute/adminTeamCreate'); ?>';
+        };
+
+// Show Team          
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminTeamData'); ?>';
+        var datafields = [
+            {name: 'id', type: 'string'},
+            {name: 'email', type: 'string'},
+            {name: 'username', type: 'string'},
+            {name: 'first_name', type: 'string'},
+            {name: 'last_name', type: 'string'},
+            {name: 'password', type: 'string'},
+            {name: 'gender', type: 'string'},
+            {name: 'position', type: 'string'},
+            {name: 'invalid_login_count', type: 'string'},
+            {name: 'date_created', type: 'date'},
+            {name: 'date_updated', type: 'date'},
+            {name: 'user_status_id', type: 'string'},
+        ];
+
+        var columns = [
+//            {text: 'id', datafield: 'id'},    
+            {text: '', datafield: 'gender', width: 50, filterable: false, sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    if (value == 'm')
+                    {
+                        return '<img border="0" height="50" src="/img/avatars/male.png' + '" />';
+                    } else
+                    {
+                        return '<img border="0" height="50" src="/img/avatars/female.png' + '" />';
+                    }
+                }
+            },
+            {text: 'Име', datafield: 'first_name'},
+            {text: 'Фамилия', datafield: 'last_name'},
+            {text: 'E-mail', datafield: 'email'},
+//            {text: 'username', datafield: 'username'},
+//            {text: 'password', datafield: 'password'},            
+            {text: 'Позиция', datafield: 'position'},
+//            {text: 'invalid_login_count', datafield: 'invalid_login_count'},
+//            {text: 'date_created', datafield: 'date_created', cellsformat: 'yyyy-MM-d HH:mm', width: 150},
+//            {text: 'date_updated', datafield: 'date_updated', cellsformat: 'yyyy-MM-d HH:mm', width: 150},
+            {text: 'Статус', datafield: 'user_status_id', width: 60,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    if (value == '1')
+                    {
+                        return '<img border="0" height="50" src="/img/status/active.png' + '" />';
+                    } else
+                    {
+                        return '<img border="0" height="50" src="/img/status/blocked.png' + '" />';
+                    }
+                }
+            },
+            {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    if (dataRecord.id == 1)
+                    {
+                        return;
+                    }
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminTeamDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' + 
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                }
+            },
+        ];
+
+        dataGrid(id, url, datafields, columns);
+
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    });
+
+
+// Edit Team
+    function openDialog(adminId) {
+        location.href = '<?php echo $this->url('languageRoute/adminTeamEdit'); ?>/' + adminId;
+    }
+</script>

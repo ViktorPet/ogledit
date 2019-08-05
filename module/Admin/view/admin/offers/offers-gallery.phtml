@@ -1,0 +1,226 @@
+<?php
+$galleryForm = $this->galleryForm;
+$galleryForm->setAttribute('action', $this->url('languageRoute/adminOffersGalleryCreate', array("offerId" => $offerId)));
+$galleryForm->prepare();
+?>
+<h1>Мултимедия #<a href="/bg/ogl-adm/offers-edit/<?php echo $this->offerId; ?>"><?php echo $this->offerId; ?></a></h1>
+<div id="ajax-result"></div>
+<?php echo $this->form()->openTag($galleryForm); ?>
+
+<div class="form-group form-elements <?php echo ($this->formElementErrors($this->galleryForm->get('image')) != '') ? 'has-error' : ''; ?>">
+    <div class="input-group">
+        <?php
+        $this->galleryForm->get('image')->setLabelAttributes(array('class' => 'control-label label-text'));
+        echo $this->formLabel($this->galleryForm->get('image'));
+        echo $this->formElement($this->galleryForm->get('image')->setAttributes(array('class' => 'form-control text-input', 'id' => 'image', 'style' => 'resize: none')));
+        ?>
+    </div>
+    <?php if ($this->formElementErrors($this->galleryForm->get('image'))) { ?>
+        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->galleryForm->get('image')); ?></div>
+    <?php } ?>
+    <div>
+        <?php echo $this->render('layout/flash-messages.phtml'); ?>
+    </div>
+
+</div>
+<div class="form-group form-elements <?php echo ($this->formElementErrors($this->galleryForm->get('facebook_img')) != '') ? 'has-error' : ''; ?>">
+    <div class="input-group">
+        <?php
+        $this->galleryForm->get('facebook_img')->setLabelAttributes(array('class' => 'control-label label-text'));
+        echo $this->formLabel($this->galleryForm->get('facebook_img'));
+        echo $this->formElement($this->galleryForm->get('facebook_img')->setAttributes(array('class' => 'form-control text-input')));
+        ?>
+    </div>
+    <?php if ($this->formElementErrors($this->galleryForm->get('facebook_img'))) { ?>
+        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->galleryForm->get('facebook_img')); ?></div>
+    <?php } ?>
+    <?php if ($this->offerObj->getFacebookImage()) { ?>
+        <br/>
+        <img src="/media/offers/<?php echo $this->offerObj->getId(); ?>/<?php echo $this->offerObj->getFacebookImage(); ?>" width="350" />
+    <?php } ?>
+
+</div>
+<div class="form-group form-elements <?php echo ($this->formElementErrors($this->galleryForm->get('panorama_file')) != '') ? 'has-error' : ''; ?>">
+    <div class="input-group">
+        <?php
+        $this->galleryForm->get('panorama_file')->setLabelAttributes(array('class' => 'control-label label-text'));
+        echo $this->formLabel($this->galleryForm->get('panorama_file'));
+        echo $this->formElement($this->galleryForm->get('panorama_file')->setAttributes(array('class' => 'form-control text-input')));
+        ?>
+    </div>
+    <?php if ($this->formElementErrors($this->galleryForm->get('panorama_file'))) { ?>
+        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->galleryForm->get('panorama_file')); ?></div>
+    <?php } ?>
+    <?php if ($this->offerObj->getPanoramaFile() == 'y') { ?>
+        <br/>
+        <?php if (is_null($this->offerObj->getUserPanoramaFile())) { ?>
+            <?php if ((is_null($this->offerObj->getAlternativeIdFile())) || ($this->offerObj->getOfferStatusId() == 4)){ ?>
+                <iframe src="<?php echo SITE_URL;?>media/pano/<?php echo $this->offerObj->getId(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <?php } else { ?>
+                <iframe src="<?php echo SITE_URL;?>media/pano/<?php echo $this->offerObj->getAlternativeIdFile(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <?php } ?>
+        <?php } else { ?>
+            <iframe src="<?php echo $this->offerObj->getUserPanoramaFile(); ?>" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <?php } ?>
+    <?php } ?>
+</div>
+
+<div class="form-group form-elements <?php echo ($this->formElementErrors($this->galleryForm->get('youtube_code_1')) != '') ? 'has-error' : ''; ?>">
+    <div class="input-group">
+        <?php
+        $this->galleryForm->get('youtube_code_1')->setLabelAttributes(array('class' => 'control-label label-text'));
+        echo $this->formLabel($this->galleryForm->get('youtube_code_1'));
+        echo $this->formElement($this->galleryForm->get('youtube_code_1')->setAttributes(array('class' => 'form-control text-input')));
+        ?>
+    </div>
+    <?php if ($this->formElementErrors($this->galleryForm->get('youtube_code_1'))) { ?>
+        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->galleryForm->get('youtube_code_1')); ?></div>
+    <?php } ?>
+    <?php if ($this->offerObj->getYoutubeCode1()) { ?>
+        <br/>
+        <iframe width="350" src="https://www.youtube.com/embed/<?php echo $this->offerObj->getYoutubeCode1(); ?>?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+    <?php } ?>
+</div>
+
+<div class="form-group form-elements <?php echo ($this->formElementErrors($this->galleryForm->get('youtube_code_2')) != '') ? 'has-error' : ''; ?>">
+    <div class="input-group">
+        <?php
+        $this->galleryForm->get('youtube_code_2')->setLabelAttributes(array('class' => 'control-label label-text'));
+        echo $this->formLabel($this->galleryForm->get('youtube_code_2'));
+        echo $this->formElement($this->galleryForm->get('youtube_code_2')->setAttributes(array('class' => 'form-control text-input')));
+        ?>
+    </div>
+    <?php if ($this->formElementErrors($this->galleryForm->get('youtube_code_2'))) { ?>
+        <div class="alert alert-danger"><?php echo $this->formElementErrors($this->galleryForm->get('youtube_code_2')); ?></div>
+    <?php } ?>
+    <?php if ('y' == $this->offerObj->getYoutubeCode2()) { ?>
+        <br/>
+        <iframe src="https://ogledi.bg/media/video/<?php echo $this->offerObj->getId(); ?>/index.html" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <?php } ?>
+</div>
+
+<br>
+
+<div class="formRow">
+    <input type="submit" class="btn btn-success hidemenow" value="Добави"/>
+</div>
+
+<a class="loading"></a>
+<?php echo $this->form()->closeTag(); ?>
+
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var offerId = <?php echo $offerId; ?>;
+
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminOffersGalleryData') . '/' ?>' + offerId;
+
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'image', type: 'string'},
+            {name: 'date_created', type: 'date'},
+//            {name: 'date_updated', type: 'string'},
+            {name: 'offer_id', type: 'string'},
+            {name: 'is_front', type: 'string'},
+            {name: 'image_order', type: 'string'}
+        ];
+
+        var columns = [
+            {text: '№', datafield: 'id', width: 50},
+            {
+                text: 'Снимка', datafield: 'image', width: 120, filterable: false, sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    return '<img border="0" height="75" src="/media/offers/' + dataRecord.offer_id + '/front-' + value + '" />';
+                }
+            },
+            {text: 'Дата на създаване', datafield: 'date_created', width: 150, cellsformat: 'd-MM-yyyy HH:mm'},
+            {text: '№ на оферта', datafield: 'offer_id', width: 100},
+            {text: 'Основна снимка', datafield: 'is_front',
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+
+                    if (value == '1') {
+                        var value = 'Главна снимка';
+                        return '<div style="margin-top:20px; margin-left:10px;">' + value + '</div>';
+                    } else {
+                        value = 'Допълнителна снимка';
+                        return '<div style="margin-top:20px; margin-left:10px;">' + value + '</div>';
+                    }
+                }
+            },
+            {text: 'Ред', datafield: 'image_order', width: 100},
+            {
+                text: '',
+                datafield: 'replace',
+                width: 200,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var formUrl = '<?php echo $this->url('languageRoute/adminImageUpdate'); ?>/' + dataRecord.id;
+                    return '<form method="POST" enctype="multipart/form-data" action="'+formUrl+'"><input class="changeImage" style="margin: 5px;" type="file" name="image"><button style="margin: 10px 5px;" class="btn table-button" disabled="disabled">Подмени снимката</button></form>';
+                }
+            },
+            {
+                text: '',
+                datafield: '',
+                width: 90,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminOffersGalleryDelete'); ?>/' + dataRecord.id;
+                    var buttons = '<button  title="Изтрий!" class="btn confirm-delete"  style="margin: 3px;" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>' +
+                        '<button title="Направи главна снимка!" class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-picture-o" aria-hidden="true"></i></button>';
+
+                    if ( dataRecord.image_order > 1 ) {
+                        var upURL = '<?php echo $this->url('languageRoute/adminImageUp'); ?>/' + dataRecord.id + '/' + dataRecord.image_order;
+                        buttons += '<button title="Премести нагоре!" class="btn table-button" style="margin: 3px;" onclick="window.location.assign(\'' + upURL + '\')"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>';
+                    }
+
+
+                    var maxPosition = $( "#jqxgrid" ).jqxGrid( 'getrows' ).length;
+                    if ( dataRecord.image_order < maxPosition ) {
+                        var downUrl = '<?php echo $this->url('languageRoute/adminImageDown'); ?>/' + dataRecord.id + '/' + dataRecord.image_order;
+                        buttons += '<button  title="Премести надолу!" class="btn table-button" style="margin: 3px;" onclick="window.location.assign(\'' + downUrl + '\')"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>';
+                    }
+
+                    return buttons;
+
+                }
+            }
+        ];
+
+        dataGrid(id, url, datafields, columns);
+
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+
+    });
+
+    function openDialog(imageId) {
+        location.href = '<?php echo $this->url('languageRoute/adminMainImage'); ?>/' + imageId;
+    }
+
+    function openDialogUp(imageId, imageOrder) {
+        location.href = '<?php echo $this->url('languageRoute/adminImageUp'); ?>/' + imageId + '/' + imageOrder;
+    }
+
+    function openDialogDown(imageId, imageOrder) {
+        location.href = '<?php echo $this->url('languageRoute/adminImageDown'); ?>/' + imageId + '/' + imageOrder;
+    }
+
+</script>
+<script>
+    $("body").on( "change", '.changeImage', function () {
+        if ($(this).val()) {
+            $(this).siblings('button').removeAttr('disabled');
+        }
+    });
+</script>

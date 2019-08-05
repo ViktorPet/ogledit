@@ -1,0 +1,1 @@
+INSERT INTO `offer_statuses` (`id`, `name`) VALUES ('11', 'Изтрита');

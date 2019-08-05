@@ -1,0 +1,526 @@
+<!-- Site Showcase -->
+<script>
+    window.texts = {};
+    window.texts.selectRegion = "<?php echo $_SESSION['lang'] == 'en' ? 'SELECT REGION' : 'ОГРАДИ РЕГИОН';?>";
+    window.texts.clear = "<?php echo $_SESSION['lang'] == 'en' ? 'CLEAR' : 'ИЗЧИСТИ';?>";
+</script>
+<section class="module parallax parallax-3" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Advanced Search'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="site-search-module-inside">
+                    <form id="searchForm" name="searchForm" method="post"
+                          action="<?php echo $this->url('languageRoute/searchResults'); ?>">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div id="map" style="height: 500px;"></div>
+                                <script defer
+                                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMELOAUfSIOsxgVCrEK2tYO6qnNC3RskM&libraries=drawing,geometry&callback=initSearchMap">
+                                </script>
+                                <div class="mobile-tooltip">
+                                    <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                       data-toggle="tooltip"
+                                       data-original-title="<?php echo $this->language()->translate('Search-map-mobile-tooltip'); ?>"
+                                       data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                </div>
+                                <br/>
+                                <div class="alert alert-warning fade in" style="text-align: justify;" id="search-info">
+                                    <p><?php echo $this->language()->translate('Search paragraph one'); ?></p>
+                                    <p><?php echo $this->language()->translate('Search paragraph two'); ?></p>
+                                    <p><?php echo $this->language()->translate('Search paragraph three'); ?></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 search-fields">
+                                <div class="row">
+                                    <div class="col-md-4 search-fields">
+                                        <div class="search-field">
+                                            <label
+                                                for="offer_type_id"><?php echo $this->language()->translate('Search type'); ?></label>
+                                            <select name="offer_type_id" id="offer_type_id" class="form-control ">
+                                                <?php foreach ($this->offerTypes as $key => $value) { ?>
+                                                    <option value="<?php echo $key; ?>"
+                                                            label="<?php echo $value; ?>" <?php echo ($this->searchFormData['offer_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $this->language()->translate($value); ?></option>
+                                                <?php } ?>
+                                            </select></div>
+                                    </div>
+                                    <div class="col-md-4 search-fields">
+                                        <div class="search-field">
+                                            <label
+                                                for="property_type_id"><?php echo $this->language()->translate('Property type'); ?></label>
+                                            <select name="property_type_id" id="property_type_id"
+                                                    class="form-control tformat">
+                                                <option value=""
+                                                        label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                                <?php foreach ($this->propertyTypes as $key => $value) { ?>
+                                                    <option value="<?php echo $key; ?>"
+                                                            label="<?php echo $value; ?>" <?php echo ($this->searchFormData['property_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $this->language()->translate($value); ?></option>
+                                                <?php } ?>
+                                            </select></div>
+                                        <script>
+                                            $( '#property_type_id' ).on( 'change', function () {
+                                                var ptId = $( '#property_type_id' ).val();
+
+                                                // Parcel
+                                                if ( ptId == 20 ) {
+                                                    $( '#building_type_id' ).attr( 'disabled', true );
+                                                    $( '#heating_system_id' ).attr( 'disabled', true );
+                                                    $( '#heat_building_wrapper' ).css( 'display', 'none' );
+                                                    $( '#construction_year_from' ).attr( 'disabled', true );
+                                                    $( '#construction_year_to' ).attr( 'disabled', true );
+                                                    $( '#floor_from' ).attr( 'disabled', true );
+                                                    $( '#floor_to' ).attr( 'disabled', true );
+                                                    $( '#floor_year_wrapper' ).css( 'display', 'none' );
+                                                    $( '#yard_from' ).attr( 'disabled', true );
+                                                    $( '#yard_to' ).attr( 'disabled', true );
+                                                    $( '#yard_wrapper' ).css( 'display', 'none' );
+                                                    $( '#property_feature_wrapper' ).css( 'display', 'none' );
+
+                                                    $( '#is_regulated' ).attr( 'disabled', false );
+                                                    $( '#parcel_type_id' ).attr( 'disabled', false );
+                                                    $( '#parcel_type_regulated_wrapper' ).css( 'display', 'inherit' );
+                                                    $( '#parcel_feature_wrapper' ).css( 'display', 'inherit' );
+
+                                                } else {
+                                                    $( '#building_type_id' ).attr( 'disabled', false );
+                                                    $( '#heating_system_id' ).attr( 'disabled', false );
+                                                    $( '#heat_building_wrapper' ).css( 'display', 'inherit' );
+                                                    $( '#construction_year_from' ).attr( 'disabled', false );
+                                                    $( '#construction_year_to' ).attr( 'disabled', false );
+                                                    $( '#floor_from' ).attr( 'disabled', false );
+                                                    $( '#floor_to' ).attr( 'disabled', false );
+                                                    $( '#floor_year_wrapper' ).css( 'display', 'inherit' );
+                                                    $( '#property_feature_wrapper' ).css( 'display', 'inherit' );
+
+                                                    $( '#is_regulated' ).attr( 'disabled', true );
+                                                    $( '#parcel_type_id' ).attr( 'disabled', true );
+                                                    $( '#parcel_type_regulated_wrapper' ).css( 'display', 'none' );
+                                                    $( '#parcel_feature_wrapper' ).css( 'display', 'none' );
+
+                                                    // House
+                                                    if ( ptId == 11 ) {
+                                                        $( '#yard_from' ).attr( 'disabled', false );
+                                                        $( '#yard_to' ).attr( 'disabled', false );
+                                                        $( '#yard_wrapper' ).css( 'display', 'inherit' );
+                                                    } else {
+                                                        $( '#yard_from' ).attr( 'disabled', true );
+                                                        $( '#yard_to' ).attr( 'disabled', true );
+                                                        $( '#yard_wrapper' ).css( 'display', 'none' );
+                                                    }
+                                                }
+                                            } );
+                                        </script>
+                                    </div>
+                                    <div class="col-md-4 search-fields">
+                                        <div class="search-field">
+                                            <label
+                                                for="city_id"><?php echo $this->language()->translate('Town'); ?></label>
+                                            <select name="city_id" id="city_id" class="form-control citydriver"
+                                                    onchange="initSearchMap()">
+                                                <?php foreach ($this->cities as $key => $value) { ?>
+                                                    <option value="<?php echo $key; ?>"
+                                                            label="<?php echo $value; ?>" <?php echo ($this->searchFormData['city_id'] == $key) ? 'selected' : ''; ?>><?php echo $_SESSION['lang'] == 'bg' ? $value : $this->pages()->translateFormField($value); ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <script>
+                                            $( '#city_id' ).on( 'change', function () {
+                                                var cityId = $( '#city_id' ).val();
+                                                $.get( '<?php echo $this->url('languageRoute/neighbourhoodsData'); ?>' + '?cityId=' + cityId + '&t=' + (new Date()).getTime() )
+                                                    .success( function ( data ) {
+                                                        $( '#available_neighbourhood_id' ).find( 'option' ).remove();
+                                                        $( '#neighbourhood_id' ).find( 'option' ).remove();
+                                                        var bootstrapMultiselect = [];
+                                                        $.each( data, function ( key, value ) {
+                                                            bootstrapMultiselect.push( {
+                                                                label: value.value,
+                                                                value: value.key
+                                                            } );
+                                                            $( '#available_neighbourhood_id' ).append( '<option value=' + value.key + '>' + value.value + '</option>' );
+                                                        } );
+
+                                                        $( "#available_neighbourhood_id_iOS" ).multiselect( 'dataprovider', bootstrapMultiselect );
+                                                        initSearchMap();
+                                                    } )
+                                            } );
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 search-fields">
+                                        <div class="search-field">
+                                            <label
+                                                for="available_neighbourhood_id"><?php echo $this->language()->translate('Possible Areas'); ?></label>
+                                            <select name="available_neighbourhood_id[]" id="available_neighbourhood_id"
+                                                    class="form-control areadriver" multiple="multiple">
+                                                <?php foreach ($this->neighbourhoods as $key => $value) { ?>
+                                                    <option value="<?php echo $key; ?>"
+                                                            label="<?php echo $value; ?>"><?php echo $_SESSION['lang'] == 'bg' ? $value : $this->pages()->translateFormField($value); ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <br>
+                                            <div id="iOS-elem">
+                                                <select id="available_neighbourhood_id_iOS" multiple="multiple"
+                                                        style="display: none;"
+                                                >
+                                                    <?php foreach ($this->neighbourhoods as $key => $value) { ?>
+                                                        <option
+                                                            value="<?php echo $key; ?>"><?php echo $_SESSION['lang'] == 'bg' ? $value : $this->pages()->translateFormField($value); ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 search-fields hide-selected-mobile">
+                                        <div class="search-field">
+                                            <label
+                                                for="neighbourhood_id"><?php echo $this->language()->translate('Selected Areas'); ?></label>
+                                            <select name="neighbourhood_id[]" id="neighbourhood_id"
+                                                    class="form-control areadriver" multiple="multiple">
+                                                <?php foreach ($this->searchFormData['neighbourhood_id'] as $key => $value) { ?>
+                                                    <option value="<?php echo $value; ?>"
+                                                            label="<?php echo $this->neighbourhoods[$value]; ?>"
+                                                            selected><?php echo $_SESSION['lang'] == 'bg' ? $this->neighbourhoods[$value] : $this->pages()->translateFormField($this->neighbourhoods[$value]); ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 search-fields">
+                                        <label
+                                            for="agency_id"><?php echo $this->language()->translate('Key word'); ?></label>
+                                        <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                           data-toggle="tooltip"
+                                           data-original-title="<?php echo $this->language()->translate('Search-keyword-tooltip'); ?>"
+                                           data-placement="top" class="red-tooltip"><i
+                                                class="fa fa-info-circle"></i></a>
+                                        <input name="keyword" id="keyword" class="form-control input-lg"
+                                               placeholder="Ключова дума" type="text"
+                                               value="<?php echo $this->searchFormData['keyword']; ?>">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 search-fields">
+                                        <label><?php echo $this->language()->translate('Price from/to'); ?></label>
+                                        <br>
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="minprice"
+                                            id="minprice"
+                                            class="form-control input-sm  "
+                                            style="width: 49%; float: left; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('from'); ?>"
+                                            type="text"
+                                            value="<?php echo $this->searchFormData['minprice']; ?>">
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="maxprice"
+                                            id="maxprice"
+                                            class="form-control input-sm"
+                                            style="width: 49%; float: right; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('to'); ?>" type="text"
+                                            value="<?php echo $this->searchFormData['maxprice']; ?>">
+                                    </div>
+                                    <div class="col-md-6 search-fields">
+                                        <label><?php echo $this->language()->translate('Area from/to'); ?></label>
+                                        <br>
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="minsqm"
+                                            id="minsqm"
+                                            class="form-control input-sm"
+                                            style="width: 49%; float: left; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('from'); ?>"
+                                            type="text"
+                                            value="<?php echo $this->searchFormData['minsqm']; ?>">
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="maxsqm"
+                                            id="maxsqm"
+                                            class="form-control input-sm"
+                                            style="width: 49%; float: right; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('to'); ?>" type="text"
+                                            value="<?php echo $this->searchFormData['maxsqm']; ?>">
+                                    </div>
+                                </div>
+                                <div class="row" id="floor_year_wrapper"
+                                     style="display: <?php echo ($this->searchFormData['property_type_id'] == 20) ? 'none' : 'inherit'; ?>">
+                                    <div class="col-md-6 search-fields">
+                                        <label><?php echo $this->language()->translate('Floor from/to'); ?></label>
+                                        <br>
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="floor_from" id="floor_from" class="form-control input-sm"
+                                            style="width: 49%; float: left; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('from'); ?>"
+                                            maxlength="3" type="text"
+                                            value="<?php echo $this->searchFormData['floor_from']; ?>">
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="floor_to" id="floor_to" class="form-control input-sm"
+                                            style="width: 49%; float: right; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('to'); ?>"
+                                            maxlength="3" type="text"
+                                            value="<?php echo $this->searchFormData['floor_to']; ?>">
+                                    </div>
+                                    <div class="col-md-6 search-fields">
+                                        <label><?php echo $this->language()->translate('Year from/to'); ?></label>
+                                        <br>
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="construction_year_from" id="construction_year_from"
+                                            class="form-control input-sm"
+                                            style="width: 49%; float: left; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('from'); ?>"
+                                            maxlength="4" type="text"
+                                            value="<?php echo $this->searchFormData['construction_year_from']; ?>">
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="construction_year_to" id="construction_year_to"
+                                            class="form-control input-sm"
+                                            style="width: 49%; float: right; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('to'); ?>"
+                                            maxlength="4" type="text"
+                                            value="<?php echo $this->searchFormData['construction_year_to']; ?>">
+                                    </div>
+                                </div>
+                                <div class="row" id="yard_wrapper"
+                                     style="display: <?php echo ($this->searchFormData['property_type_id'] != 11) ? 'none' : 'inherit'; ?>">
+                                    <div class="col-md-6 search-fields">
+                                        <label><?php echo $this->language()->translate('Year from/to'); ?></label>
+                                        <br>
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="yard_from" id="yard_from" class="form-control input-sm"
+                                            style="width: 49%; float: left; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('from'); ?>"
+                                            maxlength="3" type="text"
+                                            value="<?php echo $this->searchFormData['yard_from']; ?>">
+                                        <input
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')"
+                                            name="yard_to" id="yard_to" class="form-control input-sm"
+                                            style="width: 49%; float: right; padding-left: 7px; padding-right: 7px;"
+                                            placeholder="<?php echo $this->language()->translate('to'); ?>"
+                                            maxlength="3" type="text"
+                                            value="<?php echo $this->searchFormData['yard_to']; ?>">
+                                    </div>
+                                </div>
+                                <div class="row" id="heat_building_wrapper"
+                                     style="display: <?php echo ($this->searchFormData['property_type_id'] == 20) ? 'none' : 'inherit'; ?>">
+                                    <div class="col-md-6 search-fields">
+                                        <label
+                                            for="heating_system_id"><?php echo $this->language()->translate('Heating'); ?></label>
+                                        <select name="heating_system_id" id="heating_system_id" class="form-control ">
+                                            <option value=""
+                                                    label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                            <?php foreach ($this->heatingSystems as $key => $value) { ?>
+                                                <option value="<?php echo $key; ?>"
+                                                        label="<?php echo $value; ?>" <?php echo ($this->searchFormData['heating_system_id'] == $key) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                        </select></div>
+                                    <div class="col-md-6 search-fields">
+                                        <label
+                                            for="building_type_id"><?php echo $this->language()->translate('Type'); ?></label>
+                                        <select name="building_type_id" id="building_type_id" class="form-control ">
+                                            <option value=""
+                                                    label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                            <?php foreach ($this->buildingTypes as $key => $value) { ?>
+                                                <option value="<?php echo $key; ?>"
+                                                        label="<?php echo $value; ?>" <?php echo ($this->searchFormData['building_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                        </select></div>
+                                </div>
+                                <div class="row" id="parcel_type_regulated_wrapper"
+                                     style="display: <?php echo ($this->searchFormData['property_type_id'] != 20) ? 'none' : 'inherit'; ?>">
+                                    <div class="col-md-6 search-fields">
+                                        <label
+                                            for="parcel_type_id"><?php echo $this->language()->translate('Type'); ?></label>
+                                        <select name="parcel_type_id" id="parcel_type_id" class="form-control ">
+                                            <option value=""
+                                                    label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                            <?php foreach ($this->parcelTypes as $key => $value) { ?>
+                                                <option value="<?php echo $key; ?>"
+                                                        label="<?php echo $value; ?>" <?php echo ($this->searchFormData['parcel_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 search-fields">
+                                        <label
+                                            for="is_regulated"><?php echo $this->language()->translate('Regulation'); ?></label>
+                                        <select name="is_regulated" id="is_regulated" class="form-control ">
+                                            <option value=""
+                                                    label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                            <option value="1"
+                                                    label="Да "<?php echo ($this->searchFormData['is_regulated'] == '1') ? 'selected' : ''; ?>><?php echo $this->language()->translate('Yes'); ?></option>
+                                            <option value="0"
+                                                    label="Не" <?php echo ($this->searchFormData['is_regulated'] == '2') ? 'selected' : ''; ?>><?php echo $this->language()->translate('No'); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="search-field">
+                                    <label for="agency_id"><?php echo $this->language()->translate('Agency'); ?></label>
+                                    <a style="text-decoration: none;" href="javascript:;" rel="tooltip"
+                                       data-toggle="tooltip"
+                                       data-original-title="<?php echo $this->language()->translate('Search-agencies-tooltip'); ?>"
+                                       data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                    <select name="agency_id" id="agency_id" class="form-control ">
+                                        <option value=""
+                                                label="-- Всички --"><?php echo $this->language()->translate('All'); ?></option>
+                                        <?php foreach ($this->agencies as $key => $value) { ?>
+                                            <option
+                                                value="<?php echo $key; ?>" <?php echo ($this->searchFormData['agency_id'] == $key) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="input-group col-md-12 col-sm-12 col-xs-12" id="property_feature_wrapper"
+                                         style="display: <?php echo ($this->searchFormData['property_type_id'] == 20) ? 'none' : 'inherit'; ?>">
+                                        <?php
+                                        foreach ($this->propertyFeatures as $key => $value) {
+                                            ?>
+                                            <div class="col-md-6 col-sm-4 col-xs-6">
+                                                <label for="property_feature_<?php echo $key; ?>"
+                                                       style="cursor:pointer;"><input class="property-feature-items"
+                                                                                      id="property_feature_<?php echo $key; ?>"
+                                                                                      name="property_features[]" <?php echo (isset($this->searchFormData['property_features']) && (in_array($key, $this->searchFormData['property_features']))) ? 'checked' : '' ?>
+                                                                                      type="checkbox"
+                                                                                      value="<?php echo $key; ?>">&nbsp;<?php echo $this->language()->translate($value); ?>
+                                                </label>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="input-group col-md-12 col-sm-4" id="parcel_feature_wrapper"
+                                         style="display: <?php echo ($this->searchFormData['property_type_id'] != 20) ? 'none' : 'inherit'; ?>;">
+                                        <?php
+                                        foreach ($this->parcelFeatures as $key => $value) {
+                                            ?>
+                                            <div class="col-md-6 col-sm-1">
+                                                <label for="parcel_feature_<?php echo $key; ?>" style="cursor:pointer;"><input
+                                                        id="parcel_feature_<?php echo $key; ?>" name="parcel_features[]"
+                                                        value="<?php echo $key; ?>" <?php echo (isset($this->searchFormData['parcel_features']) && (in_array($key, $this->searchFormData['parcel_features']))) ? 'checked' : '' ?>
+                                                        type="checkbox">&nbsp;<?php echo $this->language()->translate($value); ?>
+                                                </label>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 search-fields">
+                                        <br/>
+                                        <input class="submit_button btn btn-primary button2" type="button"
+                                               value="<?php echo $this->language()->translate('Search'); ?>"
+                                               name="search" onclick="$('#searchForm').submit()">
+                                        <br/>&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $( document ).ready( function () {
+        var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test( navigator.platform );
+        if ( iOS ) {
+            var values = [];
+            <?php foreach ($this->searchFormData['neighbourhood_id'] as $key => $value) { ?>
+            values.push( '<?php echo $value; ?>' );
+            <?php } ?>
+            $( '#available_neighbourhood_id_iOS' ).multiselect(
+                {
+                    numberDisplayed: 1,
+                    maxHeight: 180,
+                    buttonClass: 'form-control areadriver ios-select',
+                    onChange: function ( option, checked, select ) {
+                        var value = $( option ).val();
+                        var text = $( option ).text();
+                        var exists = $( "#neighbourhood_id option[value='" + value + "']" ).length !== 0;
+                        if ( checked == true ) {
+                            if ( !exists ) {
+                                $( '#neighbourhood_id' ).append( '<option value=' + value + ' selected>' + text + '</option>' );
+                            }
+                        } else {
+                            if ( exists ) {
+                                $( "#neighbourhood_id option[value=" + value + "]" ).remove();
+                                $( "#neighbourhood_id option[value=" + value + "]" ).prop( 'selected', false );
+                            }
+                        }
+                    }
+                } );
+            $( '#available_neighbourhood_id_iOS' ).multiselect( 'select', values );
+            $( '#available_neighbourhood_id' ).css( "display", "none" );
+        }
+    } );
+
+</script>
+<script>
+    $( 'input, select' ).on( 'change', function () {
+        initSearchMap();
+    } );
+    $( '#available_neighbourhood_id, #neighbourhood_id' ).unbind( 'change' );
+    $( '#available_neighbourhood_id' ).on( 'change', function () {
+        $( this ).find( ':selected' ).each( function ( index, option ) {
+            var value = $( option ).val();
+            var text = $( option ).text();
+            if ( $( '#neighbourhood_id option[value="' + value + '"]' ).length > 0 ) {
+                return;
+            }
+            $( '#neighbourhood_id' ).append( '<option value=' + value + ' selected>' + text + '</option>' );
+        } );
+        initSearchMap();
+    } );
+    $( '#neighbourhood_id' ).on( 'change', function () {
+        $( this ).find( 'option:selected' ).remove();
+        $( '#neighbourhood_id option' ).prop( 'selected', true );
+        initSearchMap();
+    } );
+
+    $( '#neighbourhood_id' ).on( 'click', "option", function () {
+        $( this ).remove();
+        $( '#neighbourhood_id option' ).prop( 'selected', true );
+        initSearchMap();
+    } );
+</script>
+<script>
+    $( document ).ready( function () {
+        $( '[data-toggle="tooltip"]' ).tooltip();
+    } );
+</script>
+<script>
+    $( document ).ready( function () {
+        var isMobile = checkMobile();
+        if ( isMobile == true ) {
+            $( "#neighbourhood_id" ).empty();
+            initSearchMap();
+        } else {
+            //
+        }
+    } );
+</script>
+<script>
+    function checkMobile() {
+        if ( window.matchMedia( '(max-width: 990px)' ).matches ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

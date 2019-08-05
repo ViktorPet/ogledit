@@ -1,0 +1,66 @@
+<h1>Страници</h1>
+<div id="ajax-result"></div>
+<button id="createPages" type="submit" name="submit" class="btn btn-success">Въвеждане на страница</button>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {  
+        
+        document.getElementById("createPages").onclick = function () {
+            location.href = '<?php echo $this->url('languageRoute/adminPagesCreate'); ?>';
+        };
+        
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminPagesData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'title', type: 'string'},
+            {name: 'description', type: 'string'},
+            {name: 'date_updated', type: 'date'},
+            {name: 'language', type: 'string'}
+        ];
+        
+        var columns = [
+//            {text: 'ID', datafield: 'id'},
+            {text: 'Редакция', datafield: 'date_updated', cellsformat: 'd-MM-yyyy HH:mm', width:130},
+            {text: 'Език', datafield: 'language', width:50},
+            {text: 'Име на страницата', datafield: 'title', width:250},
+            {text: 'Информация', datafield: 'description',
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) { 
+                    if(value.length > 100) {
+                        value = value.substr(0,99)+'&hellip;';
+                    }
+                    return '<p style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 11px;">' + value + '</p>';
+                    
+                }
+            },                                           
+            {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminPagesDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' + 
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                    
+                }
+            },        
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);   
+        
+         //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    
+    });
+    
+    function openDialog(pageId) {            
+        location.href = '<?php echo $this->url('languageRoute/adminPagesEdit'); ?>/' + pageId;        
+    }
+</script>

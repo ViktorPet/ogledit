@@ -1,0 +1,171 @@
+<h1>Банер промяна</h1>
+
+<form method="post" action="" id="createBannerSlideForm" name="createBannerSlideForm" class="register-form submitthis" enctype="multipart/form-data">
+
+    <h3>Българска версия</h3>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('name')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('name')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('name'));
+            echo $this->formElement($this->form->get('name')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('name'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('name')); ?></div>
+        <?php } ?>
+    </div>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('link')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('link')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('link'));
+            echo $this->formElement($this->form->get('link')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('link'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('link')); ?></div>
+        <?php } ?>
+    </div>
+
+    <div class="form-group">
+            <span>
+                <?php
+                $this->form->get('desktop_img_delete')->setLabelAttributes(array('class' => 'slides-checkbox'));
+                echo $this->formLabel($this->form->get('desktop_img_delete'));
+                ?>
+            </span>
+        <span>
+                <?php
+                echo $this->formElement($this->form->get('desktop_img_delete'));
+                ?>
+            </span>
+    </div>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('desktop_img')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('desktop_img')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('desktop_img'));
+            echo $this->formElement($this->form->get('desktop_img')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('desktop_img'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('desktop_img')); ?></div>
+        <?php } ?>
+    </div>
+
+    <div class="form-group">
+            <span>
+                <?php
+                $this->form->get('mobile_img_delete')->setLabelAttributes(array('class' => 'slides-checkbox'));
+                echo $this->formLabel($this->form->get('mobile_img_delete'));
+                ?>
+            </span>
+        <span>
+                <?php
+                echo $this->formElement($this->form->get('mobile_img_delete'));
+                ?>
+            </span>
+    </div>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('mobile_img')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('mobile_img')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('mobile_img'));
+            echo $this->formElement($this->form->get('mobile_img')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('mobile_img'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('mobile_img')); ?></div>
+        <?php } ?>
+    </div>
+
+    <hr>
+    <h3>Английска версия</h3>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('link_en')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('link_en')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('link_en'));
+            echo $this->formElement($this->form->get('link_en')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('link_en'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('link_en')); ?></div>
+        <?php } ?>
+    </div>
+
+    <div class="form-group">
+            <span>
+                <?php
+                $this->form->get('desktop_img_en_delete')->setLabelAttributes(array('class' => 'slides-checkbox'));
+                echo $this->formLabel($this->form->get('desktop_img_en_delete'));
+                ?>
+            </span>
+        <span>
+                <?php
+                echo $this->formElement($this->form->get('desktop_img_en_delete'));
+                ?>
+            </span>
+    </div>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('desktop_img_en')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('desktop_img_en')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('desktop_img_en'));
+            echo $this->formElement($this->form->get('desktop_img_en')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('desktop_img_en'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('desktop_img_en')); ?></div>
+        <?php } ?>
+    </div>
+
+    <div class="form-group">
+            <span>
+                <?php
+                $this->form->get('mobile_img_en_delete')->setLabelAttributes(array('class' => 'slides-checkbox'));
+                echo $this->formLabel($this->form->get('mobile_img_en_delete'));
+                ?>
+            </span>
+        <span>
+                <?php
+                echo $this->formElement($this->form->get('mobile_img_en_delete'));
+                ?>
+            </span>
+    </div>
+
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->form->get('mobile_img_en')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->form->get('mobile_img_en')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->form->get('mobile_img_en'));
+            echo $this->formElement($this->form->get('mobile_img_en')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->form->get('mobile_img_en'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->form->get('mobile_img_en')); ?></div>
+        <?php } ?>
+    </div>
+
+    <hr clear="all">
+
+    <button type="button" id="submit_checkout" name="submit_checkout" value="submit_checkout" class="btn btn-success hidemenow"
+            onclick="form.submit()">Запази
+    </button>
+    <button id="offersBack" class="btn btn-success">Назад</button>
+</form>
+<script type="text/javascript">
+
+    document.getElementById("offersBack").onclick = function (event) {
+        event.preventDefault();
+        location.href = '<?php echo $this->url('languageRoute/adminBannersSlide'); ?>';
+    };
+
+</script>

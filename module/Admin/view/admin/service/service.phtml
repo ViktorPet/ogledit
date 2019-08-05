@@ -1,0 +1,73 @@
+<h1>Услуги</h1>
+<button id="createService" type="submit" name="submit" class="btn btn-success">Въвеждане на услуга</button>
+
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {    
+        
+        document.getElementById("createService").onclick = function () {
+            location.href = '<?php echo $this->url('languageRoute/adminServiceCreate'); ?>';
+        };
+        
+// Show Service          
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminServiceData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'string'},
+            {name: 'title', type: 'string'},
+            {name: 'description', type: 'string'},
+            {name: 'image', type: 'string'},
+            {name: 'panorama_file', type: 'string'},
+            {name: 'url', type: 'string'},
+            {name: 'image_link', type: 'string'},
+            {name: 'date_published', type: 'date'},
+            {name: 'date_created', type: 'date'},
+            {name: 'date_updated', type: 'date'},
+            {name: 'service_category_id', type: 'int'},
+            {name: 'category', type: 'string'}
+        ];
+        
+        var columns = [
+//            {text: 'id', datafield: 'id'},
+            {text: 'Дата', datafield: 'date_published', cellsformat: 'd-MM-yyyy HH:mm', width: 150},
+            {
+                text: 'Снимка', datafield: 'image', width: 120, filterable: false, sortable: false,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {  
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row); 
+                    return '<img border="0" height="75" src="/img/service-img/'+ dataRecord.id + "/" +  value + '" />';                                                        
+                }
+            },
+            {text: 'Заглавие', datafield: 'title'},
+            {text: 'Категория', datafield: 'category', width: 150},
+            {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);      
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminServiceDelete'); ?>/' + dataRecord.id;  
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' + 
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                }
+            },          
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);
+        
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    });
+
+        
+// Edit Blog
+    function openDialog(id) {            
+        location.href = '<?php echo $this->url('languageRoute/adminServiceEdit'); ?>/' + id;        
+    }
+</script>

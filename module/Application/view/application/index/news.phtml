@@ -1,0 +1,135 @@
+<!-- Site Showcase -->
+<section class="module parallax parallax-7" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('News'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">           
+            <?php
+            $left = $middle = $right = [];
+            for ($i = 0; $i < $this->count; $i++) {
+                if ($i % 3 == 0) {
+                    $left[] = $i;
+                } elseif ($i % 3 == 1) {
+                    $middle[] = $i;
+                } elseif ($i % 3 == 2) {
+                    $right[] = $i;
+                }
+            }
+            ?>           
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="property-grid">
+                        <?php if ($this->count > 0) { ?>                        
+                            <div style="width: 100%; float: left;">
+                                <ul class="paginationX desktop-show">
+                                    <?php include('pagination.phtml') ?>
+                                </ul>                                                                
+                            </div>
+                            <div>
+                                <ul class="paginationX mobile-show">
+                                    <?php include('pagination.phtml') ?>
+                                </ul>
+                            </div>
+                            <br>&nbsp;
+                            <br>&nbsp;                            
+                            <div class="clearfix">
+                                <div class="column-news col-md-4">
+                                    <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+                                        <?php foreach ($this->newsArticles as $key => $blog): ?>                
+                                            <?php foreach ($left as $leftelements): ?>                
+                                                <?php if ($key == $leftelements): ?>                                        
+                                                    <li class="grid-item post format-link isotope-item" >
+                                                        <div class="isotopeNews-item" style="float: left;">                            
+                                                            <a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>" class="media-box" title="<?php echo $blog['title']; ?>">
+                                                                <img src="https://ogledi.bg/img/blog-img/<?php echo $blog['image']; ?>"                                                      
+                                                                     alt="Ogledi.bg"                                                     
+                                                                     >
+                                                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                                                            </a>
+                                                            <div class="grid-content">
+                                                                <h4><a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>"><?php echo $blog['title']; ?></a></h4>
+                                                                <span class="meta-data"><span><i class="fa fa-calendar"></i><?php echo $blog['date_published']; ?></span></span>
+                                                                <p><?php echo mb_substr(strip_tags($blog['description']), 0, 80, 'utf-8'); ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>                                
+                                        <?php endforeach; ?>
+                                    </ul>            
+                                </div>
+                                <div class="column-news col-md-4">
+                                    <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+                                        <?php foreach ($this->newsArticles as $key => $blog): ?>                
+                                            <?php foreach ($middle as $middleelements): ?>                
+                                                <?php if ($key == $middleelements): ?>                        
+                                                    <li class="grid-item post format-link isotope-item" >
+                                                        <div class="isotopeNews-item" style="float: left;">                            
+                                                            <a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>" class="media-box" title="<?php echo $blog['title']; ?>">
+                                                                <img src="https://ogledi.bg/img/blog-img/<?php echo $blog['image']; ?>"                                                         
+                                                                     alt="Ogledi.bg"                              
+                                                                     >
+                                                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                                                            </a>
+                                                            <div class="grid-content">
+                                                                <h4><a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>"><?php echo $blog['title']; ?></a></h4>
+                                                                <span class="meta-data"><span><i class="fa fa-calendar"></i><?php echo $blog['date_published']; ?></span></span>
+                                                                <p><?php echo mb_substr(strip_tags($blog['description']), 0, 80, 'utf-8'); ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>                                
+                                        <?php endforeach; ?>
+                                    </ul>            
+                                </div>
+                                <div class="column-news col-md-4">
+                                    <ul class="grid-holder col-1 isotope" style="position: relative; overflow: hidden; ">
+                                        <?php foreach ($this->newsArticles as $key => $blog): ?>                
+                                            <?php foreach ($right as $rightelements): ?>                
+                                                <?php if ($key == $rightelements): ?>                        
+                                                    <li class="grid-item post format-link isotope-item" >
+                                                        <div class="isotopeNews-item" style="float: left;">                            
+                                                            <a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>" class="media-box" title="<?php echo $blog['title']; ?>">
+                                                                <img src="https://ogledi.bg/img/blog-img/<?php echo $blog['image']; ?>"                                                         
+                                                                     alt="Ogledi.bg"                                                           
+                                                                     >
+                                                                <span class="zoom" style="width: 354; height: 100%; line-height: 218px;"></span>
+                                                            </a>
+                                                            <div class="grid-content">
+                                                                <h4><a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $blog['url'])); ?>"><?php echo $blog['title']; ?></a></h4>
+                                                                <span class="meta-data"><span><i class="fa fa-calendar"></i><?php echo $blog['date_published']; ?></span></span>
+                                                                <p><?php echo mb_substr(strip_tags($blog['description']), 0, 80, 'utf-8'); ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>                                
+                                        <?php endforeach; ?>
+                                    </ul>            
+                                </div>       
+                            </div>       
+                            <div>
+                                <ul class="paginationX desktop-show">
+                                    <?php include('pagination.phtml') ?>
+                                </ul>
+                            </div> 
+                            <div>
+                                <ul class="paginationX mobile-show">
+                                    <?php include('pagination.phtml') ?>
+                                </ul>
+                            </div>
+                        <?php } else { ?>
+                            <?php echo $this->language()->translate('No results found'); ?>                         
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

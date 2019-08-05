@@ -1,0 +1,397 @@
+
+<!-- Site Showcase -->
+<!--Cuscom parallax-->
+<div id="mobile-indicator" class=""></div>
+
+<div class="site-showcase">
+    <section id="sliders" class="module parallax sliders-finder">
+        <div class="carousel" style="position: relative;z-index: 0;">
+            <div id="slides-container" class="owl-carousel">
+            </div>
+            <div class="owl-dots owl-carousel-dots"></div>
+        </div>
+    </section>
+</div>
+<script>
+
+    $( ".owl-carousel" ).owlCarousel( {
+        loop: true,
+        margin: 10,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplaySpeed: 2000,
+        autoplayHoverPause: true,
+        dots: true,
+        dotsContainer: ".owl-carousel-dots",
+        pagination: false,
+        navigation: true
+    } );
+
+    if(!$('#mobile-indicator').is(':visible')) {
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url('languageRoute/getSlidersApplication'); ?>' + '<?php echo \Admin\Model\Sliders::MOBILE;?>',
+            success: function (data) {
+                $('#sliders').css('max-height', '750px');
+                $('.owl-carousel-dots').css('margin-top', '-30px');
+                var lang = '<?php echo $_SESSION['lang'];?>';
+                var link = '<?php echo SITE_URL;?>';
+                var haveData = false;
+                $.each(data.sliders, function(index, item) {
+                    haveData = true;
+                    var string = '';
+                    var http ='';
+                    if(lang == 'bg') {
+                        if(item.link != '') {
+                            http = item.link;
+                        } else {
+                            http = link;
+                        }
+                        string += 'class="owl-carousel-image" src="/img/banners-slide/mobile/' + item.mobile_img + '"';
+                    } else {
+                        if(item.link_en != '') {
+                            http = item.link_en;
+                        } else {
+                            http = link;
+                        }
+                        string += 'class="owl-carousel-image" src="/img/banners-slide/mobile/' + item.mobile_img_en + '"';
+                    }
+
+
+                    $( ".owl-carousel" ).trigger('add.owl.carousel', [jQuery('<div class="item">'+'<a href="' + http + '"><img ' + string + '/></a></div>')]);
+                });
+
+                if(!haveData) {
+                    var siteLink = '<?php echo SITE_URL;?>';
+                    $( ".owl-carousel" ).trigger('add.owl.carousel', [jQuery('<div class="item">'+'<a href="' + siteLink + '"><img class="owl-carousel-image" src="/img/banners-slide/nachalo-mobile.jpg"/></a></div>')]);
+                }
+
+                $('.owl-carousel').trigger('refresh.owl.carousel');
+            }
+        });
+    } else {
+        $.ajax({
+            type: 'GET',
+            url: '<?php echo $this->url('languageRoute/getSlidersApplication'); ?>' + '<?php echo \Admin\Model\Sliders::DESKTOP;?>',
+            success: function (data) {
+                $('#sliders').css('max-height', '400px');
+                $('.owl-carousel-dots').css('margin-top', '-30px');
+
+                var lang = '<?php echo $_SESSION['lang'];?>';
+                var link = '<?php echo SITE_URL;?>';
+                var haveData = false;
+                console.log(data);
+                $.each(data.sliders, function (index, item) {
+                    haveData = true;
+                    var string = '';
+                    var http = '';
+                    if (lang == 'bg') {
+                        if (item.link != '') {
+                            http = item.link;
+                        } else {
+                            http = link;
+                        }
+                        string += 'class="owl-carousel-image" src="/img/banners-slide/desktop/' + item.desktop_img + '"';
+                    } else {
+                        if (item.link_en != '') {
+                            http = item.link_en;
+                        } else {
+                            http = link;
+                        }
+                        string += 'class="owl-carousel-image" src="/img/banners-slide/desktop/' + item.desktop_img_en + '"';
+                    }
+
+
+                    $(".owl-carousel").trigger('add.owl.carousel', [jQuery('<div class="item">' + '<a href="' + http + '"><img ' + string + '/></a></div>')]);
+                });
+
+                if (!haveData) {
+                    var siteLink = 'http://<?php echo SITE_URL;?>';
+                    $(".owl-carousel").trigger('add.owl.carousel', [jQuery('<div class="item">' + '<a href="' + siteLink + '"><img class="owl-carousel-image" src="/img/banners-slide/nachalo-big.jpg"/></a></div>')]);
+                }
+
+                $('.owl-carousel').trigger('refresh.owl.carousel');
+            }
+        });
+    }
+</script>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full homepage-search-content">
+        <div class="mobile-hide">
+            <div class="container homepage-search homepage-search-container">
+                <div class="site-search-module-inside homepage-search-div" >
+                    <form id="searchForm" name="searchForm" method="post" action="<?php echo $this->url('languageRoute/searchResults'); ?>">
+                        <div class="row">
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label for="offer_type_id"><?php echo $this->language()->translate('Search type'); ?></label>
+                                    <select name="offer_type_id" id="offer_type_id" class="form-control ">
+                                        <?php foreach ($this->offerTypes as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" label="<?php echo $value; ?>" <?php echo ($this->searchFormData['offer_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $this->language()->translate($value); ?></option>
+                                        <?php } ?>
+                                    </select></div>
+                            </div>
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label for="property_type_id"><?php echo $this->language()->translate('Property type'); ?></label>
+                                    <select name="property_type_id" id="property_type_id" class="form-control tformat">
+                                        <option value=""><?php echo $this->language()->translate('All'); ?></option>
+                                        <?php foreach ($this->propertyTypes as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" label="<?php echo $value; ?>" <?php echo ($this->searchFormData['property_type_id'] == $key) ? 'selected' : ''; ?>><?php echo $this->language()->translate($value); ?></option>
+                                        <?php } ?>
+                                    </select></div>
+                            </div>
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label for="city_id"><?php echo $this->language()->translate('Town'); ?></label>
+                                    <select name="city_id" id="city_id" class="form-control citydriver" onchange="initSearchMap()">
+                                        <?php foreach ($this->cities as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" label="<?php echo $value; ?>" <?php echo ($this->searchFormData['city_id'] == $key) ? 'selected' : ''; ?>><?php echo $_SESSION['lang'] == 'bg' ? $value : $this->pages()->translateFormField($value); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <script>
+                                    $('#city_id').on('change', function () {
+                                        var cityId = $('#city_id').val();
+                                        $.get('<?php echo $this->url('languageRoute/neighbourhoodsData'); ?>' + '?cityId=' + cityId + '&t=' + (new Date()).getTime())
+                                            .success(function (data) {
+                                                $('#neighbourhood_id').find('option').remove();
+                                                $('#neighbourhood_id').append('<option value=""><?php echo $this->language()->translate('All'); ?></option>');
+                                                $.each(data, function (key, value) {
+                                                    $('#neighbourhood_id').append('<option value=' + value.key + '>' + value.value + '</option>');
+                                                });
+                                            })
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label for="neighbourhood_id"><?php echo $this->language()->translate('Possible Areas'); ?></label>
+                                    <select name="neighbourhood_id[]" id="neighbourhood_id" class="form-control areadriver">
+                                        <option value=""><?php echo $this->language()->translate('All'); ?></option>
+                                        <?php foreach ($this->neighbourhoods as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" label="<?php echo $value; ?>"><?php echo $_SESSION['lang'] == 'bg' ? $value : $this->pages()->translateFormField($value);?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label for="neighbourhood_id">&nbsp;</label>
+                                    <input class="submit_button btn-primary button2 form-control areadriver" type="button" value="<?php echo $this->language()->translate('Search'); ?>" name="search" onclick="$('#searchForm').submit()">
+                                </div>
+                            </div>
+                            <div class="col-md-2 search-fields">
+                                <div class="search-field">
+                                    <label>&nbsp;</label>
+                                    <a class="btn-primary button2 form-control areadriver wide-search" href="<?php echo $this->url('languageRoute/search', array('lang' => $_SESSION['lang'])); ?>" ><?php echo $this->language()->translate('Advanced Search'); ?></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+            <div class="featured-blocks">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <script type='text/javascript'><!--//<![CDATA[
+                                    var m3_u = (location.protocol=='https:'?'https://ads.ogledi.bg/www/delivery/ajs.php':'http://ads.ogledi.bg/www/delivery/ajs.php');
+                                    var m3_r = Math.floor(Math.random()*99999999999);
+                                    if (!document.MAX_used) document.MAX_used = ',';
+                                    document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+                                    document.write ("?zoneid=1");
+                                    document.write ('&amp;cb=' + m3_r);
+                                    if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+                                    document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+                                    document.write ("&amp;loc=" + escape(window.location));
+                                    if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+                                    if (document.context) document.write ("&context=" + escape(document.context));
+                                    if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+                                    document.write ("'><\/scr"+"ipt>");
+                                    //]]>--></script><noscript><a href='http://ads.ogledi.bg/www/delivery/ck.php?n=ab5b4d7c&amp;cb=(new Date().getTime())' target='_blank'><img src='http://ads.ogledi.bg/www/delivery/avw.php?zoneid=1&amp;cb=(new Date().getTime())&amp;n=ab5b4d7c' border='0' alt='' /></a></noscript>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer-40"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="property-columns" >
+                    <div class="col-md-12">
+                        <div class="block-heading">
+                            <h4><span class="heading-icon"><i class="fa fa-star"></i></span><?php echo $this->language()->translate('Top offers'); ?></h4>
+                        </div>
+                    </div>
+                    <ul>
+                        <?php if (count($this->topOffers)) { ?>
+                            <?php foreach ($this->topOffers as $topOffer) { ?>
+                                <li class="col-md-4 col-sm-6 type-rent">
+                                    <div class="property-block">
+                                        <div class="property-block-pin top"><?php echo $this->language()->translate('TOP'); ?></div>
+                                        <?php $offerUrl = $this->pages()->generateOfferUrl($topOffer['id'], $topOffer['offerTypeName'], $topOffer['propertyTypeName'], $topOffer['cityName']); ?>
+                                        <div style="overflow: hidden">
+                                            <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>" class="property-featured-image">
+                                                <img src="https://ogledi.bg/media/offers/<?php echo $topOffer['id']; ?>/front-<?php echo $topOffer['image']; ?>" alt="" srcset="https://ogledi.bg/media/offers/<?php echo $topOffer['id']; ?>/front-<?php echo $topOffer['image']; ?> 600w, https://ogledi.bg/media/offers/<?php echo $topOffer['id']; ?>/front-<?php echo $topOffer['image']; ?> 150w, https://ogledi.bg/media/offers/<?php echo $topOffer['id']; ?>/front-<?php echo $topOffer['image']; ?> 100w" sizes="(max-width: 600px) 100vw, 600px" class="attachment-600-400-size size-600-400-size wp-post-image top-images" style="height: 219px;"/>
+                                                <?php if ($topOffer['userOfferStatusId'] == 2) { ?>
+                                                <span class="user-status"> <?php echo ($topOffer['offerTypeId'] == 1) ? $this->language()->translate('Sold') : $this->language()->translate('Given up'); ?></span>
+                                                <?php } ?>
+                                                <span class="images-count"><i class="fa fa-eye"></i> <?php echo $topOffer['counter']; ?></span>
+                                            </a>
+                                        </div>
+                                        <div class="property-info">
+                                            <h4><a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>"><?php echo $topOffer['offerTypeName']; ?> <?php echo $topOffer['propertyTypeName']; ?> </a></h4>
+                                            <a class="accent-color" data-toggle="tooltip" href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>">
+                                                <span class="location"><?php echo $topOffer['cityName']; ?>, <?php echo $topOffer['neighbourhoodName']; ?></span>
+                                            </a>
+                                            <br>
+                                            <div class="price"><span class=""><?php echo number_format($topOffer['price'], 0, '.', ','); ?></span><strong><?php echo $topOffer['currencyShortName']; ?></strong></div>
+                                        </div>
+                                        <div class="property-amenities clearfix">
+                                            <span class="area"><strong><?php echo $topOffer['area']; ?></strong><?php echo $this->language()->translate('Square meters'); ?></span>
+                                            <span class="baths"><strong><?php echo number_format($topOffer['totalRooms'], 0); ?></strong><?php echo $this->language()->translate('Rooms'); ?></span>
+                                            <span class="beds"><strong><?php echo number_format($topOffer['bathrooms'], 0); ?></strong><?php echo $this->language()->translate('Bathrooms'); ?></span>
+
+                                            <span class="parking"><strong><?php echo $this->language()->translate('Yes'); ?></strong><?php echo $this->language()->translate('Parking'); ?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <?php echo $this->language()->translate('No top offers'); ?>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="property-columns" id="latest-properties">
+                    <div class="col-md-12">
+                        <div class="block-heading">
+                            <h4><span class="heading-icon"><i class="fa fa-leaf"></i></span><?php echo $this->language()->translate('Latest offers'); ?></h4>
+                        </div>
+                    </div>
+                    <ul>
+                        <?php if (count($this->lastOffers) > 0) { ?>
+                            <?php foreach ($this->lastOffers as $lastOffer) { ?>
+                                <li class="col-md-3 col-sm-3 type-rent">
+                                    <div class="item property-block">
+                                        <?php if($lastOffer['vipOffer'] == 1) { ?>
+                                            <div class="property-block-pin vip"><?php echo $this->language()->translate('VIP'); ?></div>
+                                        <?php } else if ($lastOffer['topOffer'] == 1) { ?>
+                                            <div class="property-block-pin top"><?php echo $this->language()->translate('TOP'); ?></div>
+                                        <?php } ?>
+                                        <?php $offerUrl = $this->pages()->generateOfferUrl($lastOffer['id'], $lastOffer['offerTypeName'], $lastOffer['propertyTypeName'], $lastOffer['cityName']); ?>
+                                        <div style="overflow: hidden">
+                                            <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>" class="property-featured-image">
+                                                <img src="https://ogledi.bg/media/offers/<?php echo $lastOffer['id']; ?>/front-<?php echo $lastOffer['image']; ?>" alt="" srcset="https://ogledi.bg/media/offers/<?php echo $lastOffer['id']; ?>/front-<?php echo $lastOffer['image']; ?> 600w, https://ogledi.bg/media/offers/<?php echo $lastOffer['id']; ?>/front-<?php echo $lastOffer['image']; ?> 150w, https://ogledi.bg/media/offers/<?php echo $lastOffer['id']; ?>/front-<?php echo $lastOffer['image']; ?> 100w" sizes="(max-width: 600px) 100vw, 600px" class="attachment-600-400-size size-600-400-size wp-post-image vip-images" style="height: 160px;"/>
+                                                <!--<img src="https://ogledi.bg/media/offers/<?php echo $lastOffer['id']; ?>/front-<?php echo $lastOffer['image']; ?>" class="attachment-600-400-size size-600-400-size wp-post-image" alt="slide1" sizes="(max-width: 600px)">-->
+                                                <?php if ($lastOffer['userOfferStatusId'] == 2) { ?>
+                                                <span class="user-status"> <?php echo ($lastOffer['offerTypeId'] == 1) ? $this->language()->translate('Sold') : $this->language()->translate('Given up'); ?></span>
+                                                <?php } ?>
+                                                <span class="images-count"><i class="fa fa-eye"></i> <?php echo $lastOffer['counter']; ?></span>
+
+                                            </a>
+                                        </div>
+                                        <div class="property-info">
+                                            <h4><a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>"><?php echo $lastOffer['offerTypeName']; ?> <?php echo $lastOffer['propertyTypeName']; ?> </a></h4>
+                                            <a href="<?php echo $this->url('languageRoute/previewOffer', array('lang' => $_SESSION['lang'], 'offerId' => $offerUrl)); ?>" class="accent-color"><span class="location"><?php echo $lastOffer['cityName']; ?>, <?php echo $lastOffer['neighbourhoodName']; ?></span></a>
+                                            <br>
+                                            <div class="price"><span class=""><?php echo number_format($lastOffer['price'], 0, '.', ','); ?></span><strong><?php echo $lastOffer['currencyShortName']; ?></strong></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <?php echo $this->language()->translate('No Offers'); ?>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="padding-tb45 bottom-blocks">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 features-list column" style="cursor:pointer;">
+                        <div class="sidebar-widget-title">
+                            <h3 class="widgettitle"><?php echo $this->language()->translate('News/Blog'); ?></h3>
+                        </div>
+                        <div class="widgetd sidebar-widget widget_recent_posts media-box-mobile-div col-sm-12" style="height: 252px;">
+                            <ul>
+                                <?php foreach ($this->lastNews as $key => $news): ?>
+                                    <?php if($news['category_id'] == 2) { ?>
+                                        <li class="clearfix media-box-mobile-li">
+                                            <a href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $news['url'])); ?>" class="media-box post-image clearfix-anchor">
+                                                <img src="/img/blog-img/<?php echo $news['image']; ?>" alt="<?php echo $news['title']; ?>" class="img-thumbnail wp-post-image clearfix-image media-box-mobile-image">
+                                            </a>
+                                            <div class="widget-blog-content">
+                                                <a class="media-box-mobile-text" href="<?php echo $this->url('languageRoute/newsPost', array('lang' => $_SESSION['lang'], 'url' => $news['url'])); ?>" title="<?php echo $news['title']; ?>"><?php echo mb_substr(strip_tags($news['title']), 0, 43, 'utf-8');?> ...</a>
+                                            </div>
+                                        </li>
+                                    <?php } else { ?>
+                                        <li class="clearfix media-box-mobile-li">
+                                            <a href="<?php echo $this->url('languageRoute/blogPost', array('lang' => $_SESSION['lang'], 'url' => $news['url'])); ?>" class="media-box post-image clearfix-anchor">
+                                                <img src="/img/blog-img/<?php echo $news['image']; ?>" alt="<?php echo $news['title']; ?>" class="img-thumbnail wp-post-image clearfix-image media-box-mobile-image">
+                                            </a>
+                                            <div class="widget-blog-content">
+                                                <a class="media-box-mobile-text" href="<?php echo $this->url('languageRoute/blogPost', array('lang' => $_SESSION['lang'], 'url' => $news['url'])); ?>" title="<?php echo $news['title']; ?>"><?php echo mb_substr(strip_tags($news['title']), 0, 43, 'utf-8');?> ...</a>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 widget_popular_agent column">
+                        <h3><a href="<?php echo $this->url('languageRoute/allAgencies'); ?>"><?php echo $this->language()->translate('Agencies'); ?></a></h3>
+                        <?php foreach ($this->agenciesWithLogo as $agencieId => $logo): ?>
+                        <div class="col-md-6 agents-box">
+                            <form id="searchForm" name="searchForm" method="post" action="<?php echo $this->url('languageRoute/searchResults'); ?>">
+                                <input type="hidden" name="agency_id" id="agency_id" value="<?php echo $agencieId; ?>">
+                                <a style="overflow: hidden" name="search" rel="tooltip" data-toggle="tooltip" data-original-title="WEST REALTY COMPANY" data-placement="top">
+                                    <input style="height: 80px;max-width: 100%" type="image" name="submit" src="https://ogledi.bg/media/agents/<?php echo $agencieId . '/' .$logo;?>" border="0"  />
+                                </a>
+                            </form>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="col-md-4 column">
+                        <h3 class=""><?php echo $this->language()->translate('Advertisement'); ?></h3>
+                        <!--<a href="http://www.autobild-bulgaria.com" title="Auto Bild" target="_blank"><img src="img/BannerZV-300x250.jpg" title="Auto Bild"></a>-->
+                        <script type='text/javascript'><!--//<![CDATA[
+                            var m3_u = (location.protocol=='https:'?'https://ads.ogledi.bg/www/delivery/ajs.php':'http://ads.ogledi.bg/www/delivery/ajs.php');
+                            var m3_r = Math.floor(Math.random()*99999999999);
+                            if (!document.MAX_used) document.MAX_used = ',';
+                            document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+                            document.write ("?zoneid=2");
+                            document.write ('&amp;cb=' + m3_r);
+                            if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+                            document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+                            document.write ("&amp;loc=" + escape(window.location));
+                            if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+                            if (document.context) document.write ("&context=" + escape(document.context));
+                            if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+                            document.write ("'><\/scr"+"ipt>");
+                            //]]>--></script><noscript><a href='http://ads.ogledi.bg/www/delivery/ck.php?n=ad3c2b7b&amp;cb=(new Date().getTime())' target='_blank'><img src='http://ads.ogledi.bg/www/delivery/avw.php?zoneid=2&amp;cb=(new Date().getTime())&amp;n=ad3c2b7b' border='0' alt='' /></a></noscript>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    isHomepage = true;
+</script>
+

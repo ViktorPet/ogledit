@@ -1,0 +1,1 @@
+UPDATE `service_categories` SET `name` = 'Услуги' WHERE `service_categories`.`id` = 5;

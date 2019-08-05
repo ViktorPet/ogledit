@@ -1,0 +1,72 @@
+
+
+<div class="container">
+
+    <div class="row">
+        <h3>Number of photographs per Town</h3>
+
+        <hr>
+
+
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+
+
+            <?php
+
+            $form = $this->form;
+            $cities = $this->cities;
+
+            $first = $cities[0];
+            $second = $cities[1];
+            $third = $cities[2];
+            $form->prepare();
+
+            //print_r($cities);
+            echo $this->form()->openTag($form);
+
+            ?>
+            <?php for($i=1; $i < 5/*count($first)*/; $i++) : ?>
+
+                <div class="form-group">
+
+                    <label class="control-label "><strong><?php  echo $first[$i]; ?></strong></label>
+
+
+
+
+                    <?php
+                    /*$form->get('photographs'.$i)
+                        ->setAttribute('name', $third [$i]);*/
+                    echo $this->formRow($form->get('photographs'.$i)
+                                            ->setAttribute('options', [  $second [$i], 1,2,3,4,5,], ['disable_inarray_validator' => true])); ?>
+                </div>
+
+            <?php endfor; ?>
+            <!--<div class="form-group">
+                <label class="control-label "><strong>Враца :</strong></label>
+                <?php /*echo $this->formRow($form->get('photographs')); */?>
+            </div>
+            <div class="form-group">
+                <label class="control-label "><strong>Варна :</strong></label>
+                <?php /*echo $this->formRow($form->get('photographs')); */?>
+            </div>
+            <div class="form-group">
+                <label class="control-label "><strong>Пловдиж :</strong></label>
+                <?php /*echo $this->formRow($form->get('photographs')); */?>
+            </div>
+            <div class="form-group">
+                <label class="control-label "><strong>Смолян :</strong></label>
+                <?php /*echo $this->formRow($form->get('photographs')); */?>
+            </div>-->
+
+            <?php echo $this->formSubmit($form->get('submit')); ?>
+
+            <?php echo $this->form()->closeTag(); ?>
+
+
+
+        </div>
+    </div>
+
+</div>

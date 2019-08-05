@@ -1,0 +1,1 @@
+ALTER TABLE articles add meta_keywords varchar(160) DEFAULT null

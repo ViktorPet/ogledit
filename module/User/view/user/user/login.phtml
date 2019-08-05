@@ -1,0 +1,195 @@
+<?php
+$loginForm = $this->loginForm;
+$loginForm->prepare();
+
+$regForm = $this->regForm;
+$regForm->prepare();
+?>
+
+<!-- Site Showcase -->
+<!--removed parallax/carousel/slider thing-->
+<section class="module parallax parallax-2" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('Enter/Register'); ?></h2>
+    </div>
+</section>
+<!--REMOVED SEARCH ENGINE-->
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <div class="alert alert-standard fade in">
+                            <script type='text/javascript'><!--//<![CDATA[
+                                var m3_u = (location.protocol=='https:'?'https://ads.ogledi.bg/www/delivery/ajs.php':'http://ads.ogledi.bg/www/delivery/ajs.php');
+                                var m3_r = Math.floor(Math.random()*99999999999);
+                                if (!document.MAX_used) document.MAX_used = ',';
+                                document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+                                document.write ("?zoneid=18");
+                                document.write ('&amp;cb=' + m3_r);
+                                if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+                                document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+                                document.write ("&amp;loc=" + escape(window.location));
+                                if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+                                if (document.context) document.write ("&context=" + escape(document.context));
+                                if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+                                document.write ("'><\/scr"+"ipt>");
+                                //]]>--></script><noscript><a href='http://ads.ogledi.bg/www/delivery/ck.php?n=ac8fb0d7&amp;cb=(new Date().getTime())' target='_blank'><img src='http://ads.ogledi.bg/www/delivery/avw.php?zoneid=18&amp;cb=(new Date().getTime())&amp;n=ac8fb0d7' border='0' alt='' /></a></noscript>
+<!--                            <h4 class="">--><?php //echo $this->language()->translate('Before you sign read'); ?><!--</h4>-->
+<!--                            <div style="text-align: justify;">-->
+<!--                                --><?php //echo $this->language()->translate('Before you sign read text'); ?>
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 login-form">
+                        <h3><?php echo $this->language()->translate('Enter'); ?></h3>                                               
+                        <?php echo $this->form()->openTag($loginForm) ?>
+                        <input type="hidden" name="loginForm" value="1" />
+
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                            <?php echo $this->formElement($loginForm->get('email')->setAttributes(array('class' => 'form-control input1', 'placeholder' => 'E-mail'))); ?>  
+                        </div>
+                        <?php if ($this->formElementErrors($loginForm->get('email'))) { ?>
+                            <div class="alert alert-danger"><?php echo $this->formElementErrors($loginForm->get('email')); ?></div>
+                        <?php } ?>
+           
+                        <br>
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                            <?php echo $this->formElement($loginForm->get('password')->setAttributes(array('class' => 'form-control input1', 'placeholder' => 'Парола'))); ?>
+                        </div>
+                        <?php if ($this->formElementErrors($loginForm->get('password'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($loginForm->get('password')); ?></div>
+                        <?php } ?>
+                        <br>
+                        <!--<div class="input-group">
+                            <div class="g-recaptcha" data-sitekey="6LegGgwUAAAAAHamsJYRMzy_FiVgagOR_NXUP_hK"></div>
+                        </div>-->
+<!--                        <div class="">-->
+<!--                            --><?php //echo $captchas->image () ?>
+<!--                        </div>-->
+<!--                        <br>-->
+<!--                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-square"></i></span>-->
+                            <?php if ($this->loginFormError) { ?>
+                                <div class="alert alert-danger"><?php echo $this->loginFormError; ?></div>
+                            <?php } ?>
+<!--                        </div>-->
+                        <br>
+                        <br>
+                        <input class="submit_button btn btn-primary button2" type="submit" value="<?php echo $this->language()->translate('Enter'); ?>" name="submit">                                                
+                        <a style="float:right;" href="<?php echo $this->url('languageRoute/myNewPass', array('lang' => $_SESSION['lang'])); ?>" title="Forget Password"><?php echo $this->language()->translate('Forgotten password'); ?></a>
+                        <br clear="all">                          
+                        </br>
+                        <div style="width: 300px;">
+                            <a href="<?php echo $this->fbLogin;?>"><img src="/img/facebook-sign-in.png" border="0" width="50%" /></a>
+                        </div>
+                        </br>
+                        <?php echo $this->form()->closeTag() ?>
+                    </div>
+                    <div class="col-md-4 col-sm-4 register-form">
+                        <h3><?php echo $this->language()->translate('Register'); ?></h3>
+                        <form action="" method="post" id="registerform" name="registrationForm" class="register-form submitthis" enctype="multipart/form-data">
+                            <input type="hidden" name="registration" value="1" />
+                            <div class="input-group"><span class="input-group-addon"><i class="fa fa-refresh"></i></span>
+                                <?php echo $this->formElement($regForm->get('user_type_id')->setAttributes(array('class' => 'form-control selectpicker', 'id' => 'user_type_id'))); ?>
+                                <?php echo $this->formElementErrors($regForm->get('user_type_id')); ?>
+                            </div>
+                            <script>
+                                $( '#user_type_id' ).on( 'change', function () {
+                                    toggleCompanyUserFields();
+                                } );                                
+                            </script>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <?php echo $this->formElement($regForm->get('names')->setAttributes(array('class' => 'form-control selectpicker', 'placeholder' => $this->language()->translate('Name')))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('names'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('names')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php echo $this->formElement($regForm->get('phone')->setAttributes(array('class' => 'form-control selectpicker', 'placeholder' => $this->language()->translate('Phone +359')))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('phone'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('phone')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <?php echo $this->formElement($regForm->get('email')->setAttributes(array('class' => 'form-control input1', 'placeholder' => $this->language()->translate('E-mail')))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('email'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('email')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <?php echo $this->formElement($regForm->get('password')->setAttributes(array('class' => 'form-control input1', 'placeholder' => $this->language()->translate('Password')))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('password'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('password')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-refresh"></i></span>
+                                <?php echo $this->formElement($regForm->get('password_confirm')->setAttributes(array('class' => 'form-control input1', 'placeholder' => $this->language()->translate('Password again')))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('password_confirm'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('password_confirm')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div><?php echo $this->language()->translate('Logo/Picture');?></div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-image"></i></span>
+                                <?php echo $this->formElement($regForm->get('logo')->setAttributes(array('class' => 'form-control input1'))); ?>
+                            </div>
+                            <?php if ($this->formElementErrors($regForm->get('logo'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('logo')); ?></div>
+                            <?php } ?>
+                            <br>
+                            <div id="firmflds">
+                                <hr>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <?php echo $this->formElement($regForm->get('director')->setAttributes(array('class' => 'form-control input1', 'placeholder' => $this->language()->translate('Mall'), 'id' => 'director'))); ?>
+                                </div>
+                                <?php if ($this->formElementErrors($regForm->get('director'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('director')); ?></div>
+                            <?php } ?>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <?php echo $this->formElement($regForm->get('vat_number')->setAttributes(array('class' => 'form-control input1', 'placeholder' => $this->language()->translate('BULSTAT'), 'id' => 'vat_number'))); ?>
+                                </div>
+                                <?php if ($this->formElementErrors($regForm->get('vat_number'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('vat_number')); ?></div>
+                            <?php } ?>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <?php echo $this->formElement($regForm->get('company_address')->setAttributes(array('class' => 'form-control input1', 'placeholder' => mb_strtoupper($this->language()->translate('Address'), 'UTF-8'), 'id' => 'company_address'))); ?>
+                                </div>
+                                <?php if ($this->formElementErrors($regForm->get('company_address'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($regForm->get('company_address')); ?></div>
+                            <?php } ?>
+                            </div>
+                            <script>
+                                toggleCompanyUserFields();
+                            </script>
+                            <br>
+                            <br>
+                            <input class="submit_button btn btn-primary button2" type="submit" value="<?php echo $this->language()->translate('Register');?>" name="submit">
+                        </form>
+                        <div class="clearfix"></div>
+                        <div id="message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

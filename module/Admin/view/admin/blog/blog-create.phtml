@@ -1,0 +1,279 @@
+<?php
+$form = $this->form;
+/* @var $form \Admin\Form\BlogForm */
+$form->prepare();
+$form->setAttribute('method', 'post');
+
+$title = $form->get('title'); 
+$description = $form->get('description');
+$url = $form->get('url');
+$image = $form->get('image');
+$position = $form->get('position');
+$date_published = $form->get('date_published');
+$meta_title = $form->get('meta_title');
+$meta_description = $form->get('meta_description');
+$meta_keywords = $form->get('meta_keywords');
+$language_id = $form->get('language_id');
+$category_id = $form->get('category_id');
+
+$submitElement = $form->get('submit');
+?>
+<h1>Въвеждане на статия</h1>
+<div class="row">
+    <div class="col-md-5 col-lg-5">
+        <?php echo $this->form()->openTag($form) ?>
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($language_id) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $language_id->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($language_id);
+                echo $this->formElement($language_id->setAttributes(array('class' => 'form-control text-input', 'id' => 'language_id')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($language_id)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($language_id); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($category_id) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $category_id->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($category_id);
+                echo $this->formElement($category_id->setAttributes(array('class' => 'form-control text-input', 'id' => 'category_id')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($category_id)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($category_id); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($title) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $title->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($title);
+                echo $this->formElement($title->setAttributes(array('class' => 'form-control text-input', 'id' => 'title')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($title)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($title); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($description) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $description->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($description);
+                echo $this->formElement($description->setAttributes(array('class' => 'form-control text-input', 'id' => 'description')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($description)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($description); ?></div>
+            <?php } ?>
+        </div>
+
+        <img id="file-img" src="/img/blog-img/<?=$this->imageUrl?>" style="width: 700px">
+
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($image) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $image->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($image);
+                echo $this->formElement($image->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($image)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($image); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($position) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $position->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($position);
+                echo $this->formElement($position->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($position)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($position); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($date_published) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $date_published->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($date_published);
+                ?>
+                <?php echo $this->formElement($date_published->setAttributes(array('class' => 'form-control', 'id' => 'date_published'))); ?>
+                <?php echo $this->formElementErrors($date_published); ?>
+                <script>
+                    calendarDateTimePicker( '#date_published' );
+                </script>
+            </div>
+            <?php if ($this->formElementErrors($date_published)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($date_published); ?></div>
+            <?php } ?>
+        </div>                
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($meta_title) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $meta_title->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($meta_title);
+                echo $this->formElement($meta_title->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_title')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($meta_title)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($meta_title); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($meta_description) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $meta_description->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($meta_description);
+                echo $this->formElement($meta_description->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_description')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($meta_description)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($meta_description); ?></div>
+            <?php } ?>
+        </div> 
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($meta_keywords) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $meta_keywords->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($meta_keywords);
+                echo $this->formElement($meta_keywords->setAttributes(array('class' => 'form-control text-input', 'id' => 'meta_keywords')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($meta_keywords)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($meta_keywords); ?></div>
+            <?php } ?>
+        </div> 
+
+        <?php echo $this->formButton($submitElement->setAttribute('class', 'btn btn-success')) ?>
+        <button id="blockBack" class="btn btn-success">Назад</button>
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+
+<script type="text/javascript">    
+
+    $( document ).ready( function () {
+        setInterval( function(){
+            var height = $('#description_ifr').contents().find('body').height() + 20;
+            $('#description_ifr').height(Math.max(height, 300));
+        }, 1 );
+    });
+    
+    document.getElementById("blockBack").onclick = function (event) {
+        event.preventDefault(); 
+        location.href = '<?php echo $this->url('languageRoute/adminBlog'); ?>';
+    };
+    
+    function changePosition(){                      
+        var category = $("#category_id");
+        if(category.val() === '1') {
+            var newOptions = {
+                "Архитектура": "1",
+                "Интериор": "2",
+                "Дизайн": "3",
+                "Изкуство": "4",
+                "Иновации": "5",
+                "Пътешествия": "6",
+                "Как да": "7",
+                "Полезно за потребителя": "8",
+                "Брокерски истории": "9"
+            };
+        } else {
+            var newOptions = {
+                "Новина на деня": "1",
+                "Имоти": "2",
+                "Иновации": "3",
+                "По света": "4",
+                "У нас": "5",
+                "Закони": "6",
+                "Бизнес": "7",
+                "Обществени поръчки": "8",
+                "В помощ на": "9"
+            };
+        }
+        
+        var position = $("#position");
+        position.empty(); // remove old options        
+        $.each(newOptions, function(key,value) {
+            position.append($("<option></option>")
+            .attr("value", value).text(key));
+        });
+    }
+    
+    changePosition();
+    $('#category_id').on('change', changePosition);
+        
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        tinymce.init({
+            selector: '#description',
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code'
+            ],
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            setup: function(editor) {
+                editor.on('init change keydown paste', function() {
+                    setTimeout(updateMetaDescription, 0);
+                });
+            }
+        });
+        
+        function updateMetaTitle() {           
+            var titleTexts = $("#title").val();
+            $('#meta_title').val(titleTexts);
+            setTimeout(updateMetaKeywords, 0);
+        }
+        
+        updateMetaTitle();
+        $('#title').on('change keydown paste', function() {
+            setTimeout(updateMetaTitle, 0);
+        });
+        
+        
+        function updateMetaDescription() {
+            var descriptionText = tinyMCE.get('description').getContent({ format: 'text' }).substr(0, 100);
+            $('#meta_description').val(descriptionText);
+        }
+        
+        function updateMetaKeywords() {
+            var keywords = $("#title").val();               
+            keywords=keywords.split(' ').join(',');
+            $('#meta_keywords').val(keywords);
+        }
+        
+        $('#title').on('change keydown paste', function() {
+            setTimeout(updateMetaKeywords, 0);
+        });
+
+        $("#file").on('change', function(input) {
+            if (input.currentTarget.files && input.currentTarget.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#file-img').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.currentTarget.files[0]);
+            }
+
+        });
+
+    });
+</script>

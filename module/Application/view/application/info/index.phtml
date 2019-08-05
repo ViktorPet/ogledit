@@ -1,0 +1,59 @@
+<!-- Site Showcase -->
+<section class="module parallax parallax-5" style="height: 120px;">
+    <div class="container">
+        <h2 class="header-info-text 
+            <?php echo (mb_strlen($this->page->getTitle(), 'utf-8') > 40) ?'header-info-text-long' :'';?>
+            <?php echo (mb_strlen($this->page->getTitle(), 'utf-8') > 30) ?'header-info-text-middle' :'';?>
+            ">            
+            <?php echo $this->page->getTitle(); ?>
+        </h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3><?php echo mb_strtoupper($this->page->getTitle(), 'UTF-8'); ?></h3>
+                            <div><?php echo $this->page->getDescription(); ?></div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <h3 class=""><?php echo $this->language()->translate('Other useful pages'); ?></h3>
+                            <div class="accordion" id="accordionsb">
+                                <?php
+                                $pages = $this->pages()->getPagesArray();
+                                if (count($pages) > 0) {
+                                    for ($i = 0; $i < count($pages); $i++) {
+                                        $page = $pages[$i];
+                                        ?>
+                                        <ul>
+                                            <li>
+                                                <a href="<?php echo $this->url('languageRoute/info', array('lang' => $_SESSION['lang'], 'url' => $page['url'])); ?>"
+                                                   title="<?php echo mb_strtoupper($page['title'], 'UTF-8'); ?>"><?php echo mb_strtoupper($page['title'], 'UTF-8'); ?> </a>
+                                            </li>
+                                        </ul>
+                                    <?php } ?>
+                                <?php } ?>
+                                <hr>
+                                <h3><?php echo $this->language()->translate('How we work'); ?></h3>
+                                <iframe width="350" height="197"
+                                        src="https://www.youtube.com/embed/eHV2mjm5ROA?rel=0&amp;showinfo=0"
+                                        frameborder="0" allowfullscreen></iframe>
+                                <hr>
+                                <a class="btn btn-success col-md-12 fa-2x"
+                                   href="<?php echo $this->url('languageRoute/login', array('lang' => $_SESSION['lang'])); ?>"><i
+                                        class="fa fa-map-marker"></i> <?php echo $this->language()->translate('Start now'); ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

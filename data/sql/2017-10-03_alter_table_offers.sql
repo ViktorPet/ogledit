@@ -1,0 +1,1 @@
+ALTER TABLE `offers` ADD `alternative_id_file` varchar(255) DEFAULT NULL;

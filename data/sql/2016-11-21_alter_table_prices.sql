@@ -1,0 +1,3 @@
+ALTER TABLE `prices` ADD price_name VARCHAR(255) NULL;
+ALTER TABLE `prices` ADD chat VARCHAR(255) NULL;
+ALTER TABLE `prices` ADD price_schema VARCHAR(255) NULL;

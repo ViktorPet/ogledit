@@ -1,0 +1,124 @@
+<h1>За спиране</h1>
+<div id="ajax-result"></div>
+
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminForStoppingData'); ?>';
+        var datafields = [
+            {name: 'id', type: 'int'},
+//            {name: 'title', type: 'string'},
+//            {name: 'description', type: 'string'},
+//            {name: 'top_offer', type: 'string'},
+//            {name: 'vip_offer', type: 'string'},
+            {name: 'price', type: 'string'},
+//            {name: 'currency_id', type: 'string'},
+//            {name: 'construction_year', type: 'string'},
+            {name: 'area', type: 'string'},
+//            {name: 'floor', type: 'string'},
+//            {name: 'bathrooms', type: 'string'},
+//            {name: 'total_rooms', type: 'string'},
+//            {name: 'parking_slots', type: 'string'},
+//            {name: 'information', type: 'string'},
+//            {name: 'photographer_address', type: 'string'},
+//            {name: 'photographer_appointment', type: 'string'},
+//            {name: 'youtube_code_1', type: 'string'},
+//            {name: 'youtube_code_2', type: 'string'},
+//            {name: 'google_360', type: 'string'},
+//            {name: 'panorama_file', type: 'string'},
+//            {name: 'garden', type: 'string'},
+//            {name: 'meta_title', type: 'string'},
+//            {name: 'meta_description', type: 'string'},
+//            {name: 'meta_keywords', type: 'string'},
+            {name: 'dateCreated', type: 'date'},
+//            {name: 'date_updated', type: 'date'},
+//            {name: 'language_id', type: 'string'},
+            {name: 'offerStatusName', type: 'string'},
+//            {name: 'offer_type_id', type: 'string'},
+//            {name: 'buildingTypeName', type: 'string'},
+            {name: 'propertyTypeName', type: 'string'},
+//            {name: 'heating_system_id', type: 'string'},
+//            {name: 'user_id', type: 'string'},
+            {name: 'neighbourhoodName', type: 'string'},
+            {name: 'cityName', type: 'string'},
+//            {name: 'street', type: 'string'},
+//            {name: 'lat', type: 'string'},
+//            {name: 'lng', type: 'string'}
+
+        ];
+
+        var columns = [
+            {text: '№', datafield: 'id', width: 50,
+                cellsrenderer: function ( row, columnfield, value, defaulthtml, columnproperties ) {
+                    return '<div style="overflow: hidden; text-overflow: ellipsis; padding-bottom: 2px; text-align: left; margin-right: 2px; margin-left: 4px; margin-top: 10px;"><a href="offers-edit/' + value + '">' + value + '</a></div>';
+                }},
+            {text: 'Вид имот', datafield: 'propertyTypeName'},
+            {text: 'Град', datafield: 'cityName', width: 100},
+            {text: 'Квартал', datafield: 'neighbourhoodName', width: 250},
+            {text: 'Цена', datafield: 'price'},
+            {text: 'Площ (кв.м.)', datafield: 'area', width: 130},
+//            {text: 'Конструкция', datafield: 'buildingTypeName', width: 100},
+            {text: 'Дата на въвеждане', datafield: 'dateCreated', width: 150, cellsformat: 'd-MM-yyyy HH:mm'},
+//            {text: 'Статус', datafield: 'offerStatusName',
+//                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+//                    if (value == 'За публикуване') {
+//                        return '<button class="btn table-button" style=" background-color: blue; color: white;">' + value + '</button>';
+//                    } else if (value == 'Платена') {
+//                        return '<button class="btn table-button" style=" background-color: purple; color: white;">' + value + '</button>';
+//                    } else if (value == 'За заснемане') {
+//                        return '<button class="btn table-button" style=" background-color: yellow; color: black;">' + value + '</button>';
+//                    } else if (value == 'Заснета и активна') {
+//                        return '<button class="btn table-button" style=" background-color: green; color: white;">' + value + '</button>';
+//                    } else if (value == 'Изтекла') {
+//                        return '<button class="btn table-button" style=" background-color: red; color: white;">' + value + '</button>';
+//                    } else if (value == 'Архивирана') {
+//                        return '<button class="btn table-button" style=" background-color: orange; color: black;">' + value + '</button>';
+//                    }
+//                }
+//            },
+//            {
+//                text: '',
+//                datafield: 'Edit',
+//                width: 84,
+//                filterable: false,
+//                sortable: false,
+//                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+//                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+//                    return '<button class="btn btn-success" onclick="openDialog(\'' + dataRecord.id + '\')" class="table-button">Промени</button>';
+//
+//                }
+//            },
+//            {
+//                text: '',
+//                datafield: 'Delete',
+//                width: 72,
+//                filterable: false,
+//                sortable: false,
+//                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+//                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+//                    var deleteURL = '<?php //echo $this->url('languageRoute/adminForStoppingDelete'); ?>/' + dataRecord.id;
+//                    return '<button class="btn btn-danger confirm-delete" value="' + deleteURL + '">Изтрий</button>';
+//                }
+//
+//
+//
+//            },
+        ];
+
+        dataGrid(id, url, datafields, columns);
+
+        //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+
+    });
+
+//    function openDialog(offerId) {
+//        location.href = '<?php //echo $this->url('languageRoute/adminForStoppingEdit'); ?>/' + offerId;
+//    }
+</script>
+

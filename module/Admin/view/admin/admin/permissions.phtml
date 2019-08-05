@@ -1,0 +1,129 @@
+<script type="text/javascript">
+    $( document ).ready( function () {
+
+        // prepare the data
+        var data = new Array();
+
+        var firstNames = [ 'Ваня', 'Габриела', 'Десислава', 'Ния' ];
+        var lastNames = [ 'Иванова', 'Цанкова', 'Шаламанова', 'Миленова' ];
+        var bools = [true, true, false];
+
+        for ( var i = 0; i < 15; i++ ) {
+            var row = {};
+            row[ "num" ] = i + 1;
+            row[ "firstName" ] = firstNames[ Math.floor( Math.random() * firstNames.length ) ];
+            row[ "lastName" ] = lastNames[ Math.floor( Math.random() * lastNames.length ) ];
+            row[ "page1" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page2" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page3" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page4" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page5" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page6" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page7" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page8" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page9" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page10" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page11" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page12" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page13" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page14" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page15" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page16" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page17" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page18" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page19" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page20" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page21" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page22" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page23" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page24" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            row[ "page25" ] = bools[ Math.floor( Math.random() * bools.length ) ];
+            data[ i ] = row;
+        }
+
+        var source = {
+            localdata: data,
+            datatype: "array",
+            pagesize: 20,
+            datafields: [
+                { name: 'num', type: 'number' },
+                { name: 'firstName', type: 'string' },
+                { name: 'lastName', type: 'string' },
+                { name: 'page1', type: 'bool' },
+                { name: 'page2', type: 'bool' },
+                { name: 'page3', type: 'bool' },
+                { name: 'page4', type: 'bool' },
+                { name: 'page5', type: 'bool' },
+                { name: 'page6', type: 'bool' },
+                { name: 'page7', type: 'bool' },
+                { name: 'page8', type: 'bool' },
+                { name: 'page9', type: 'bool' },
+                { name: 'page10', type: 'bool' },
+                { name: 'page11', type: 'bool' },
+                { name: 'page12', type: 'bool' },
+                { name: 'page13', type: 'bool' },
+                { name: 'page14', type: 'bool' },
+                { name: 'page15', type: 'bool' },
+                { name: 'page16', type: 'bool' },
+                { name: 'page17', type: 'bool' },
+                { name: 'page18', type: 'bool' },
+                { name: 'page19', type: 'bool' },
+                { name: 'page20', type: 'bool' },
+                { name: 'page21', type: 'bool' },
+                { name: 'page22', type: 'bool' },
+                { name: 'page23', type: 'bool' },
+                { name: 'page24', type: 'bool' },
+                { name: 'page25', type: 'bool' }
+            ]
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter( source );
+
+        $( "#jqxgrid" ).jqxGrid(
+            {
+                theme: 'light',
+                width: '100%',
+                autoheight: true,
+                autorowheight: true,
+                pageable: true,
+                sortable: true,
+                filterable: true,
+                source: dataAdapter,
+                columnsresize: true,
+                columns: [
+                    { text: '№', datafield: 'num', width: 50, pinned: true },
+                    { text: 'Име', datafield: 'firstName', width: 100, pinned: true },
+                    { text: 'Фамилия', datafield: 'lastName', width: 100, pinned: true },
+                    { text: 'Страница 1', datafield: 'page1', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 2', datafield: 'page2', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 3', datafield: 'page3', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 4', datafield: 'page4', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 5', datafield: 'page5', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 6', datafield: 'page6', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 7', datafield: 'page7', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 8', datafield: 'page8', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 9', datafield: 'page9', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 10', datafield: 'page10', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 11', datafield: 'page11', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 12', datafield: 'page12', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 13', datafield: 'page13', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 14', datafield: 'page14', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 15', datafield: 'page15', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 16', datafield: 'page16', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 17', datafield: 'page17', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 18', datafield: 'page18', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 19', datafield: 'page19', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 20', datafield: 'page20', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 21', datafield: 'page21', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 22', datafield: 'page22', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 23', datafield: 'page23', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 24', datafield: 'page24', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' },
+                    { text: 'Страница 25', datafield: 'page25', columntype: 'checkbox', width: 100, cellsalign: 'center', align: 'center' }
+                ]
+            } );
+
+    } );
+</script>
+<h1>Достъп</h1>
+<div id="jqxgrid">
+</div>

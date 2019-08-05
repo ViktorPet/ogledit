@@ -1,0 +1,142 @@
+<?php
+$form = $this->form;
+/* @var $form \Admin\Form\TeamForm */
+$form->prepare();
+$form->setAttribute('method', 'post');
+
+$email = $form->get('email'); 
+$username = $form->get('username'); 
+$first_name = $form->get('first_name'); 
+$last_name = $form->get('last_name');
+$password = $form->get('password');
+$gender = $form->get('gender');
+$position = $form->get('position');
+$user_status_id = $form->get('user_status_id');
+$submitElement = $form->get('submit');
+?>
+<h1>Редактиране на служител</h1>
+<div class="row">
+    <div class="col-md-5 col-lg-5">
+        <?php echo $this->form()->openTag($form) ?>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($user_status_id) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $user_status_id->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($user_status_id);
+                echo $this->formElement($user_status_id->setAttributes(array('class' => 'form-control text-input')));
+                ?>                
+            </div>
+            <?php if ($this->formElementErrors($user_status_id)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($user_status_id); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($first_name) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $first_name->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($first_name);
+                echo $this->formElement($first_name->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($first_name)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($first_name); ?></div>
+            <?php } ?>
+        </div>
+
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($last_name) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $last_name->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($last_name);
+                echo $this->formElement($last_name->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($last_name)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($last_name); ?></div>
+            <?php } ?>
+        </div>
+        
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($email) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $email->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($email);
+                echo $this->formElement($email->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($email)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($email); ?></div>
+            <?php } ?>
+        </div>
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($gender) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $gender->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($gender);
+                echo $this->formElement($gender->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($gender)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($gender); ?></div>
+            <?php } ?>
+        </div> 
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($username) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $username->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($username);
+                echo $this->formElement($username->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($username)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($username); ?></div>
+            <?php } ?>
+        </div>                
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($password) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">                     
+                <?php
+                $password->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($password);
+                echo $this->formElement($password->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($password)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($password); ?></div>
+            <?php } ?>
+        </div>
+        
+                                       
+        
+        <div class="form-group form-elements <?php echo ($this->formElementErrors($position) != '') ? 'has-error' : ''; ?>">
+            <div class="input-group">
+                <?php
+                $position->setLabelAttributes(array('class' => 'control-label label-text'));
+                echo $this->formLabel($position);
+                echo $this->formElement($position->setAttributes(array('class' => 'form-control text-input')));
+                ?>
+            </div>
+            <?php if ($this->formElementErrors($position)) { ?>
+                <div class="alert alert-danger"><?php echo $this->formElementErrors($position); ?></div>
+            <?php } ?>
+        </div>
+        
+                                     
+
+        <?php echo $this->formButton($submitElement->setAttribute('class', 'btn btn-success')) ?>
+        <button id="teamBack" class="btn btn-success">Назад</button>
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+<script type="text/javascript">    
+    
+    document.getElementById("teamBack").onclick = function (event) {
+        event.preventDefault(); 
+        location.href = '<?php echo $this->url('languageRoute/adminTeam'); ?>';
+    };
+</script> 

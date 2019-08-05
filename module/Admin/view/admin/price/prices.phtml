@@ -1,0 +1,72 @@
+<h1>Цени</h1>
+<div id="ajax-result"></div>
+<button id="createPrices" type="submit" name="submit" class="btn btn-success">Въвеждане на цена</button>
+<br>
+<br>
+<div id="jqxWidget">
+    <div id="jqxgrid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {  
+        
+        document.getElementById("createPrices").onclick = function () {
+            location.href = '<?php echo $this->url('languageRoute/adminPricesCreate'); ?>';
+        };
+        
+        var id = 'id';
+        var url = '<?php echo $this->url('languageRoute/adminPricesData'); ?>';            
+        var datafields = [
+            {name: 'id', type: 'int'},
+            {name: 'price_name', type: 'string'},
+            {name: 'min_offers', type: 'string'},
+            {name: 'max_offers', type: 'string'},
+            {name: 'photoshoot_per_sq_price', type: 'string'},
+            {name: 'photoshoot_min_price', type: 'string'},
+            {name: 'weekly_price', type: 'string'},
+            {name: 'vip_price', type: 'string'},
+            {name: 'top_price', type: 'string'},
+            {name: 'chat', type: 'string'},
+            {name: 'price_schema', type: 'string'},
+            
+            
+        ];
+        
+        var columns = [
+//            {text: 'ID', datafield: 'id'},
+            {text: 'Име на пакет', datafield: 'price_name', width:200},
+            {text: 'Минимален брой оферти', datafield: 'min_offers', width:150},
+            {text: 'Максимален брой оферти', datafield: 'max_offers', width:150},
+            {text: 'Заснемане на имот(кв. м.)', datafield: 'photoshoot_per_sq_price'},        
+            {text: 'Заснемане на имот', datafield: 'photoshoot_min_price', width:150},
+            {text: 'Цена за седмица', datafield: 'weekly_price', width:150},
+            {text: 'ВИП', datafield: 'vip_price', width:70}, 
+            {text: 'ТОП', datafield: 'top_price', width:70},
+            {text: 'ЧАТ', datafield: 'chat', width:70},
+            {text: 'Схема', datafield: 'price_schema', width:70},         
+            {
+                text: '',
+                datafield: '',
+                width: 84,
+                filterable: false,
+                sortable: false,
+                cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    var dataRecord = $("#jqxgrid").jqxGrid('getrowdata', row);
+                    var deleteURL = '<?php echo $this->url('languageRoute/adminPricesDelete'); ?>/' + dataRecord.id;
+                    return '<button class="btn table-button" style="margin: 3px;" onclick="openDialog(\'' + dataRecord.id + '\')"><i class="fa fa-pencil" aria-hidden="true"></i></button>' +
+                           '<button class="btn confirm-delete" value="' + deleteURL + '"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                    
+                }
+            },        
+        ]; 
+        
+        dataGrid(id, url, datafields, columns);   
+        
+         //Delete confirmation dialog
+        confirmDelete("Are you sure?");
+    
+    });
+    
+    function openDialog(priceId) {            
+        location.href = '<?php echo $this->url('languageRoute/adminPricesEdit'); ?>/' + priceId;        
+    }
+</script>

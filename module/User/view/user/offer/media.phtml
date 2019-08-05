@@ -1,0 +1,424 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('Multimedia'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+
+
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div id="user-left-menu">
+                            <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                            <?php if(!is_null($this->logo)):?>
+                                <img src="https://ogledi.bg/media/agents/<?php echo $userId; ?>/<?php echo $this->logo;?>" style="padding:1px; border:#ccc solid 1px;">
+                            <?php endif;?>
+                            <ul class="mymenulist">
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                                </li>
+                                <?php if ($this->userType != 1) { ?>
+                                    <li>
+                                        <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                            <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                    </li>
+                                <?php } ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                                </li>
+                            </ul>
+
+                            <iframe id='a5ec97f8' name='a5ec97f8' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=20&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a38f9b3e&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=20&amp;cb=(new Date().getTime())&amp;n=a38f9b3e' border='0' alt='' /></a></iframe>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <h3><?php echo $this->language()->translate('Multimedia'); ?></h3>
+
+
+                        <?php
+                        $mediaForm = $this->mediaForm;
+                        $mediaForm->setAttribute('action', $this->url('languageRoute/myOffersMedia', array("offerId" => $offerId)));
+                        $mediaForm->prepare();
+                        ?>
+
+                        <?php echo $this->form()->openTag($mediaForm); ?>
+                        <input type="hidden" name="update_user_media"  value="1" ?>
+
+                        <?php
+                        $showAddress = false;
+                        $panoramaFile = '';
+                        if ($this->offerObj->getPanoramaFile() == 'y' && is_null($this->offerObj->getUserPanoramaFile())) {
+                            if(is_null($this->offerObj->getAlternativeIdFile())) {
+                                $panoramaFile = '/media/pano/' . $this->offerObj->getId() . '/index.html';
+                            }
+                            $showAddress = false;
+                        } else if ($this->offerObj->getPanoramaFile() == 'y' && !is_null($this->offerObj->getUserPanoramaFile())) {
+                            $panoramaFile = $this->offerObj->getUserPanoramaFile();
+                            $showAddress = true;
+                        }
+                        ?>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->mediaForm->get('panorama_file')) != '') ? 'has-error' : ''; ?>">
+
+                            <div class="input-group col-md-6 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('panorama_file')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('panorama_file')); ?>
+                                <a class="media-tooltip"  href="javascript:;" rel="tooltip"
+                                   data-toggle="tooltip"
+                                   data-original-title="<?php echo $this->language()->translate('media-panorama-tooltip'); ?>"
+                                   data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                <?php
+                                if ($showAddress) {
+                                    echo $this->formElement($this->mediaForm->get('panorama_file')->setAttributes(array('class' => 'form-control text-input', 'id' => 'panorama_file'))->setValue($panoramaFile));
+                                } else {
+                                    echo $this->formElement($this->mediaForm->get('panorama_file')->setAttributes(array('class' => 'form-control text-input update-media-fields', 'id' => 'panorama_file'))->setValue(''));
+                                }
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('panorama_file'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('panorama_file')); ?></div>
+                                <?php } ?>
+                            </div>
+                            <?php if ($this->offerObj->getPanoramaFile() == 'y') { ?>
+                                <br/>
+                                <iframe src="<?php echo $panoramaFile; ?>" width="350" height="197" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            <?php } ?>
+
+                            <?php if (is_null($this->offerObj->getUserPanoramaFile())) { ?>
+                                <div style="margin-top: 5px;">
+                                    <input type="button" class="btn copyPanorama" value="<?php echo $this->language()->translate('Copy link'); ?>">
+                                    <a href="/media/pano/<?php echo $this->offerObj->getId(); ?>/index.html" id="linkPanorama" target="_blank">https://ogledi.bg/media/pano/<?php echo $this->offerObj->getId(); ?>/index.html</a>
+                                </div>
+                            <?php } else { ?>
+                                <div style="margin-top: 5px;">
+                                    <input type="button" class="btn copyPanorama" value="<?php echo $this->language()->translate('Copy link'); ?>">
+                                    <a href="<?php echo $panoramaFile; ?>" id="linkPanorama" target="_blank"><?php echo $panoramaFile; ?></a>
+                                </div>
+                            <?php } ?>
+
+                            </div>
+
+                        <?php
+                        $videoFile = '';
+                        if ($this->offerObj->getYoutubeCode1() != '' ) {
+                            $videoFile = 'https://www.youtube.com/watch?v=' . $this->offerObj->getYoutubeCode1();
+                        }
+                        ?>
+
+                        <div class="form-group form-elements <?php echo ($this->formElementErrors($this->mediaForm->get('youtube_code_1')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group col-md-6 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('youtube_code_1')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('youtube_code_1')); ?>
+                                <a class="media-tooltip" href="javascript:;" rel="tooltip"
+                                   data-toggle="tooltip"
+                                   data-original-title="<?php echo $this->language()->translate('media-video-tooltip'); ?>"
+                                   data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+                                <?php echo $this->formElement($this->mediaForm->get('youtube_code_1')->setAttributes(array('class' => 'form-control text-input', 'id' => 'youtube_code_1'))->setValue($videoFile));
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('youtube_code_1'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('youtube_code_1')); ?></div>
+                                <?php } ?>
+                            </div>
+                            <?php if ($this->offerObj->getYoutubeCode1()) { ?>
+                                <br/>
+                                <iframe width="350"
+                                        src="https://www.youtube.com/embed/<?php echo $this->offerObj->getYoutubeCode1(); ?>?rel=0&amp;showinfo=0"
+                                        frameborder="0" allowfullscreen></iframe>
+
+                                <div style="margin-top: 5px;">
+                                    <input type="button" class="btn copyVideo" value="<?php echo $this->language()->translate('Copy link'); ?>">
+                                    <a href="https://www.youtube.com/watch?v=<?php echo $this->offerObj->getYoutubeCode1(); ?>" id="linkVideo" target="_blank">https://www.youtube.com/watch?v=<?php echo $this->offerObj->getYoutubeCode1(); ?></a>
+                                </div>
+
+                            <?php } ?>
+                        </div>
+
+                        <div class="form-group form-elements  <?php echo ($this->formElementErrors($this->mediaForm->get('image')) != '') ? 'has-error' : ''; ?>">
+                            <div class="input-group col-md-6 col-xs-12">
+                                <?php
+                                $this->mediaForm->get('image')->setLabelAttributes(array('class' => 'control-label label-text'));
+                                echo $this->formLabel($this->mediaForm->get('image')); ?>
+                                <a class="media-tooltip" href="javascript:;" rel="tooltip"
+                                   data-toggle="tooltip"
+                                   data-original-title="<?php echo $this->language()->translate('media-photos-tooltip'); ?>"
+                                   data-placement="top" class="red-tooltip"><i class="fa fa-info-circle"></i></a>
+
+                                    <div class="alert alert-warning fade in" style="text-align: justify; margin-right: 25px;" >
+                                        <p>
+                                            <?php echo $this->language()->translate('Снимките могат да бъдат с големина до 10MB и не по-малки от 1600px по ширина.'); ?>
+                                        </p>
+                                    </div>
+
+
+                                <?php echo $this->formElement($this->mediaForm->get('image')->setAttributes(array('class' => 'form-control text-input', 'id' => 'image', 'style' => 'resize: none')));
+                                ?>
+
+                                <?php if ($this->formElementErrors($this->mediaForm->get('image'))) { ?>
+                                    <div class="alert alert-danger"><?php echo $this->formElementErrors($this->mediaForm->get('image')); ?></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" name="has_watermark" id="has_watermark" value="1"> <?php echo $this->language()->translate('Брандирай снимката с твоето лого'); ?>
+                            <img style="width: 75px; padding:1px; border:#ccc solid 1px;" src="/media/agents/<?php echo $this->userId; ?>/<?php echo $this->logo; ?>">
+                        </div>
+
+                        <br>
+                        <div class="input-group col-md-6 col-xs-12">
+                            <?php echo $this->render('layout/flash-messages.phtml'); ?>
+                        </div>
+
+                        <div class="formRow">
+                            <input type="submit" class="btn btn-success hidemenow"
+                                   value="<?php echo $this->language()->translate('Attach'); ?>"/>
+                        </div>
+
+                        <a class="loading"></a>
+                        <?php echo $this->form()->closeTag(); ?>
+
+
+                        <br>
+                        <?php
+                        $ids = [];
+                        if ($this->images->count() > 0) { ?>
+                        <label><?php echo $this->language()->translate('Photos'); ?></label>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr class="back-lightgray">
+                                <th><input type="checkbox" class="selectAll" name="selectAll" value="1" ></th>
+                                <th><?php echo $this->language()->translate('Picture'); ?></th>
+                                <th><?php echo $this->language()->translate('Picture type'); ?></th>
+                                <th><?php echo $this->language()->translate('Order'); ?></th>
+                                <th><?php echo $this->language()->translate('Change image'); ?></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                    <?php foreach ($this->images as $image) {
+                                        $ids[] = $image->getId();
+                                        ?>
+                                        <tr>
+                                            <td><input type="checkbox" name="image_to_save[]" value="<?php echo $image->getId(); ?>" class="image_to_save">
+                                            </td>
+                                            <td>
+                                                <img src="/media/offers/<?php echo $this->offer->getId(); ?>/front-<?php echo $image->getImage(); ?>?cb=<?php echo time(); ?>">
+                                            </td>
+                                            <td><?php if ($image->getIsFront() == '1') {
+                                                    echo $this->language()->translate('Main image');
+                                                } else {
+                                                    echo $this->language()->translate('Additional image');
+                                                }
+                                                ?>
+                                            </td>
+                                            <td><?php echo $image->getImageOrder(); ?></td>
+                                            <td>
+                                                <form method="POST" name="userUpdateImage" class="imageUploadForm" id="userUpdateImage_<?php echo $image->getId() ?>" enctype="multipart/form-data"
+                                                      action="<?php echo $this->url('languageRoute/userImageUpdate', array('lang' => $_SESSION['lang'], 'id' => $image->getId())); ?>">
+
+                                                    <div>
+                                                        <input class="changeImage" style="margin: 5px;" type="file" name="image">
+                                                        <!--
+                                                        <div>
+                                                            <input type="checkbox" name="has_watermark" id="has_watermark"
+                                                                   value="1"
+                                                                   ?> <?php echo $this->language()->translate('Брандирай снимката с твоето лого'); ?>
+                                                            <img style="width: 25px;" src="/media/agents/<?php echo $this->userId; ?>/<?php echo $this->logo; ?>">
+                                                        </div>
+                                                        -->
+                                                        <button style="margin: 10px 5px;" class="btn table-button" disabled="disabled"><?php echo $this->language()->translate('Change image'); ?></button>
+                                                    </div>
+                                                </form>
+                                                <button style="margin: 10px 5px;" class="btn table-button brand-image-button" data-image-id="<?php echo $image->getId(); ?>">
+                                                    Брандирай снимката
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <div class="user-gallery-buttons">
+                                                    <button title="Изтрий!" class="btn confirm-delete image-button" data-image-id="<?php echo $image->getId(); ?>">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button title="Направи главна снимка" class="btn table-button image-button main-image-button" data-image-id="<?php echo $image->getId(); ?>">
+                                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="user-gallery-buttons">
+                                                    <?php if ($image->getImageOrder() > 1) { ?>
+                                                        <button title="Премести нагоре" class="btn table-button image-button image-up-button" data-image-id="<?php echo $image->getId(); ?>" data-image-order="<?php echo $image->getImageOrder(); ?>">
+                                                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                        </button>
+                                                    <?php } ?>
+                                                    <?php
+                                                    $maxPosition = $this->images->count();
+                                                    if ($image->getImageOrder() < $maxPosition) { ?>
+                                                        <button title="Премести надолу" class="btn table-button image-button image-down-button" data-image-id="<?php echo $image->getId(); ?>" data-image-order="<?php echo $image->getImageOrder(); ?>">
+                                                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                        </button>
+                                                    <?php } ?>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    <?php } ?>
+
+                            </tbody>
+                        </table>
+                        <form name="saveImages" id="saveImages" action="<?php echo $this->url('languageRoute/myImageDownload', array('lang' => $_SESSION['lang'])); ?>" method="post">
+
+                            <?php foreach ($ids as $id) { ?>
+                                <input type="checkbox" name="image_to_save[]" value="<?php echo $id; ?>" style="display:none" class="real_image_to_save">
+                            <?php } ?>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <button type="button" id="submitSaveImages" onclick="$('#saveImages').submit()" disabled="disabled" class="btn btn-success hidemenow">
+                                    <?php echo $this->language()->translate('Download selected images'); ?></button>
+                            </div>
+                        </form>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <button class="btn btn-success table-button brand-all-images-button" ?>
+                                <?php echo $this->language()->translate('Брандирай всички снимки'); ?>
+                            </button>
+                        </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<script>
+
+    function changeMainImage(imageId) {
+        location.href = '<?php echo $this->url('languageRoute/userMainImage', array('lang' => $_SESSION['lang'])); ?>/' + imageId;
+    }
+
+    function moveImageUp(imageId, imageOrder) {
+        location.href = '<?php echo $this->url('languageRoute/userImageUp', array('lang' => $_SESSION['lang'])); ?>/' + imageId + '/' + imageOrder;
+    }
+
+    function moveImageDown(imageId, imageOrder) {
+        location.href = '<?php echo $this->url('languageRoute/userImageDown', array('lang' => $_SESSION['lang'])); ?>/' + imageId + '/' + imageOrder;
+    }
+
+    function deleteImage(imageId) {
+        location.href = '<?php echo $this->url('languageRoute/userImageDelete', array('lang' => $_SESSION['lang'])); ?>/' + imageId;
+    }
+
+    function brandImage(imageId) {
+        location.href = '<?php echo $this->url('languageRoute/userBrandImage', array('lang' => $_SESSION['lang'])); ?>/' + imageId;
+    }
+
+    function brandAllImages(offerId) {
+        location.href = '<?php echo $this->url('languageRoute/userBrandAllImages', array('lang' => $_SESSION['lang'])); ?>/' + offerId;
+    }
+
+    $('.confirm-delete').on('click', function() {
+        var imageId = $(this).data('image-id');
+        deleteImage(imageId);
+    });
+
+    $('.main-image-button').on('click', function() {
+        var imageId = $(this).data('image-id');
+        changeMainImage(imageId);
+    });
+
+    $('.image-up-button').on('click', function() {
+        var imageId = $(this).data('image-id');
+        var imageOrder = $(this).data('image-order');
+        moveImageUp(imageId, imageOrder);
+    });
+
+    $('.image-down-button').on('click', function() {
+        var imageId = $(this).data('image-id');
+        var imageOrder = $(this).data('image-order');
+        moveImageDown(imageId, imageOrder);
+    });
+
+    $('.brand-image-button').on('click', function() {
+        var imageId = $(this).data('image-id');
+        brandImage(imageId);
+    });
+
+    $('.brand-all-images-button').on('click', function() {
+        var offerId = <?php echo $this->offer->getId(); ?>;
+        brandAllImages(offerId);
+    });
+
+    $("body").on("change", '.changeImage', function () {
+        if ($(this).val()) {
+            $(this).siblings('button').removeAttr('disabled');
+        }
+    });
+
+    $("body").on("change", ".image_to_save", function() {
+        var imageId = $(this).val();
+        $('.real_image_to_save[value="' + imageId + '"]').prop('checked', $(this).is(':checked'));
+        $('#submitSaveImages').prop('disabled', $('.real_image_to_save:checked').length === 0);
+    });
+
+    $('#saveImages').on('click', function () {
+        $('input:checkbox').removeAttr('checked');
+    });
+
+    $("body").on("change", '.selectAll', function () {
+        if ($(this).is(':checked')) {
+            $('.image_to_save, .real_image_to_save').prop('checked', this.checked);
+            $('#submitSaveImages').removeAttr('disabled');
+        } else {
+            $('.image_to_save, .real_image_to_save').prop('checked', false);
+            $('#submitSaveImages').attr('disabled', true);
+        }
+    });
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    $("body").on("click", '.copyPanorama', function () {
+        copyToClipboard('#linkPanorama')
+    });
+
+    $("body").on("click", '.copyVideo', function () {
+        copyToClipboard('#linkVideo')
+    });
+
+</script>

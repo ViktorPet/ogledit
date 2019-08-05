@@ -1,0 +1,198 @@
+<?php
+$totalDue = 0;
+?>
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('Cart'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="page">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">                       
+                        <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                        <?php if(!is_null($this->logo)):?>
+                            <img src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/media/agents/<?php echo $userId; ?>/<?php echo $this->logo; ?>" style="padding:1px; border:#ccc solid 1px;">
+                        <?php endif;?>
+                        <ul class="mymenulist">
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                            </li>
+                            <?php if ($this->userType != 1) { ?>
+                                <li>
+                                    <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                                </li>       
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                            </li>
+                        </ul>
+
+                        <iframe id='a3288865' name='a3288865' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=22&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a7012fc3&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=22&amp;cb=(new Date().getTime())&amp;n=a7012fc3' border='0' alt='' /></a></iframe>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 table-responsive">
+                                <h3>
+                                    <?php echo $this->language()->translate('Cart'); ?>
+                                    <span style="float:right; font-size: 14px;">
+                                     <a href="<?php echo $this->url('languageRoute/myOffersCreate', array('lang' => $_SESSION['lang'])); ?>">
+                                      <i class="fa fa-plus"></i> <?php echo $this->language()->translate('Add offer'); ?></a>
+                                    </span>
+                                </h3>
+                                <hr>
+                                <?php
+                                if ($this->cartItems->count() > 0) {
+                                    ?>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr class="back-lightgray">
+                                            <th><?php echo $this->language()->translate('Type'); ?></th>
+                                            <th><?php echo $this->language()->translate('Type property'); ?></th>
+                                            <th><?php echo $this->language()->translate('Area'); ?></th>
+                                            <th>VIP</th>
+                                            <th><?php echo $this->language()->translate('Top'); ?></th>
+<!--                                            <th>--><?php //echo $this->language()->translate('Chat'); ?><!--</th>-->
+                                            <th><?php echo $this->language()->translate('Scheme'); ?></th>
+                                            <th><?php echo $this->language()->translate('Filming'); ?></th>
+                                            <th><?php echo $this->language()->translate('Weeks'); ?></th>
+                                            <th><?php echo $this->language()->translate('Total'); ?></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        foreach ($this->cartItems as $item) {
+                                            $totalDue += $item->getTotalPrice();
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $item->getOfferTypeName(); ?></td>
+                                                <td><?php echo $item->getPropertyTypeName(); ?></td>
+                                                <td><?php echo $item->getArea(); ?> кв.м.</td>
+                                                <td><?php echo number_format($item->getVipPrice(), 2, '.', ','); ?> лв.</td>
+                                                <td><?php echo number_format($item->getTopPrice(), 2, '.', ','); ?> лв.</td>
+<!--                                                <td>--><?php //echo number_format($item->getChatPrice(), 2, '.', ','); ?><!-- лв.</td>-->
+                                                <td><?php echo number_format($item->getSchemaPrice(), 2, '.', ','); ?> лв.</td>
+                                                <td><?php echo number_format($item->getPhotoshootPerSqPrice(), 2, '.', ','); ?> лв.</td>
+                                                <td><?php echo number_format($item->getWeeklyPrice(), 2, '.', ','); ?> лв.</td>
+                                                <td><?php echo number_format($item->getTotalPrice(), 2, '.', ','); ?> лв.</td>
+                                                <td>
+                                                    <a rel="tooltip" data-toggle="tooltip" data-original-title="Изтриване" data-placement="top" href="<?php echo $this->url('languageRoute/myCartDelete', array('lang' => $_SESSION['lang'], 'itemId' => $item->getId())); ?>"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <?php
+                            if ($this->cartItems->count() > 0) {
+                            ?>
+                            <hr>
+                            <div class="col-md-12 col-sm-12"><h4><?php echo $this->language()->translate('Total sum'); ?>: <strong><?php echo number_format($totalDue, 2, '.', ','); ?> лв.</strong></h4></div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="alert alert-warning fade in" style="text-align: justify;">
+                                    <p>
+                                        <?php echo $this->language()->translate('Aditional offers'); ?>                                        
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <h4><?php echo $this->language()->translate('Please select payment method'); ?>:</h4>
+                                    <form action="" method="post" name="paymentForm" id="paymentForm">
+                                        <div class="input-group col-md-12 col-sm-12">
+                                            <input type="radio" value="1" name="payment_type" id="payment_type_bank" checked><label for="payment_type_bank" ><img src="/img/bank.jpg" border="0" style="height: 65px"/></label>
+                                            <input type="radio" value="2" name="payment_type" id="payment_type_epay"><label for="payment_type_epay" ><img src="/img/epaybg.jpg" border="0" style="height: 65px"/></label>
+                                            <input type="radio" value="3" name="payment_type" id="payment_type_cc"><label for="payment_type_cc" ><img src="/img/visamastercard.jpg" border="0" style="height: 65px"/></label>
+                                            <input type="radio" value="4" name="payment_type" id="payment_type_easypay"><label for="payment_type_easypay" ><img src="/img/easypay.jpg" border="0" style="height: 65px"/></label>
+                                            <input type="radio" value="5" name="payment_type" id="payment_type_paypal"><label for="payment_type_paypal" ><img src="/img/paypal.jpg" border="0" style="height: 65px"/></label>
+                                        </div>
+                                        <br>
+                                    </form>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button type="button" id="submitCart" onclick="$('#paymentForm').submit()" class="btn btn-success col-md-11 hidemenow"><?php echo $this->language()->translate('Finalizing and pay'); ?></button>
+                                </div>
+                                </br>
+                                <div class="col-md-6 col-sm-6">
+                                    <button type="button" id="addOffer" class="btn col-md-11 hidemenow" onclick="document.location.href='<?php echo $this->url('languageRoute/myOffersCreate', array('lang' => $_SESSION['lang'])); ?>'" alt="<?php echo $this->language()->translate('Aditional offers'); ?>" title="<?php echo $this->language()->translate('Aditional offers'); ?>">
+                                        <?php echo $this->language()->translate('Add offer'); ?>&nbsp;&nbsp;<span class="fa fa-info-circle" >&nbsp;</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <?php } else { ?>
+                                <div class="col-md-6 col-sm-6">
+                                    <p><?php echo $this->language()->translate('Yours cart is empty'); ?></p>
+                                </div>                           
+                                <div class="col-md-6 col-sm-6">
+                                    <button style="float:right;" type="button" id="addOffer" class="btn col-md-11 hidemenow"
+                                            onclick="document.location.href='<?php echo $this->url('languageRoute/myOffersCreate', array('lang' => $_SESSION['lang'])); ?>'"
+                                            alt="<?php echo $this->language()->translate('Aditional offers'); ?>"
+                                            title="<?php echo $this->language()->translate('Aditional offers'); ?>">
+                                        <?php echo $this->language()->translate('Add offer'); ?>&nbsp;&nbsp;<span class="fa fa-info-circle">&nbsp;</span>
+                                    </button>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Attach event listener for exiting the page.
+    var myEvent = window.attachEvent || window.addEventListener;
+    var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; // make IE7, IE8 compitable
+
+    myEvent(chkevent, function(e) { // For >=IE7, Chrome, Firefox
+        $.ajax({
+            url: '<?php echo $this->url('languageRoute/myCartItems'); ?>',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                var cartContent = data.count;
+                if(document.activeElement.id !== 'submitCart') {
+                    console.log(cartContent);
+                    if (cartContent > 0) {
+                        var message = 'Are you sure to leave the page?';
+                        (e || window.event).returnValue = message;
+                        return message
+                    } else {
+                        return undefined;
+                    }
+                } else {
+                    return undefined;
+                }
+            }
+        });
+    });
+</script>

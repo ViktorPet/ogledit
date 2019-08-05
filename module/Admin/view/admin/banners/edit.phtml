@@ -1,0 +1,31 @@
+<h1>Хедъри промяна</h1>
+
+<form method="post" action="" id="editBannerForm" name="editOfferForm" class="register-form submitthis" enctype="multipart/form-data">
+    <div class="form-group form-elements <?php echo ($this->formElementErrors($this->editForm->get('parallax')) != '') ? 'has-error' : ''; ?>">
+        <div class="input-group">
+            <?php
+            $this->editForm->get('parallax')->setLabelAttributes(array('class' => 'control-label label-text'));
+            echo $this->formLabel($this->editForm->get('parallax'));
+            echo $this->formElement($this->editForm->get('parallax')->setAttributes(array('class' => 'form-control text-input')));
+            ?>
+        </div>
+        <?php if ($this->formElementErrors($this->editForm->get('parallax'))) { ?>
+            <div class="alert alert-danger"><?php echo $this->formElementErrors($this->editForm->get('parallax')); ?></div>
+        <?php } ?>
+    </div>
+    <!--                        <br clear="all">-->
+    <hr clear="all">
+
+    <button type="button" id="submit_checkout" name="submit_checkout" value="submit_checkout" class="btn btn-success hidemenow"
+            onclick="form.submit()">Запази промените
+    </button>
+    <button id="offersBack" class="btn btn-success">Назад</button>
+</form>
+<script type="text/javascript">
+
+    document.getElementById("offersBack").onclick = function (event) {
+        event.preventDefault();
+        location.href = '<?php echo $this->url('languageRoute/adminBanners'); ?>';
+    };
+
+</script>

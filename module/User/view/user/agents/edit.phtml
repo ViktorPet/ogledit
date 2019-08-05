@@ -1,0 +1,155 @@
+<div class="site-showcase">
+    <div class="parallax page-header"
+         style="background-image:url(/img/blog-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="text-shadow: 1px 1px 1px #000;"><?php echo $this->language()->translate('Edit broker'); ?></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="content" class="content full">
+    <div class="container">
+        <div class="page">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-12">   
+                    <h3 class=""><?php echo $this->language()->translate('My menu'); ?></h3>
+                    <?php if (!is_null($this->logo)): ?>
+                        <img src="http://<?php echo $_SERVER['SERVER_NAME']; ?>/media/agents/<?php echo $userId; ?>/<?php echo $this->logo; ?>" style="padding:1px; border:#ccc solid 1px;">                             
+                    <?php endif; ?>
+                    <ul class="mymenulist">
+                        <li>
+                            <a href="<?php echo $this->url('languageRoute/myProfile', array('lang' => $_SESSION['lang'])); ?>">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $this->language()->translate('Personal info'); ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url('languageRoute/myOffers', array('lang' => $_SESSION['lang'])); ?>">
+                                <i class="fa fa-list" aria-hidden="true"></i> <?php echo $this->language()->translate('My offers'); ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url('languageRoute/myList', array('lang' => $_SESSION['lang'])); ?>">
+                                <i class="fa fa-list-alt" aria-hidden="true"></i> <?php echo $this->language()->translate('My list'); ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url('languageRoute/myCart', array('lang' => $_SESSION['lang'])); ?>">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?php echo $this->language()->translate('Cart'); ?></a>
+                        </li>
+                        <?php if ($this->userType != 1) { ?>
+                            <li>
+                                <a href="<?php echo $this->url('languageRoute/myAgents', array('lang' => $_SESSION['lang'])); ?>">
+                                    <i class="fa fa-user" aria-hidden="true"></i> <?php echo $this->language()->translate('Brokers'); ?></a>
+                            </li>       
+                        <?php } ?>
+                        <li>
+                            <a href="<?php echo $this->url('languageRoute/myLogout', array('lang' => $_SESSION['lang'])); ?>">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> <?php echo $this->language()->translate('Exit'); ?></a>
+                        </li>
+                    </ul>
+
+                    <iframe id='aa066c68' name='aa066c68' src='https://ads.ogledi.bg/www/delivery/afr.php?zoneid=23&amp;cb=(new Date().getTime())' frameborder='0' scrolling='no' width='250' height='250'><a href='https://ads.ogledi.bg/www/delivery/ck.php?n=a450eb4a&amp;cb=(new Date().getTime())' target='_blank'><img src='https://ads.ogledi.bg/www/delivery/avw.php?zoneid=23&amp;cb=(new Date().getTime())&amp;n=a450eb4a' border='0' alt='' /></a></iframe>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <form method="post" action="" id="createAgentsForm" name="createAgentsForm" class="register-form submitthis" autocomplete="off" enctype="multipart/form-data">
+                        <input type="password" style="width:0px;height:0px;margin:0px;padding: 1px;border: 0px;">
+
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Name'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('names')->setAttributes(array('class' => 'form-control'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('names'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('names')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Name'); ?> (EN)</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('names_en')->setAttributes(array('class' => 'form-control', 'id' => 'names_en'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('names_en'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('names_en')); ?></div>
+                            <?php } ?>
+                        </div>                       
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Text bg'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('description')->setAttributes(array('class' => 'form-control', 'id' => 'description'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('description'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('description')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Text en'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('description_en')->setAttributes(array('class' => 'form-control', 'id' => 'description_en'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('description_en'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('description_en')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Phone'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('phone')->setAttributes(array('class' => 'form-control', 'id' => 'phone'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('phone'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('phone')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <br>                      
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label>E-mail:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('email')->setAttributes(array('class' => 'form-control', 'id' => 'email'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('email'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('email')); ?></div>
+                            <?php } ?>
+                        </div>
+
+                        <br>                        
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Password'); ?>:</label>
+                            </br>
+                            <?php echo $this->agentForm->get('password')->getlabel(); ?>
+                            <br>                                             
+                            <?php echo $this->formElement($this->agentForm->get('password')->setAttributes(array('class' => 'form-control', 'id' => 'password'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('password'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('password')); ?></div>
+                            <?php } ?>
+                        </div>                      
+
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Password again'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('password_confirm')->setAttributes(array('class' => 'form-control', 'id' => 'password_confirm'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('password_confirm'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('password_confirm')); ?></div>
+                            <?php } ?>
+                        </div>
+                        <br>
+                        <div class="input-group col-md-12 col-sm-12 col-xs-12">
+                            <label><?php echo $this->language()->translate('Logo'); ?>:</label>
+                            <br>
+                            <?php echo $this->formElement($this->agentForm->get('logo')->setAttributes(array('class' => 'form-control', 'id' => 'logo'))); ?>
+                            <?php if ($this->formElementErrors($this->agentForm->get('logo'))) { ?>
+                                <div class="alert alert-danger"><?php echo $this->formElementErrors($this->agentForm->get('logo')); ?></div>
+                            <?php } ?>
+                        </div>                  
+
+                        <br clear="all">
+                        <hr>
+                        <button type="button" id="submit_checkout" name="submit_checkout" value="submit_checkout" class="btn btn-success col-md-12 hidemenow"
+                                onclick="form.submit()"><?php echo $this->language()->translate('Save changes'); ?>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

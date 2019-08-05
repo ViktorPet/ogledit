@@ -1,0 +1,72 @@
+<!-- Site Showcase -->
+<section class="module parallax parallax-7" style="height: 120px;">
+    <div class="container">
+        <h2><?php echo $this->language()->translate('News'); ?></h2>
+    </div>
+</section>
+<!-- End Showcase -->
+<!-- Start Content -->
+<div class="main" role="main">
+    <div id="content" class="content full">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <header class="single-post-header clearfix">
+                        <h2 class="post-title"><?php echo $this->news['title']; ?></h2>     
+                    </header>
+                    <article class="post-content">
+                        <div class="post-meta meta-data">
+                            <span>
+                                <i class="fa fa-calendar"></i> <?php echo $this->language()->translate('Post on'); ?>
+                                <?php echo $this->news['date_published']; ?>       
+                            </span>
+                        </div>
+                        <div class="featured-image">
+                            <img src="/img/blog-img/<?php echo $this->news['image']; ?>" alt="Ogledi.bg">
+                        </div>
+                        <div>       
+                            <p><?php echo $news['description']; ?></p>      
+                        </div>
+                        <blockquote>
+                            <p><?php echo $news['title']; ?></p>
+                        </blockquote>
+                        <div class="share-bar">
+                            <span class='st_facebook_large' displayText='Facebook'><a href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>&amp;t=<?php echo $news['title']; ?>" target="_blank" title="Сподели във Facebook"></a></span>
+                            <span class='st_twitter_large' displayText='Tweet'><a href="https://twitter.com/intent/tweet?source=<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>&amp;text=<?php echo $news['title']; ?> image:http://www.ogledi.bg/img/blog-img/<?php echo $this->news['image']; ?>" target="_blank" title="Tweet"></a></span>
+                            <span class='st_pinterest_large' displayText='Pinterest'></span>
+                            <span class='st_instagram_large' displayText='Instagram Badge' st_username='ogledibg'></span>
+                            <span class='st_email_large' displayText='Email'></span>
+                            <span class='st_googleplus_large' displaytext="Google +1"><a href="https://plus.google.com/share?url=https://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"></a></span>
+                        </div>
+                        <div>
+                            <div class="fb-comments" data-href="http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" data-width="100%" data-numposts="5"></div>
+                        </div>
+                    </article>
+                </div>
+                <!-- Start Sidebar -->
+                <div class="sidebar col-md-3">
+                    <div class="widget sidebar-widget widget_recent_posts">
+                        <div class="sidebar-widget-title">
+                            <h3 class="widgettitle"><?php echo $this->language()->translate('Last news'); ?></h3>
+                        </div>
+                        <ul>
+                            <?php foreach ($this->lastNews as $key => $news): ?>
+                                <li class="clearfix">
+                                    <a href="<?php echo $this->url('languageRoute/newsPost', array('url' => $news['url'])); ?>" class="media-box post-image">  
+                                        <img src="https://ogledi.bg/img/blog-img/<?php echo $news['image']; ?>"                                      
+                                             alt="Ogledi.bg"
+                                             class="img-thumbnail wp-post-image"
+                                             >                    
+                                    </a>
+                                    <div class="widget-blog-content">
+                                        <a href="<?php echo $this->url('languageRoute/newsPost', array('url' => $news['url'])); ?>" title="<?php echo $news['title']; ?>"><?php echo $news['title']; ?></a>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>                                  
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
