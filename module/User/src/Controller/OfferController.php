@@ -6,6 +6,7 @@ use Application\Controller\PublicBaseController;
 use Application\Helper\ImageManager;
 use Application\Model\Offer;
 use Application\Helper\Calendar;
+use Google_Service_Calendar;
 use User\Form\OfferCreateForm;
 use User\Form\OfferEditForm;
 use User\Model\BuildingTypeTable;
@@ -364,7 +365,7 @@ class OfferController extends PublicBaseController
 
                     $offerId = $this->offerTable->createUserOffer($offer);
 
-                    //Get current offer and create meta tags 
+                    //Get current offer and create meta tags
                     $currentOffer = $this->offerTable->getOffer($user->getId(), $offerId)->toArray();
                     $metaTitle = mb_substr($currentOffer[0]['offerTypeName'] . ' ' . $currentOffer[0]['propertyTypeName'] . ' ' . $currentOffer[0]['cityName'], 0, 60);
                     $metaDescription = strip_tags(mb_substr($currentOffer[0]['information'], 0, 100));
@@ -404,8 +405,8 @@ class OfferController extends PublicBaseController
 
                     // Inserts the Calendar event for unique offers. If the offer is copy of existing offer dont insert event.
 
-                    if ($hasOldOffer == false && $hasExternalPanorama == false) {
-                        $this->addGoogleEvent($offerId, $createFormData, $offer, $user, $area);
+                    if (!$hasOldOffer && !$hasExternalPanorama) {
+                        var_dump ($this->addGoogleEvent($offerId, $createFormData, $offer, $user, $area));
                     }
 
                     //Identical panorama
@@ -815,7 +816,7 @@ class OfferController extends PublicBaseController
                         }
                     }
 
-                    //Define offer expire date 
+                    //Define offer expire date
                     $now = date("Y-m-d h:i:s");
                     $activeUntilDate = $offerObj->getActiveUntilDate();
                     if ($now > $activeUntilDate) {
@@ -870,7 +871,7 @@ class OfferController extends PublicBaseController
                         }
                     }
 
-                    //Get current offer and create meta tags 
+                    //Get current offer and create meta tags
                     $currentOffer = $this->offerTable->getOffer($user->getId(), $offerObj->getId())->toArray();
                     $metaTitle = mb_substr($currentOffer[0]['offerTypeName'] . ' ' . $currentOffer[0]['propertyTypeName'] . ' ' . $currentOffer[0]['cityName'], 0, 60);
                     $metaDescription = strip_tags(mb_substr($currentOffer[0]['information'], 0, 100));
@@ -1588,8 +1589,8 @@ class OfferController extends PublicBaseController
         $neighbourhoodTable = $this->neighbourhoodTable->getNameById($offer->getNeighbourhoodId());
         $userName = $user->getNames();
         $userPhone = $user->getPhone();
-
-        $event = new Google_Service_Calendar_Event(array(
+        //$event = $service->events->insert ();
+        /*$event = new Google_Service_Calendar_Event(array(
             'summary' => $offerId,
             'location' => $formData['photographer_address'],
             'description' => 'Площ: ' . $area . 'кв.м.' . ' '
@@ -1607,8 +1608,28 @@ class OfferController extends PublicBaseController
                 'timeZone' => 'Europe/Sofia',
             ),
         ));
-
+        */
         $calendarId = 'primary';
-        $event = $service->events->insert($calendarId, $event);
+        echo '<pre>';
+        var_dump ($event = $service->events->insert($calendarId, new Google_Service_Calendar_Event(array(
+            'summary' => $offerId,
+            'location' => $formData['photographer_address'],
+            'description' => 'Площ: ' . $area . 'кв.м.' . ' '
+                . 'Град: ' . $city . ' '
+                . 'Квартал: ' . $neighbourhoodTable . ' '
+                . 'Адрес на заснемане: ' . $formData['photographer_address'] . ' '
+                . 'Агенция/брокер: ' . $userName . ' '
+                . 'Телефон: ' . $userPhone,
+            'start' => array(
+                'dateTime' => $date . 'T' . $time,
+                'timeZone' => 'Europe/Sofia',
+            ),
+            'end' => array(
+                'dateTime' => $date . 'T' . $timeEnd,
+                'timeZone' => 'Europe/Sofia',
+            ))
+        )));
+        echo '</pre>';
+        exit;
     }
 }
